@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-24 21:39:00
- * @LastEditTime: 2022-09-27 21:30:02
+ * @LastEditTime: 2022-09-29 00:52:59
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\baoshi.js
@@ -12,9 +12,9 @@ import moment from 'moment'
 import fs from "fs"
 import path from "path"
 import { segment } from "oicq"
-import schedule from "node-schedule";
 import puppeteer from "../../../lib/puppeteer/puppeteer.js";
-let grouplist = [213311278]//推送群
+import { ds } from '../utils/schedule.js'
+//推送群
 const __dirname = path.resolve();
 
 //创建文件夹
@@ -22,11 +22,6 @@ let bs = __dirname + '/plugins/qianyu-plugin/data/ds/'
 if (!fs.existsSync(bs)) {
     fs.mkdirSync(bs)
 }
-
-//加载定时任务
-await startTask()
-//定点报时
-await bstime()
 
 export class baoshi extends plugin {
     constructor() {
@@ -278,70 +273,6 @@ export class baoshi extends plugin {
             this.reply(img)
         }
     }
-}
-
-async function ds(timeid, time, fn) {
-    schedule.scheduleJob(timeid, time, async () => {
-        fn()
-    })
-}
-
-//项目运行加载所有定时插件dcdsrtefd
-async function startTask() {
-    console.log("加载所有定时任务")
-    let userlist = fs.readdirSync(bs).filter((file) => file.endsWith(".json"));
-    for (let u of userlist) {
-        let userinfo = JSON.parse(await fs.readFileSync(bs + u))
-        let user_id = Number(u.replace(".json", ""))
-        for (let task of userinfo.task) {
-            if (moment().isBefore(task.endTime)) {
-                //  console.log(user_id + task.name)
-                for (var i in schedule.scheduledJobs) {
-                    // 对比key值， key相同则重复fdff
-                    console.log(schedule.scheduledJobs[i].name)
-                    if (schedule.scheduledJobs[i].name == user_id + task.name) {
-                        console.log("有重复记录")
-                        schedule.cancelJob(user_id + task.name);
-                    }
-                }
-                for (var i in schedule.scheduledJobs) {
-                    // 对比key值， key相同则重复fdfffdsds
-                    console.log(schedule.scheduledJobs[i].name)
-
-                }
-                await ds(user_id + task.name, task.endTime, () => {
-                    if (task.group_id == undefined) {
-                        Bot.sendPrivateMsg(user_id, task.content)
-                    } else {
-                        let msg = [segment.at(user_id), task.content]
-                        Bot.sendGroupMsg(task.group_id, msg)
-                    }
-                    userinfo.task.forEach((t, index) => {
-                        if (t.name == task.name) {
-                            userinfo.task.splice(index, 1)
-                            fs.writeFileSync(bs + user_id + ".json", JSON.stringify(userinfo))
-                        }
-                    })
-                })
-
-            }
-        }
-    }
-}
-
-async function bstime() {
-    for (var i in schedule.scheduledJobs) {
-        console.log(schedule.scheduledJobs[i].name)
-        if (schedule.scheduledJobs[i].name == "bs") {
-            schedule.cancelJob("bs");
-        }
-    }
-    await ds("bs", '0 0 0,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *', () => {
-        for (let g of grouplist) {
-            let hour = moment().hour()
-            Bot.sendGroupMsg(g, `现在是北京时间${hour}点~~`)
-        }
-    })
 }
 
 function differTime(startTime, endTime) {

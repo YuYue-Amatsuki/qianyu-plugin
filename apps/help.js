@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-09-27 21:11:33
+ * @LastEditTime: 2022-09-29 00:52:19
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\help.js
@@ -14,9 +14,9 @@ export class help extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '修仙帮助',
+            name: '千羽帮助',
             /** 功能描述 */
-            dsc: '修仙模块',
+            dsc: '千羽帮助',
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 600,
