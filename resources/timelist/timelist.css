@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    width: 800px;
+    height: 500px;
+    background-image: url("../img/help-bg.jpg");
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 10px;
+}
+
+ul {
+    margin-top: 20px;
+}
+
+ul li {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 10px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 10px;
+}
