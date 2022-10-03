@@ -1,53 +1,51 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-24 21:39:00
- * @LastEditTime: 2022-09-29 00:52:59
+ * @LastEditTime: 2022-10-04 00:11:54
  * @LastEditors: uixmsi
  * @Description: 
- * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\baoshi.js
+ * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\定时提醒.js
  * @版权声明
  **/
 import plugin from '../../../lib/plugins/plugin.js'
 import moment from 'moment'
-import fs from "fs"
+import { filemage } from '../utils/filemage.js'
 import path from "path"
 import { segment } from "oicq"
 import puppeteer from "../../../lib/puppeteer/puppeteer.js";
 import { ds } from '../utils/schedule.js'
 //推送群
 const __dirname = path.resolve();
+const bs = 'data/ds/'
+//创建文件夹dsdtrtr
 
-//创建文件夹
-let bs = __dirname + '/plugins/qianyu-plugin/data/ds/'
-if (!fs.existsSync(bs)) {
-    fs.mkdirSync(bs)
-}
-
+const file = new filemage()
+console.log(file)
 export class baoshi extends plugin {
     constructor() {
         super({
             name: '挖矿提醒',
             dsc: '提醒挖矿',
-            /** https://oicqjs.github.io/oicq/#events */
-            event: 'message',
+            /** https://oicqjs.github.io/oicq/#eventsdsd懂得dfd dsddfdfdssdsds*sdsdsdddfdf
+            event: 'message',d
             /** 优先级，数字越小等级越高 */
             priority: 100,
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^记录挖矿时间', //匹配消息正则，命令正则
+                    reg: '^记录挖矿时间', //匹配消息正则，命令正则fdfd
                     /** 执行方法 */
                     fnc: 'wkjl'
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^水晶矿刷新时间', //匹配消息正则，命令正则
+                    reg: '^水晶矿刷新时间', //匹配消息正则，命令正则dsds
                     /** 执行方法 */
                     fnc: 'sxsj'
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^记录狗粮时间', //匹配消息正则，命令正则
+                    reg: '^记录狗粮时间', //匹配消息正则，命令正则fdsfdsdssdcsdsfd
                     /** 执行方法 */
                     fnc: 'gljl'
                 },
@@ -105,10 +103,18 @@ export class baoshi extends plugin {
             }
         }
         this.writejl(e, user, { name: '水晶矿刷新', now: moment().format(), cron: moment().add(3, 'd').format(), content: "矿已经重新生成了！快来挖矿啊" }, searchData == undefined ? undefined : searchData.index)
-        let msg = [segment.at(e.user_id), "已成功记录挖矿时间！"]
+        let msg = []
+        if (e.isGroup) {
+            msg.push(segment.at(e.user_id))
+        }
+        msg.push("已成功记录挖矿时间！")
         this.reply(msg)
         await ds(e.user_id + "水晶矿刷新", moment().add(3, 'd').format(), async () => {
-            let msg = [segment.at(e.user_id), "矿已经重新生成了！快来挖矿啊！"]
+            let msg = []
+            if (e.isGroup) {
+                msg.push(segment.at(e.user_id))
+            }
+            msg.push("矿已经重新生成了！快来挖矿啊！")
             this.reply(msg)
             await this.deletejl(e, user, "水晶矿刷新")
         })
@@ -148,16 +154,24 @@ export class baoshi extends plugin {
             }
         }
         this.writejl(e, user, { name: '狗粮刷新', now: moment().format(), cron: moment().add(1, 'd').format(), content: "狗粮已经重新生成了！快来拿啊" }, searchData == undefined ? undefined : searchData.index)
-        let msg = [segment.at(e.user_id), "已成功记录狗粮时间！"]
+        let msg = []
+        if (e.isGroup) {
+            msg.push(segment.at(e.user_id))
+        }
+        msg.push("已成功记录狗粮时间！")
         this.reply(msg)
         await ds(e.user_id + "狗粮刷新", moment().add(1, 'd').format(), async () => {
-            let msg = [segment.at(e.user_id), "狗粮已经重新生成了！快来拿啊！"]
+            let msg = []
+            if (e.isGroup) {
+                msg.push(segment.at(e.user_id))
+            }
+            msg.push("狗粮已经重新生成了！快来拿啊！")
             this.reply(msg)
             await this.deletejl(e, user, "狗粮刷新")
         })
     }
 
-    //狗粮刷新时间
+    //狗粮刷新时间sds
     async sxgl(e) {
         //检查用户信息
         let user = await this.checkuser(e)
@@ -190,12 +204,8 @@ export class baoshi extends plugin {
     async checkuser(e) {
         //如果存在返回数据，如果不存在返回falsefdfd
         let path = bs + e.user_id + ".json"
-        if (!fs.existsSync(path)) {
-            return false
-        } else {
-            let userinfo = JSON.parse(await fs.readFileSync(path))
-            return userinfo
-        }
+        let userinfo = await file.get_fileinfo(path)
+        return userinfo
     }
 
     //挖矿路线图
@@ -211,7 +221,7 @@ export class baoshi extends plugin {
         } else {
             userinfo.task[index] = { name: task.name, startTime: task.now, endTime: task.cron, content: task.content, group_id: e.group_id == undefined ? undefined : e.group_id }
         }
-        fs.writeFileSync(bs + e.user_id + ".json", JSON.stringify(userinfo))
+        await file.write_file(bs + e.user_id + ".json", userinfo)
     }
 
     //查询记录
@@ -244,10 +254,10 @@ export class baoshi extends plugin {
 
     //删除记录
     async deletejl(e, user, name) {
-        user.task.forEach((t, index) => {
+        user.task.forEach(async (t, index) => {
             if (t.name == name) {
                 user.task.splice(index, 1)
-                fs.writeFileSync(bs + e.user_id + ".json", JSON.stringify(user))
+                await file.write_file(bs + e.user_id + ".json", user)
             }
         })
     }
@@ -284,4 +294,3 @@ function differTime(startTime, endTime) {
     const second = moment(endTime).diff(moment(startTime), 'seconds') % 60
     return day + "天" + hour + "时" + minute + "分" + second + "秒"
 }
-
