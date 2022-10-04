@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-24 21:39:00
- * @LastEditTime: 2022-10-04 00:11:54
+ * @LastEditTime: 2022-10-04 16:04:54
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\定时提醒.js
@@ -12,7 +12,7 @@ import moment from 'moment'
 import { filemage } from '../utils/filemage.js'
 import path from "path"
 import { segment } from "oicq"
-import puppeteer from "../../../lib/puppeteer/puppeteer.js";
+import { returnImg } from "../utils/puppeteer.js"
 import { ds } from '../utils/schedule.js'
 //推送群
 const __dirname = path.resolve();
@@ -63,7 +63,7 @@ export class baoshi extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^水晶矿路线图', //匹配消息正则，命令正则
+                    reg: '^(水晶矿|挖矿)路线图', //匹配消息正则，命令正则
                     /** 执行方法 */
                     fnc: 'wklx'
                 },
@@ -72,6 +72,12 @@ export class baoshi extends plugin {
                     reg: '^定时列表', //匹配消息正则，命令正则ffggfgf
                     /** 执行方法 */
                     fnc: 'dslist'
+                },
+                {
+                    /** 命令正则匹配 */
+                    reg: '^定时任务', //匹配消息正则，命令正则ffggfgf
+                    /** 执行方法 */
+                    fnc: 'dstask'
                 },
             ]
         })
@@ -210,16 +216,16 @@ export class baoshi extends plugin {
 
     //挖矿路线图
     async wklx(e) {
-        this.reply(segment.image(`${__dirname}/plugins/qianyu-plugin/data/挖矿路线图.jpg`))
+        this.reply(segment.image(`${__dirname}/plugins/qianyu-plugin/resources/img/挖矿路线图.jpg`))
     }
 
     //写入记录
-    async writejl(e, userinfo, task, index) {
+    async writejl(e, userinfo, task, index, at) {
         //是否有记录，有则覆盖,无则添加
         if (!index) {
-            userinfo.task.push({ name: task.name, startTime: task.now, endTime: task.cron, content: task.content, group_id: e.group_id == undefined ? undefined : e.group_id })
+            userinfo.task.push({ name: task.name, startTime: task.now, endTime: task.cron, content: task.content, group_id: e.group_id == undefined ? undefined : e.group_id, at: task.at == undefined ? e.user_id : task.at, img: task.img == undefined ? undefined : task.img })
         } else {
-            userinfo.task[index] = { name: task.name, startTime: task.now, endTime: task.cron, content: task.content, group_id: e.group_id == undefined ? undefined : e.group_id }
+            userinfo.task[index] = { name: task.name, startTime: task.now, endTime: task.cron, content: task.content, group_id: e.group_id == undefined ? undefined : e.group_id, at: task.at == undefined ? e.user_id : task.at, img: task.img == undefined ? undefined : task.img }
         }
         await file.write_file(bs + e.user_id + ".json", userinfo)
     }
@@ -274,14 +280,66 @@ export class baoshi extends plugin {
                 let jlux = differTime(moment().format(), moment(item.endTime))//距离时间
                 msg.push(`${item.name}还差${jlux}`)
             })
-            let img = await puppeteer.screenshot("timelist", {
-                tplFile: `./plugins/qianyu-plugin/resources/timelist/timelist.html`,
-                _res_path: process.cwd() + '/plugins/qianyu-plugin/resources/',
-                /** 绝对路径 */
-                timelist: msg
-            });
+            console.log(msg)
+            let img = await returnImg('timelist', { timelist: msg })
             this.reply(img)
         }
+    }
+
+    async dstask(e) {
+        let msg = e.msg.replace("定时任务", "")
+        let newmsg = msg.split("|")//内容
+        let name = newmsg[0]
+        let content = newmsg[1]
+        let time = newmsg[2].match(/\d+(\.\d+)?/g)//时间
+        let at = e.user_id;
+        let img = e.img == undefined ? undefined : e.img[0];
+        if (moment().isAfter(moment().hour(Number(time[0])).minute(Number(time[1])).second(0).format())) {
+            return this.reply("无法穿越时空，请重试...")
+        }
+        e.message.forEach((item) => {
+            if (item.type == "at") {
+                at = item.qq
+            }
+        })
+        let user = await this.checkuser(e)
+        let searchData;
+        if (!user) {
+            user = {
+                task: []
+            }
+        } else {
+            //用户存在
+            searchData = this.searchjl(user, name)
+        }
+        if (searchData != undefined) {
+            if (searchData.isCD) {
+                return this.reply(`定时任务${name}还在冷却当中~~`)
+            }
+        }
+        if (Number(time[0]) > 23 || Number(time[1]) > 59) {
+            return this.reply("你就是时间窃取能力者！！！")
+        }
+        if (Number(time[0]) < 0 || Number(time[1]) < 0) {
+            return this.reply("你过的难道是阴间时间？！！！")
+        }
+        if (time.length > 2) {
+            return this.reply("时间格式不对")
+        }
+        this.reply(`定时任务${name}设置成功！`)
+        this.writejl(e, user, { name: name, now: moment().format(), cron: moment().hour(Number(time[0])).minute(Number(time[1])).second(0).format(), content: content, at: at, img: img }, searchData == undefined ? undefined : searchData.index, at)
+        await ds(e.user_id + name, moment().hour(Number(time[0])).minute(Number(time[1])).second(0).format(), async () => {
+            let msg = []
+            if (e.isGroup) {
+                msg.push(segment.at(at))
+            }
+            msg.push(content)
+            if (img != undefined) {
+                this.reply(segment.image(img))
+            }
+            this.reply(msg)
+            await this.deletejl(e, user, name)
+        })
     }
 }
 

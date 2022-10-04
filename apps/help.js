@@ -1,14 +1,14 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-04 11:50:51
+ * @LastEditTime: 2022-10-04 13:24:29
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\help.js
  * @版权声明
  **/
 import plugin from '../../../lib/plugins/plugin.js'
-import puppeteer from "../../../lib/puppeteer/puppeteer.js";
+import { returnImg } from "../utils/puppeteer.js"
 import { filemage } from '../utils/filemage.js';
 let file = new filemage()
 export class help extends plugin {
@@ -33,13 +33,8 @@ export class help extends plugin {
 
     //千羽帮助
     async qianyu_help(e) {
-        let helplist = await file.getyaml("help_cofig")
-        let img = await puppeteer.screenshot("help", {
-            tplFile: `./plugins/qianyu-plugin/resources/help/help.html`,
-            _res_path: process.cwd() + '/plugins/qianyu-plugin/resources/',
-            /** 绝对路径 */
-            helplist: helplist.helplist
-        });
+        let data = await file.getyaml("help_cofig")
+        let img = await returnImg('help', data)
         this.reply(img)
     }
 
