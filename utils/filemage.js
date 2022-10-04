@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-29 18:00:13
- * @LastEditTime: 2022-10-03 23:59:27
+ * @LastEditTime: 2022-10-04 11:44:30
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\filemage.js
@@ -10,6 +10,7 @@
 // 文件管理
 //文件操作：增删改查
 import fs from 'fs'
+import YAML from 'yaml'
 let _path = process.cwd()
 export class filemage {
     /******* 
@@ -84,5 +85,9 @@ export class filemage {
     }
     async getlist() {
         return fs.readdirSync(this.path)
+    }
+    async getyaml(name) {
+        let data = YAML.parse(fs.readFileSync(`${this.path}config/${name}.yaml`, "utf-8"))
+        return data
     }
 }  

@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-03 23:55:58
+ * @LastEditTime: 2022-10-04 11:50:51
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\help.js
@@ -9,9 +9,8 @@
  **/
 import plugin from '../../../lib/plugins/plugin.js'
 import puppeteer from "../../../lib/puppeteer/puppeteer.js";
-import { segment } from "oicq"
-import YAML from 'yaml'
-import fs from 'node:fs'
+import { filemage } from '../utils/filemage.js';
+let file = new filemage()
 export class help extends plugin {
     constructor() {
         super({
@@ -32,9 +31,9 @@ export class help extends plugin {
         })
     }
 
-    //修仙帮助
+    //千羽帮助
     async qianyu_help(e) {
-        let helplist = YAML.parse(fs.readFileSync(`${process.cwd()}/plugins/qianyu-plugin/config/help_cofig.yaml`, "utf-8"))
+        let helplist = await file.getyaml("help_cofig")
         let img = await puppeteer.screenshot("help", {
             tplFile: `./plugins/qianyu-plugin/resources/help/help.html`,
             _res_path: process.cwd() + '/plugins/qianyu-plugin/resources/',
