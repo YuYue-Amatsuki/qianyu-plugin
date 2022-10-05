@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-06 02:11:52
+ * @LastEditTime: 2022-10-06 02:25:43
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -89,10 +89,10 @@ export class botai extends plugin {
                 return this.reply("暂无权限")
             } else {
                 if (parm.includes('开启')) {
-                    await this.aiopenclose(config, parm, "开启", true)
+                    await this.aiopenclose(e, config, parm, "开启", true)
                 }
                 if (parm.includes('关闭')) {
-                    await this.aiopenclose(config, parm, "关闭", false)
+                    await this.aiopenclose(e, config, parm, "关闭", false)
                 }
                 if (parm.includes('概率')) {
                     await this.aiSetProbability(e, config, parm)
