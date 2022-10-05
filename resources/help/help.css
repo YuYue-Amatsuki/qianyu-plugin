@@ -52,7 +52,7 @@ img {
     display: flex;
     flex-direction: row;
     margin: 10px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.55);
     border-radius: 10px;
     align-items: center;
 }

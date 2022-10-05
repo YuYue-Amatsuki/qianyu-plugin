@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-04 13:24:29
+ * @LastEditTime: 2022-10-05 17:13:10
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\help.js
@@ -33,7 +33,7 @@ export class help extends plugin {
 
     //千羽帮助
     async qianyu_help(e) {
-        let data = await file.getyaml("help_cofig")
+        let data = await file.getyaml("config/help")
         let img = await returnImg('help', data)
         this.reply(img)
     }

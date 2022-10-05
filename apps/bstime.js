@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-02 16:25:35
- * @LastEditTime: 2022-10-04 12:02:53
+ * @LastEditTime: 2022-10-05 17:12:24
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\bstime.js
@@ -13,7 +13,7 @@ import { cacelds, ds } from "../utils/schedule.js"
 import plugin from '../../../lib/plugins/plugin.js'
 import { filemage } from '../utils/filemage.js';
 let file = new filemage()
-let cofig = await file.getyaml("baoshi_config")
+let cofig = await file.getyaml("config/baoshi")
 export class bstime extends plugin {
     constructor() {
         super({
@@ -44,28 +44,28 @@ export class bstime extends plugin {
     }
 
 }
-
-await cacelds("bs")
-await ds("bs", `0 0 ${cofig.htime} * * *`, async () => {
-    for (let g of cofig.grouplist) {
-        let msg = []
-        let hour = moment().hour()
-        if (cofig.isChieseTime) {
-            hour = cofig.chineseTime[hour]
+if (cofig.grouplist != null) {
+    await cacelds("bs")
+    await ds("bs", `0 0 ${cofig.htime} * * *`, async () => {
+        for (let g of cofig.grouplist) {
+            let msg = []
+            let hour = moment().hour()
+            if (cofig.isChieseTime) {
+                hour = cofig.chineseTime[hour]
+            }
+            msg.push(`现在是北京时间${hour}点整`)
+            if (cofig.isImg) {
+                msg.push(segment.image("https://img.xjh.me/random_img.php?return=302"))
+            }
+            if (cofig.isCored) {
+                let index = cofig.htime.indexOf(moment().hour())
+                msg[0] = `${hour}点了，${cofig.CoredText[index]}`
+                let cord = segment.record(`./plugins/qianyu-plugin/resources/报时/${moment().hour()}.ogg`);
+                Bot.sendGroupMsg(g, cord)
+            }
+            Bot.sendGroupMsg(g, msg)
         }
-        msg.push(`现在是北京时间${hour}点整`)
-        if (cofig.isImg) {
-            msg.push(segment.image("https://img.xjh.me/random_img.php?return=302"))
-        }
-        if (cofig.isCored) {
-            let index = cofig.htime.indexOf(moment().hour())
-            msg[0] = `${hour}点了，${cofig.CoredText[index]}`
-            let cord = segment.record(`./plugins/qianyu-plugin/resources/报时/${moment().hour()}.ogg`);
-            Bot.sendGroupMsg(g, cord)
-        }
-        Bot.sendGroupMsg(g, msg)
-    }
-})
-
+    })
+}
 
 
