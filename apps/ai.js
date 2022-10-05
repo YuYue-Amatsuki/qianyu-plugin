@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-06 02:25:43
+ * @LastEditTime: 2022-10-06 02:31:06
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -44,10 +44,8 @@ export class botai extends plugin {
         let radom = lodash.random(0, 100)
         if (e.isGroup) {
             if (config.isGroup == false) return ""
-            let isexist = false
             for (let i in groupconfig) {
                 if (i == e.group_id) {
-                    isexist = true
                     let gconfig = groupconfig[i]
                     if (gconfig.isopen) {
                         if (radom <= gconfig.probability) {
@@ -55,12 +53,6 @@ export class botai extends plugin {
                         }
                     }
                 }
-            }
-            if (!isexist) {
-                if (radom <= config.probability) {
-                    await this.getff(e)
-                }
-
             }
         }
         if (e.isPrivate) {
