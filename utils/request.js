@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-04 23:54:39
- * @LastEditTime: 2022-10-05 12:19:32
+ * @LastEditTime: 2022-10-05 21:51:39
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\request.js
@@ -26,5 +26,7 @@ export async function geturldata2(url, suc, parms) {
         if (res.data != undefined) {
             suc(res.data)
         }
+    }).catch((err) => {
+        console.log(err)
     })
 }

@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-29 18:00:13
- * @LastEditTime: 2022-10-05 16:59:52
+ * @LastEditTime: 2022-10-06 00:17:47
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\filemage.js
@@ -89,5 +89,8 @@ export class filemage {
     async getyaml(name) {
         let data = YAML.parse(fs.readFileSync(`${this.path}${name}.yaml`, "utf-8"))
         return data
+    }
+    async writeyaml(name, data) {
+        fs.writeFileSync(`${this.path}${name}.yaml`, YAML.stringify(data))
     }
 }  
