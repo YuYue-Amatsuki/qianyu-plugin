@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-06 02:31:06
+ * @LastEditTime: 2022-10-06 02:36:41
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -111,7 +111,7 @@ export class botai extends plugin {
 
     //ai帮助
     async aihelp(e) {
-        let msg = ['ai帮助\n', '\t\tai设置(私聊/群聊)开启（仅支持私聊设置）\n', '\t\tai设置概率(0-100)（私聊设置概率仅影响私聊，群聊一样不互相影响）\n', '\t\tai设置群聊关闭后所有群的ai都不会触发\n', '\t\tai设置群ai关闭/开启和概率每个群都是独立的\n', '\t\t后期将进行单个群聊ai指定，敬请期待！\n']
+        let msg = "ai帮助\n\t\tai设置(私聊/群聊)开启（仅支持私聊设置）\n\t\tai设置概率(0-100)（私聊设置概率仅影响私聊，群聊一样不互相影响）\n\t\tai设置群聊关闭后所有群的ai都不会触发\n\t\tai设置群ai关闭/开启和概率每个群都是独立的\n\t\t后期将进行单个群聊ai指定，敬请期待！\n"
         this.reply(msg)
     }
 
