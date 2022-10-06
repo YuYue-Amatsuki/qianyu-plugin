@@ -1,5 +1,5 @@
 # qianyu-plugin
-
+![image-20221005174649110](./resources/img/bj.jpg)
 云崽 3 插件
 
 #### 安装
