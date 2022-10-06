@@ -5,7 +5,7 @@
 
 #container {
     width: 850px;
-    background-image: url("./bg.jpg");
+    background-image: url("../img/bj.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -52,7 +52,7 @@ img {
     display: flex;
     flex-direction: row;
     margin: 10px;
-    background-color: rgba(0, 0, 0, 0.55);
+    background-color: rgba(0, 0, 0, 0.45);
     border-radius: 10px;
     align-items: center;
 }
