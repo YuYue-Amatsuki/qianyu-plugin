@@ -1,14 +1,14 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-06 12:41:18
+ * @LastEditTime: 2022-10-06 15:06:51
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
  * @版权声明
  **/
 import plugin from '../../../lib/plugins/plugin.js'
-import { geturldata, geturldata2 } from '../utils/request.js'
+import { geturldata } from '../utils/request.js'
 import { filemage } from '../utils/filemage.js'
 import lodash from 'lodash'
 let file = new filemage()
@@ -65,7 +65,8 @@ export class botai extends plugin {
 
     //菲菲ai
     async getff(e) {
-        await geturldata2(`https://api.ddwoo.top/api/ff.php?msg=${encodeURI(e.msg)}`, (res) => {
+        await geturldata(`https://api.ddwoo.top/api/ff.php?msg=${encodeURI(e.msg)}`, 'data', (res) => {
+            console.log(res)
             let msglist = res.split("━━━━━━━━━")
             let msg = msglist[1].replace(/\n/g, "")
             this.reply(msg)
