@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-06 02:36:41
+ * @LastEditTime: 2022-10-06 11:43:18
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -93,7 +93,10 @@ export class botai extends plugin {
             }
         }
         if (e.isGroup) {
-            if (e.isMaster || e.is_owner || e.is_admin) {
+            console.log(e)
+            console.log(e.is_owner)
+            console.log(e.is_admin)
+            if (e.isMaster || e.member.is_owner || e.member.is_admin) {
                 if (parm.includes('开启')) {
                     await this.aiopenclose(e, groupconfig, parm, "开启", true)
                 }
