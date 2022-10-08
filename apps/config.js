@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-08 15:51:16
- * @LastEditTime: 2022-10-08 21:23:24
+ * @LastEditTime: 2022-10-09 01:02:07
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\config.js
@@ -45,6 +45,7 @@ export class help extends plugin {
         let ai = await file.getyaml("config/ai/ai")
         let gailist = await file.getyaml("config/ai/group")
         let gai;
+        let num = ['零', '一']
         for (let i in gailist) {
             if (i == e.group_id) {
                 gai = gailist[i]
@@ -69,7 +70,7 @@ export class help extends plugin {
                     {
                         name: 'ai触发概率',
                         reg: 'ai设置概率100（0-100）',
-                        status: ai.probability,
+                        status: ai.probability > 1 ? ai.probability : num[ai.probability],
                         desc: 'ai设置触发概率（私聊概率）'
                     },
                     {
@@ -81,19 +82,19 @@ export class help extends plugin {
                     {
                         name: '群ai开关',
                         reg: 'ai设置群ai开启/关闭',
-                        status: gai == undefined ? false : gai.isopen,
+                        status: gai.isopen == undefined ? false : gai.isopen,
                         desc: 'ai设置触发概率设置（每个群独立配置）'
                     },
                     {
                         name: '群ai触发概率',
                         reg: 'ai设置概率100（0-100）',
-                        status: gai == undefined ? 100 : gai.probability,
+                        status: gai.probability == undefined ? 100 : gai.probability > 1 ? gai.probability : num[gai.probability],
                         desc: 'ai设置触发概率设置（每个群独立配置）'
                     },
                     {
                         name: '群聊ai',
                         reg: 'ai设置青云客',
-                        status: gai == undefined ? ai.ai : gai.ai,
+                        status: gai.ai == undefined ? ai.ai : gai.ai,
                         desc: '可以设置ai为菲菲、青云客、小源、夸克、小爱同学、思知'
                     },
 

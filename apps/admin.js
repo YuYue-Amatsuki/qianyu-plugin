@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-08 21:37:00
- * @LastEditTime: 2022-10-08 21:40:41
+ * @LastEditTime: 2022-10-08 21:54:52
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\admin.js
@@ -9,9 +9,6 @@
  **/
 import plugin from '../../../lib/plugins/plugin.js'
 import { createRequire } from "module"
-import { update } from '../../other/update.js'
-import { Version, Common, Plugin_Name } from '../components/index.js'
-
 /**
  * 全局
  */
@@ -128,18 +125,6 @@ export class admin extends plugin {
                 }, 1000);
             }
         );
-        return true;
-    }
-
-
-    async update_log() {
-        let Update_Plugin = new update();
-        Update_Plugin.e = this.e;
-        Update_Plugin.reply = this.reply;
-
-        if (Update_Plugin.getPlugin(Plugin_Name)) {
-            this.e.reply(await Update_Plugin.getLog(Plugin_Name));
-        }
         return true;
     }
 }

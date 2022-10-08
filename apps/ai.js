@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-08 21:44:21
+ * @LastEditTime: 2022-10-09 00:14:04
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -168,6 +168,12 @@ export class botai extends plugin {
 
     async aiopenclose(e, config, parm, type, isopen) {
         let p = parm.replace(type, "")
+        if (e.isPrivate && p == "群ai") {
+            return this.reply("无效的设置")
+        }
+        if (e.isGroup && p == "私聊" || p == "群聊") {
+            return this.reply("无效的设置")
+        }
         if (p == "私聊") {
             config.isPrivate = isopen
         } else if (p == "群聊") {

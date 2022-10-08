@@ -27,8 +27,14 @@
 					<div class="cfg-line">
 						{{clist.name}}
 						<span class="cfg-hint">{{clist.reg}} </span>
+						{{if clist.status=='零'||clist.status=='一'}}
+						<div class="cfg-status ">
+							{{clist.status=='零'?0:1}}</div>
+						{{else}}
 						<div class="cfg-status {{clist.status==false?'status-off':''}}">
 							{{clist.status==true?'已开启':clist.status==false?'已关闭':clist.status}}</div>
+						{{/if}}
+
 					</div>
 					<div class="cfg-desc">{{clist.desc}}</div>
 				</li>

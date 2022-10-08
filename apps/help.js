@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-08 15:56:15
+ * @LastEditTime: 2022-10-08 23:53:28
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\help.js
@@ -39,8 +39,3 @@ export class help extends plugin {
     }
 
 }
-let baoshi = await file.getyaml("config/baoshi")
-let grouplist = []
-grouplist.push(1738384845)
-baoshi.grouplist = grouplist
-console.log(baoshi)
