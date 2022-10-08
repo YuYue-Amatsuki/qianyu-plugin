@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-07 23:23:59
+ * @LastEditTime: 2022-10-08 21:44:21
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -87,7 +87,7 @@ export class botai extends plugin {
                     } else {
                         respose = res
                     }
-                    this.reply(`[${ai}]${respose}`)
+                    this.reply(`${respose}`)
                 })
             }
         });
