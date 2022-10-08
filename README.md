@@ -9,7 +9,7 @@
 //安装
 ```js
 //推荐gitee安装
-git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git
+git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugins/qianyu-plugin/
 //github安装
 git clone --depth=1 https://github.com/shixiansi/qianyu-plugin.git ./plugins/qianyu-plugin/
 
