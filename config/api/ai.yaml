@@ -1,0 +1,19 @@
+ailist:
+  - name: 菲菲
+    url: https://api.ddwoo.top/api/ff.php?msg= #菲菲
+    data: 0
+  - name: 小源
+    url: http://fuyhi.top/api/peiliaox/api.php?msg= #小源
+    data: ["text"]
+  - name: 夸克
+    url: http://fuyhi.top/api/quark_ai/api.php?msg= #夸克ai
+    data: ["text"]
+  - name: 小爱同学
+    url: http://fuyhi.top/api/xiaoai_ts/api.php?msg= #小爱
+    data: ["text"]
+  - name: 思知
+    url: https://api.ownthink.com/bot?appid=xiaosi&userid=user&spoken= #思知
+    data: ["data", "info", "text"]
+  - name: 青云客
+    url: http://api.qingyunke.com/api.php?key=free&appid=0&msg= #青云客
+    data: ["content"]

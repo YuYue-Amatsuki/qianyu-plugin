@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-06 15:06:51
+ * @LastEditTime: 2022-10-07 23:23:59
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -28,10 +28,6 @@ export class botai extends plugin {
                     fnc: 'aiconfig'
                 },
                 {
-                    reg: '^ai帮助',
-                    fnc: 'aihelp'
-                },
-                {
                     reg: '',
                     fnc: 'ffai'
                 }
@@ -49,7 +45,7 @@ export class botai extends plugin {
                     let gconfig = groupconfig[i]
                     if (gconfig.isopen) {
                         if (radom <= gconfig.probability) {
-                            await this.getff(e)
+                            await this.getai(e, config.ai, gconfig.ai)
                         }
                     }
                 }
@@ -58,24 +54,50 @@ export class botai extends plugin {
         if (e.isPrivate) {
             if (config.isPrivate == false) return ""
             if (radom <= config.probability) {
-                await this.getff(e)
+                await this.getai(e, config.ai)
             }
         }
     }
 
-    //菲菲ai
-    async getff(e) {
-        await geturldata(`https://api.ddwoo.top/api/ff.php?msg=${encodeURI(e.msg)}`, 'data', (res) => {
-            console.log(res)
-            let msglist = res.split("━━━━━━━━━")
-            let msg = msglist[1].replace(/\n/g, "")
-            this.reply(msg)
-        })
+    //ai
+    async getai(e, ai, gconfig) {
+        if (e.isPrivate) {
+            await this.choieai(e.msg, ai)
+        }
+        if (e.isGroup) {
+            if (!gconfig) {
+                gconfig = ai
+            }
+            await this.choieai(e.msg, gconfig)
+        }
+
+
+    }
+
+    async choieai(msg, ai) {
+        let aidata = await file.getyaml("config/api/ai")
+        let ailist = aidata.ailist
+        ailist.forEach(async list => {
+            if (list.name == ai) {
+                await geturldata(`${list.url}${encodeURI(msg)}`, list.data, (res) => {
+                    let respose;
+                    if (ai == '菲菲') {
+                        let msglist = res.split("━━━━━━━━━")
+                        respose = msglist[1].replace(/\n/g, "")
+                    } else {
+                        respose = res
+                    }
+                    this.reply(`[${ai}]${respose}`)
+                })
+            }
+        });
     }
 
     async aiconfig(e) {
         let config = await file.getyaml("config/ai/ai")
         let groupconfig = await file.getyaml("config/ai/group")
+        let aidata = await file.getyaml("config/api/ai")
+        let ailist = aidata.ailist
         let parm = e.msg.replace("ai设置", "")
         if (e.isPrivate) {
             if (!e.isMaster) {
@@ -90,7 +112,11 @@ export class botai extends plugin {
                 if (parm.includes('概率')) {
                     await this.aiSetProbability(e, config, parm)
                 }
-
+                ailist.forEach(async (item) => {
+                    if (parm == item.name) {
+                        await this.setai(e, config, parm)
+                    }
+                })
             }
         }
         if (e.isGroup) {
@@ -104,16 +130,40 @@ export class botai extends plugin {
                 if (parm.includes('概率')) {
                     await this.aiSetProbability(e, groupconfig, parm)
                 }
+                ailist.forEach(async (item) => {
+                    if (parm == item.name) {
+                        await this.setai(e, groupconfig, parm)
+                    }
+                })
             } else {
                 return this.reply("暂无权限")
             }
         }
     }
 
-    //ai帮助
-    async aihelp(e) {
-        let msg = "ai帮助\n\t\tai设置(私聊/群聊)开启（仅支持私聊设置）\n\t\tai设置概率(0-100)（私聊设置概率仅影响私聊，群聊一样不互相影响）\n\t\tai设置群聊关闭后所有群的ai都不会触发\n\t\tai设置群ai关闭/开启和概率每个群都是独立的\n\t\t后期将进行单个群聊ai指定，敬请期待！\n"
-        this.reply(msg)
+    async setai(e, config, ai) {
+        if (e.isPrivate) {
+            config.ai = ai
+            await file.writeyaml("config/ai/ai", config)
+            return this.reply(`ai回复设置为${ai}!`)
+        } else {
+            let isexist = false
+            for (let i in config) {
+                if (i == e.group_id) {
+                    isexist = true
+                    config[i].ai = ai
+                }
+            }
+            if (!isexist) {
+                config[e.group_id] = {
+                    isopen: true,
+                    probability: 100,
+                    ai: ai
+                }
+            }
+            await file.writeyaml("config/ai/group", config)
+            return this.reply(`ai回复设置为${ai}!`)
+        }
     }
 
     async aiopenclose(e, config, parm, type, isopen) {

@@ -1,3 +1,4 @@
-isPrivate: true #是否私聊开启
-isGroup: true #是否群聊
-probability: 50 #触发概率
+isPrivate: true
+isGroup: true
+probability: 100
+ai: 小源

@@ -1,40 +1,40 @@
 textapi:
   - url: http://apii.gq/api/renjian.php
-    data: data
+    data: 0
     desc: 我在人间凑数的日子
   - url: https://v1.hitokoto.cn/
-    data: hitokoto
+    data: ["hitokoto"]
     desc: 一言
   - url: http://apii.gq/api/shiju.php
-    data: data
+    data: 0
     desc: 古诗名句
   - url: http://apii.gq/api/yiju.php
-    data: data
+    data: 0
     desc: 每日一句
   - url: https://xian.txma.cn/API/yiyan.php
-    data: data
+    data: 0
     desc: 名人一言
   - url: https://xian.txma.cn/API/yulu.php
-    data: data
+    data: 0
     desc: 语录
   - url: https://xian.txma.cn/API/wyrp.php
-    data: data
+    data: 0
     desc: 网易云热评
   - url: https://api.caonm.net/api/yulu/rensheng.php?
-    data: data
+    data: 0
     desc: 人生哲理
   - url: https://api.caonm.net/api/yulu/tgrj.php?
-    data: data
+    data: 0
     desc: 舔狗日记
   - url: https://api.caonm.net/api/yulu/tuwei.php?
-    data: data
+    data: 0
     desc: 土味情话
   - url: https://api.caonm.net/api/yulu/saohua.php?
-    data: data
+    data: 0
     desc: 骚话
   - url: https://api.caonm.net/api/yulu/fenfang.php?
-    data: data
+    data: 0
     desc: 口吐芬芳
   - url: http://apii.gq/api/shangganyl.php
-    data: data
+    data: 0
     desc: 伤感语录
