@@ -6,11 +6,8 @@
 #### 安装
 
 在云崽根目录下输入命令
-
+//安装
 ```js
-//Gitee安装（推荐）
-git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugins/qianyu-plugin/
-//GitHub安装
 git clone --depth=1 https://github.com/shixiansi/qianyu-plugin.git ./plugins/qianyu-plugin/
 ```
 
