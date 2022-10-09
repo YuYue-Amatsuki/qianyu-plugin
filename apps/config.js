@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-08 15:51:16
- * @LastEditTime: 2022-10-10 00:52:47
+ * @LastEditTime: 2022-10-10 01:12:26
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\config.js
@@ -94,7 +94,7 @@ export class help extends plugin {
                     {
                         name: '群聊ai',
                         reg: 'ai设置青云客',
-                        status: gaiundefined ? ai.ai : gai.ai,
+                        status: gai == undefined ? ai.ai : gai.ai,
                         desc: '可以设置ai为菲菲、青云客、小源、夸克、小爱同学、思知'
                     },
 
