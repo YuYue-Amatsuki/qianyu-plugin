@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-08 21:37:00
- * @LastEditTime: 2022-10-08 21:54:52
+ * @LastEditTime: 2022-10-09 19:16:47
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\admin.js
@@ -56,6 +56,7 @@ export class admin extends plugin {
             return;
         }
         let e = this.e;
+        console.log("正在更新！！！！！！")
         const isForce = this.e.msg.includes("强制");
         let command = "git  pull";
         if (isForce) {

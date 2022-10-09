@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-08 15:51:16
- * @LastEditTime: 2022-10-09 01:02:07
+ * @LastEditTime: 2022-10-10 00:52:47
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\config.js
@@ -82,19 +82,19 @@ export class help extends plugin {
                     {
                         name: '群ai开关',
                         reg: 'ai设置群ai开启/关闭',
-                        status: gai.isopen == undefined ? false : gai.isopen,
+                        status: gai == undefined ? false : gai.isopen,
                         desc: 'ai设置触发概率设置（每个群独立配置）'
                     },
                     {
                         name: '群ai触发概率',
                         reg: 'ai设置概率100（0-100）',
-                        status: gai.probability == undefined ? 100 : gai.probability > 1 ? gai.probability : num[gai.probability],
+                        status: gai == undefined ? 100 : gai.probability > 1 ? gai.probability : num[gai.probability],
                         desc: 'ai设置触发概率设置（每个群独立配置）'
                     },
                     {
                         name: '群聊ai',
                         reg: 'ai设置青云客',
-                        status: gai.ai == undefined ? ai.ai : gai.ai,
+                        status: gaiundefined ? ai.ai : gai.ai,
                         desc: '可以设置ai为菲菲、青云客、小源、夸克、小爱同学、思知'
                     },
 
