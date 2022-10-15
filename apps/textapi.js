@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-05 00:51:12
- * @LastEditTime: 2022-10-15 10:46:32
+ * @LastEditTime: 2022-10-15 21:08:26
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\textApi.js
@@ -25,6 +25,10 @@ export class textContent extends plugin {
                 {
                     reg: reg,
                     fnc: 'apitext'
+                },
+                {
+                    reg: '^缘分',
+                    fnc: 'yf'
                 }
             ]
         })
@@ -67,6 +71,36 @@ export class textContent extends plugin {
             }
             this.reply(remsg)
         }, parm)
+    }
+
+    async yf(e) {
+        let msg = e.msg.replace("缘分", "").replace(/\s*/g, "")
+        let isat;
+        let name1;
+        let name2;
+        let namelist = [];
+        e.message.forEach((item) => {
+            if (item.type == "at") {
+                namelist.push(item.text.replace(/@/g, ""))
+                isat = true
+            }
+        })
+        if (!isat) {
+            let namelist = msg.replace("和", "|").split("|")
+            name1 = namelist[0]
+            name2 = namelist[1]
+        } else {
+            name1 = namelist[0]
+            name2 = namelist[1]
+        }
+        await api.getapi(`https://xiaobai.klizi.cn/API/other/yf.php?name1=${encodeURI(name1)}&name2=${encodeURI(name2)}`, 0, (res) => {
+            console.log(res.length)
+            if (res.length == 2) {
+                return this.reply("只支持中文名称哦,名字里有特殊字符的不行啦~")
+            }
+            this.reply(res)
+        })
+
     }
 }
 function getreg() {

@@ -1,5 +1,5 @@
 imagelist:
-  - name: 米游社表情包$|^米游社表情包(1|2|3|4)
+  - name: 米游社表情包$|^米游社表情包(0|1|2|3|4)
     url: https://wenxin110.top/api/mys/memes?type=
     desc: 表情包类型：0.原神，1.崩坏3，2.其他崩坏系列，3.其他，4.随机一种。为空则默认4
     data: ["img"]
@@ -55,7 +55,7 @@ imagelist:
     data: ["url"]
     islist: false
   - name: 抱枕
-    url: //api.isoyu.com/bao_images.php
+    url: https://api.isoyu.com/bao_images.php
     desc: 国庆色图盲盒，概率出ssr
     data: 1
     islist: false

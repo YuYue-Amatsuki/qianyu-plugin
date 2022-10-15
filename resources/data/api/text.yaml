@@ -65,3 +65,6 @@ textapi:
   - url: http://api.52guleng.ml/api/shehui/api.php?charset=utf-8
     data: 0
     desc: 社会语录
+  - url: https://xiaobai.klizi.cn/API/other/chp.php
+    data: 0
+    desc: 彩虹屁

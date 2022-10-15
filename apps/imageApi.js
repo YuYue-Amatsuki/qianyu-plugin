@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-15 16:54:53
+ * @LastEditTime: 2022-10-15 21:56:58
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
@@ -42,7 +42,7 @@ export class imgContent extends plugin {
         }
         if (msg.includes("米游社表情包")) {
             parm = msg.replace("米游社表情包", "") == null ? undefined : msg.replace("米游社表情包", "")
-            msg = "米游社表情包$|^米游社表情包(1|2|3|4)"
+            msg = "米游社表情包$|^米游社表情包(0|1|2|3|4)"
         }
         if (msg == '甘城猫猫表情包' || msg == '猫羽雫表情包') {
             msg = "(甘城猫猫|^猫羽雫)表情包"

@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-15 19:01:37
- * @LastEditTime: 2022-10-15 20:03:03
+ * @LastEditTime: 2022-10-15 22:08:08
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\update.js
@@ -88,7 +88,7 @@ export class update extends plugin {
     uping = false;
 
     if (ret.error) {
-      logger.mark(`${this.e.logFnc} 更新失败：椰奶插件`);
+      logger.mark(`${this.e.logFnc} 更新失败：千羽插件`);
       this.gitErr(ret.error, ret.stdout);
       return false;
     }
@@ -112,7 +112,7 @@ export class update extends plugin {
   }
 
   /**
-   * 获取椰奶插件的更新日志
+   * 获取千羽插件的更新日志
    * @param {string} plugin 插件名称
    * @returns
    */

@@ -49,11 +49,11 @@ export class help extends plugin {
             /** 优先级，数字越小等级越高 */
             priority: 600,
         })
-        this.task = {
-            cron: '0 0 0 * * ?',
-            name: '查询人物动作是否完成',
-            fnc: () => this.wyyyy()
-        }
+        // this.task = {
+        //     cron: '0 0 0 * * ?',
+        //     name: '查询人物动作是否完成',
+        //     fnc: () => this.wyyyy()
+        // }
     }
 
     async wyyyy(e) {
