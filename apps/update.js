@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-15 19:01:37
- * @LastEditTime: 2022-10-15 19:04:19
+ * @LastEditTime: 2022-10-15 20:03:03
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\update.js
@@ -101,7 +101,7 @@ export class update extends plugin {
     } else {
       await this.reply(`千羽插件\n最后更新时间：${time}`);
       this.isUp = true;
-      /** 获取椰奶组件的更新日志 */
+      /** 获取千羽组件的更新日志 */
       let log = await this.getLog("qianyu-plugin");
       await this.reply(log);
     }
@@ -290,6 +290,7 @@ export class update extends plugin {
   async execSync(cmd) {
     return new Promise((resolve, reject) => {
       exec(cmd, { windowsHide: true }, (error, stdout, stderr) => {
+        console.log(error)
         resolve({ error, stdout, stderr });
       });
     });
