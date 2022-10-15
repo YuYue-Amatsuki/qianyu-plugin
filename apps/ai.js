@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-09 00:14:04
+ * @LastEditTime: 2022-10-15 16:46:25
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -75,7 +75,7 @@ export class botai extends plugin {
     }
 
     async choieai(msg, ai) {
-        let aidata = await file.getyaml("config/api/ai")
+        let aidata = await file.getyaml("resources/data/api/ai")
         let ailist = aidata.ailist
         ailist.forEach(async list => {
             if (list.name == ai) {
@@ -96,7 +96,7 @@ export class botai extends plugin {
     async aiconfig(e) {
         let config = await file.getyaml("config/ai/ai")
         let groupconfig = await file.getyaml("config/ai/group")
-        let aidata = await file.getyaml("config/api/ai")
+        let aidata = await file.getyaml("resources/data/api/ai")
         let ailist = aidata.ailist
         let parm = e.msg.replace("ai设置", "")
         if (e.isPrivate) {
@@ -168,10 +168,11 @@ export class botai extends plugin {
 
     async aiopenclose(e, config, parm, type, isopen) {
         let p = parm.replace(type, "")
+        console.log(p)
         if (e.isPrivate && p == "群ai") {
             return this.reply("无效的设置")
         }
-        if (e.isGroup && p == "私聊" || p == "群聊") {
+        if (e.isGroup && (p == "私聊" || p == "群聊")) {
             return this.reply("无效的设置")
         }
         if (p == "私聊") {

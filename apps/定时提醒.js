@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-24 21:39:00
- * @LastEditTime: 2022-10-04 16:04:54
+ * @LastEditTime: 2022-10-15 13:29:20
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\定时提醒.js
@@ -16,11 +16,10 @@ import { returnImg } from "../utils/puppeteer.js"
 import { ds } from '../utils/schedule.js'
 //推送群
 const __dirname = path.resolve();
-const bs = 'data/ds/'
+const bs = 'resources/data/ds/'
 //创建文件夹dsdtrtr
 
 const file = new filemage()
-console.log(file)
 export class baoshi extends plugin {
     constructor() {
         super({
@@ -280,7 +279,6 @@ export class baoshi extends plugin {
                 let jlux = differTime(moment().format(), moment(item.endTime))//距离时间
                 msg.push(`${item.name}还差${jlux}`)
             })
-            console.log(msg)
             let img = await returnImg('timelist', { timelist: msg })
             this.reply(img)
         }
