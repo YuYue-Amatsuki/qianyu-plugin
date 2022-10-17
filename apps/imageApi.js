@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-17 21:35:07
+ * @LastEditTime: 2022-10-17 21:44:49
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
@@ -14,6 +14,7 @@ let textlist = await api.getApiList('image')
 let reg = getreg()
 let stcd = 15//随机涩图cd 单位s
 let chehui = true //是否撤回
+let blackgroup = []
 export class imgContent extends plugin {
     constructor() {
         super({
@@ -37,8 +38,10 @@ export class imgContent extends plugin {
         })
     }
     async setuset(e) {
-        console.log(this.rule)
         let set = e.msg.replace("涩图设置", "")
+        if (!e.isMaster) {
+            return this.reply(`暂无权限设置！`)
+        }
         if (set == "") {
             return this.reply(`涩图撤回【${chehui ? '开启' : '关闭'}】\n涩图撤回cd【${stcd}】`)
         }
