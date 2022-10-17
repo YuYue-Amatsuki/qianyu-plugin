@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-17 21:44:49
+ * @LastEditTime: 2022-10-17 22:05:17
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
@@ -45,6 +45,42 @@ export class imgContent extends plugin {
         if (set == "") {
             return this.reply(`涩图撤回【${chehui ? '开启' : '关闭'}】\n涩图撤回cd【${stcd}】`)
         }
+        if (e.isGroup) {
+            if (set.includes("群黑名单")) {
+                let msg = set.replace("群黑名单", "")
+                let gisexeit;
+                blackgroup.forEach((item) => {
+                    if (item == e.group_id) {
+                        gisexeit = true
+                    }
+                })
+                if (msg == "开启") {
+                    if (gisexeit) {
+                        return this.reply("这个群已经在我的黑名单里小本本记下了！")
+                    } else {
+                        blackgroup.push(e.group_id)
+                        this.reply("黑名单小本本记下来。")
+                        return this.reply(segment.image(process.cwd() + "/plugins/qianyu-plugin/resources/img/小本本记下.jpg"))
+                    }
+                } else if (msg == "关闭") {
+                    if (gisexeit) {
+                        blackgroup.forEach((item, index) => {
+                            if (item == e.group_id) {
+                                blackgroup.splice(index, 1)
+                            }
+                        })
+                        this.reply("黑名单已经划掉啦~")
+                        return this.reply(segment.image(process.cwd() + "/plugins/qianyu-plugin/resources/img/开心.jpg"))
+                    } else {
+                        return this.reply("这个群不在黑名单里哦！")
+                    }
+
+                } else {
+                    return this.reply("无效的设置！")
+                }
+            }
+        }
+
         if (set.includes("撤回")) {
             let msg = set.replace("撤回", "")
             if (msg == "开启") {
@@ -83,6 +119,9 @@ export class imgContent extends plugin {
         if (cate.test(msg)) {
             msg = "(女仆|jk制服|兔女郎|夏日泳装|动漫类|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)美图"
             parm = e.msg.replace("美图", "") == null ? undefined : encodeURI(e.msg.replace("美图", "") + "&format=json")
+        }
+        if (msg == "随机涩图" && blackgroup.includes(e.group_id)) {
+            return this.reply(segment.image(process.cwd() + "/plugins/qianyu-plugin/resources/img/不可以瑟瑟.jpg"))
         }
         await api.getImage(msg, async (res) => {
             if (res.isurl) {
