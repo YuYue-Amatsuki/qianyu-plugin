@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-17 18:15:05
+ * @LastEditTime: 2022-10-17 21:35:07
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
@@ -28,9 +28,37 @@ export class imgContent extends plugin {
                 {
                     reg: reg,
                     fnc: 'apiimg'
+                },
+                {
+                    reg: '^涩图设置',
+                    fnc: 'setuset'
                 }
             ]
         })
+    }
+    async setuset(e) {
+        console.log(this.rule)
+        let set = e.msg.replace("涩图设置", "")
+        if (set == "") {
+            return this.reply(`涩图撤回【${chehui ? '开启' : '关闭'}】\n涩图撤回cd【${stcd}】`)
+        }
+        if (set.includes("撤回")) {
+            let msg = set.replace("撤回", "")
+            if (msg == "开启") {
+                chehui = true
+            } else if (msg == "关闭") {
+                chehui = false
+            } else {
+                return this.reply("无效的设置！")
+            }
+            return this.reply(`涩图撤回已【${chehui ? '开启' : '关闭'}】`)
+        }
+        if (set > 0 && set < 120) {
+            stcd = set
+            return this.reply(`涩图撤回cd设置为【${stcd}】秒！`)
+        } else {
+            return this.reply(`cd设置无效！cd设置范围为1-119秒`)
+        }
     }
     async apiimg(e) {
         let parm;
