@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-15 16:46:25
+ * @LastEditTime: 2022-10-17 18:15:23
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -16,7 +16,7 @@ export class botai extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '文本api',
+            name: '人工智障ai',
             /** 功能描述 */
             dsc: '一句话',
             event: 'message',

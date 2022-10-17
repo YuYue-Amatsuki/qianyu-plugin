@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-15 21:56:58
+ * @LastEditTime: 2022-10-17 18:15:05
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
@@ -12,6 +12,8 @@ import { Api } from '../lib/api.js'
 let api = new Api()
 let textlist = await api.getApiList('image')
 let reg = getreg()
+let stcd = 15//随机涩图cd 单位s
+let chehui = true //是否撤回
 export class imgContent extends plugin {
     constructor() {
         super({
@@ -56,7 +58,7 @@ export class imgContent extends plugin {
                 if (msg == "随机涩图") {
                     res.res = res.res.replace("i.pixiv.re", "i.acgmx.com")
                 }
-                await this.sendmsg(e, res)
+                await this.sendmsg(e, res, msg)
 
             } else {
                 if (res.islist) {
@@ -73,22 +75,38 @@ export class imgContent extends plugin {
                     })
                     return this.reply(await e.group.makeForwardMsg(mes))
                 }
-                console.log(res)
                 this.reply(res)
             }
         }, parm)
     }
 
 
-    async sendmsg(e, res) {
+    async sendmsg(e, res, reg) {
+        let msg;
         if (e.isGroup) {
-            Bot.pickGroup(e.group_id).sendMsg(segment.image(res.res)).catch(function (err) {
-                Bot.pickGroup(e.group_id).sendMsg(`图片被风控了，被风控的图片是${res.res}！`)
+            msg = await Bot.pickGroup(e.group_id).sendMsg(segment.image(res.res)).catch(async function (err) {
+                msg = await Bot.pickGroup(e.group_id).sendMsg(`图片被风控了，被风控的图片是${res.res}！`)
+                let msgid = msg.message_id
+                if (chehui) {
+                    setTimeout(() => {
+                        e.group.recallMsg(msgid);
+                    }, stcd * 1000);
+                }
             })
+            if (reg == "随机涩图" && msg && chehui) {
+                setTimeout(() => {
+                    e.group.recallMsg(msg.message_id);
+                }, stcd * 1000);
+            }
         } else {
-            Bot.pickUser(e.user_id).sendMsg(segment.image(res.res)).catch(function (err) {
-                Bot.pickUser(e.user_id).sendMsg(`图片被风控了，被风控的图片是${res.res}！`)
+            msg = await Bot.pickUser(e.user_id).sendMsg(reg == "随机涩图" ? segment.flash(res.res) : segment.image(res.res)).catch(async function (err) {
+                msg = await Bot.pickUser(e.user_id).sendMsg(`图片被风控了，被风控的图片是${res.res}！`)
             })
+            if (reg == "随机涩图" && msg && chehui) {
+                setTimeout(() => {
+                    e.friend.recallMsg(msg.message_id);
+                }, stcd * 1000);
+            }
         }
     }
 }

@@ -44,11 +44,6 @@ imagelist:
     desc: 国庆色图盲盒，概率出ssr
     data: 1
     islist: false
-  - name: (女仆|jk制服|兔女郎|夏日泳装|动漫类|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)美图
-    url: https://api.uomg.com/api/rand.img4?sort=
-    desc: 国庆色图盲盒，概率出ssr
-    data: ["imgurl"]
-    islist: true
   - name: 摸鱼日历
     url: https://api.vvhan.com/api/moyu?type=json
     desc: 国庆色图盲盒，概率出ssr
@@ -69,3 +64,8 @@ imagelist:
     desc: 国庆色图盲盒，概率出ssr
     data: ["data", "urls", "original"]
     islist: false
+  - name: (女仆|jk制服|兔女郎|夏日泳装|动漫类|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)美图
+    url: https://api.uomg.com/api/rand.img4?sort=
+    desc: 国庆色图盲盒，概率出ssr
+    data: ["imgurl"]
+    islist: true
