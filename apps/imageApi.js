@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-17 22:05:17
+ * @LastEditTime: 2022-10-18 01:28:15
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
@@ -33,6 +33,10 @@ export class imgContent extends plugin {
                 {
                     reg: '^涩图设置',
                     fnc: 'setuset'
+                },
+                {
+                    reg: '^搜索',
+                    fnc: 'soutur18'
                 }
             ]
         })
@@ -99,6 +103,25 @@ export class imgContent extends plugin {
             return this.reply(`cd设置无效！cd设置范围为1-119秒`)
         }
     }
+
+    async soutur18(e) {
+        if (e.isGroup) {
+            this.reply("群里不可以瑟瑟")
+            return this.reply(segment.image(process.cwd() + "/plugins/qianyu-plugin/resources/img/不可以瑟瑟.jpg"))
+        }
+        let keyword = e.msg.replace("搜索", "")
+        let url = `https://api.lolicon.app/setu/v2?tag=${encodeURI(keyword)}&proxy=i.pixiv.re&r18=1`
+        await api.getapi(url, ['data', '0', 'urls', 'original'], async (res) => {
+            let resurl = res.replace("i.pixiv.re", "i.acgmx.com")
+            let msg = await this.reply(segment.flash(resurl))
+            setTimeout(() => {
+                e.friend.recallMsg(msg.message_id);
+            }, 30 * 1000);
+        }).catch((err) => {
+            this.reply("没有搜到这个结果呢~")
+        })
+    }
+
     async apiimg(e) {
         let parm;
         let msg = e.msg

@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-04 23:54:39
- * @LastEditTime: 2022-10-15 12:47:37
+ * @LastEditTime: 2022-10-19 23:09:18
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\request.js
@@ -12,6 +12,7 @@ export async function geturldata(url, data, suc, parms) {
     if (parms != undefined) {
         url += parms
     }
+    console.log(url)
     if (data == 0) {
         try {
             let response = await fetch(url);
