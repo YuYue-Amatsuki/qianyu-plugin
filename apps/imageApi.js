@@ -1,12 +1,13 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-07 17:11:51
- * @LastEditTime: 2022-10-18 01:28:15
+ * @LastEditTime: 2022-10-20 01:07:42
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\imageApi.js
  * @版权声明
  **/
+import { getDate } from '../utils/dateFormat.js'
 import { segment } from 'oicq'
 import { Api } from '../lib/api.js'
 let api = new Api()
@@ -111,12 +112,27 @@ export class imgContent extends plugin {
         }
         let keyword = e.msg.replace("搜索", "")
         let url = `https://api.lolicon.app/setu/v2?tag=${encodeURI(keyword)}&proxy=i.pixiv.re&r18=1`
-        await api.getapi(url, ['data', '0', 'urls', 'original'], async (res) => {
-            let resurl = res.replace("i.pixiv.re", "i.acgmx.com")
-            let msg = await this.reply(segment.flash(resurl))
-            setTimeout(() => {
-                e.friend.recallMsg(msg.message_id);
-            }, 30 * 1000);
+        await api.getapi(url, ['data', '0'], async (res) => {
+            let resurl = res.urls.original.replace("i.pixiv.re", "i.acgmx.com")
+            let tags = '';
+            res.tags.forEach((item, index) => {
+                tags += item + (index == res.tags.length - 1 ? '' : '、')
+            });
+            let msg = [
+                `标题:  ${res.title}\n`,
+                `作者:  ${res.author}\n`,
+                `作品ID:  ${res.pid}\n`,
+                `作者ID:  ${res.uid}\n`,
+                `标签:  ${tags}\n`,
+                `上传日期:  ${getDate(res.uploadDate, '-')}\n`,
+                segment.image(resurl)
+            ]
+            let result = await this.reply(msg)
+            if (!e.isMaster) {
+                setTimeout(() => {
+                    e.friend.recallMsg(result.message_id);
+                }, 15 * 1000);
+            }
         }).catch((err) => {
             this.reply("没有搜到这个结果呢~")
         })
