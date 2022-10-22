@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-17 18:15:23
+ * @LastEditTime: 2022-10-22 18:27:37
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -76,6 +76,7 @@ export class botai extends plugin {
 
     async choieai(msg, ai) {
         let aidata = await file.getyaml("resources/data/api/ai")
+        let botname = await redis.get(`qianyu:ai:botname`)
         let ailist = aidata.ailist
         ailist.forEach(async list => {
             if (list.name == ai) {
@@ -87,7 +88,7 @@ export class botai extends plugin {
                     } else {
                         respose = res
                     }
-                    this.reply(`${respose}`)
+                    this.reply(`${respose.replace(/小思|菲菲|小爱/g, botname ? botname : ai)}`)
                 })
             }
         });
@@ -99,6 +100,15 @@ export class botai extends plugin {
         let aidata = await file.getyaml("resources/data/api/ai")
         let ailist = aidata.ailist
         let parm = e.msg.replace("ai设置", "")
+        if (parm.includes("名称")) {
+            let name = parm.replace("名称", "")
+            await redis.set(`qianyu:ai:botname`, name).then(() => {
+                logger.mark(`[千羽]ai设置名称${name}`)
+            }).catch(err => {
+                logger.error(`[千羽]ai设置名称失败${name}`, err)
+            })
+            return this.reply(`ai设置名称为${name}`)
+        }
         if (e.isPrivate) {
             if (!e.isMaster) {
                 return this.reply("暂无权限")
