@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-22 18:27:37
+ * @LastEditTime: 2022-10-22 23:49:25
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
@@ -10,6 +10,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { geturldata } from '../utils/request.js'
 import { filemage } from '../utils/filemage.js'
+import Cfg from '../../../lib/config/config.js'
 import lodash from 'lodash'
 let file = new filemage()
 export class botai extends plugin {
@@ -37,14 +38,20 @@ export class botai extends plugin {
     async ffai(e) {
         let config = await file.getyaml("config/ai/ai")
         let groupconfig = await file.getyaml("config/ai/group")
-        let radom = lodash.random(0, 100)
+        let radom = lodash.random(1, 100)
         if (e.isGroup) {
+            let gcfg = Cfg.getGroup(e.group_id)
+            let gqz = gcfg.botAlias
+            let gz = gqz.join("|")
+            let reg = new RegExp(`${gz}`)
             if (config.isGroup == false) return ""
             for (let i in groupconfig) {
                 if (i == e.group_id) {
                     let gconfig = groupconfig[i]
                     if (gconfig.isopen) {
-                        if (radom <= gconfig.probability) {
+                        if (e.atBot || reg.test(e.raw_message)) {
+                            await this.getai(e, config.ai, gconfig.ai)
+                        } else if (radom <= gconfig.probability) {
                             await this.getai(e, config.ai, gconfig.ai)
                         }
                     }
