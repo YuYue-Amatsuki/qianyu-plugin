@@ -88,6 +88,7 @@ export class wz extends plugin {
         await Bot.setNickname(myuserinfo.nickname)
         Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
         await redis.del('qianyu:wz:iswz')
+        schedule.cancelJob('wz');
         this.reply("伪装任务已结束！")
     }
 }
