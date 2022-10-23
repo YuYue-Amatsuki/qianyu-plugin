@@ -1,12 +1,3 @@
-/**
- * @Author: uixmsi
- * @Date: 2022-10-05 00:51:12
- * @LastEditTime: 2022-10-19 23:16:09
- * @LastEditors: uixmsi
- * @Description: 
- * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\textApi.js
- * @版权声明
- **/
 import { Api } from '../lib/api.js'
 let api = new Api()
 let textlist = await api.getApiList('text')

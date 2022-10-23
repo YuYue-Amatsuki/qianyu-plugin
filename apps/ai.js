@@ -1,27 +1,21 @@
-/**
- * @Author: uixmsi
- * @Date: 2022-09-27 17:09:10
- * @LastEditTime: 2022-10-22 23:49:25
- * @LastEditors: uixmsi
- * @Description: 
- * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\apps\ai.js
- * @版权声明
- **/
-import plugin from '../../../lib/plugins/plugin.js'
 import { geturldata } from '../utils/request.js'
 import { filemage } from '../utils/filemage.js'
 import Cfg from '../../../lib/config/config.js'
 import lodash from 'lodash'
 let file = new filemage()
+let cofig = {
+    isPrivate: true,
+    isGroup: true,
+    probability: 100,
+    ai: "思知"
+}
+
 export class botai extends plugin {
     constructor() {
         super({
-            /** 功能名称 */
             name: '人工智障ai',
-            /** 功能描述 */
             dsc: '一句话',
             event: 'message',
-            /** 优先级，数字越小等级越高 fd*/
             priority: 100000,
             rule: [
                 {
@@ -45,13 +39,14 @@ export class botai extends plugin {
             let gz = gqz.join("|")
             let reg = new RegExp(`${gz}`)
             if (config.isGroup == false) return ""
+            if (e.atBot || reg.test(e.raw_message)) {
+                return await this.getai(e, config.ai, groupconfig.ai)
+            }
             for (let i in groupconfig) {
                 if (i == e.group_id) {
                     let gconfig = groupconfig[i]
                     if (gconfig.isopen) {
-                        if (e.atBot || reg.test(e.raw_message)) {
-                            await this.getai(e, config.ai, gconfig.ai)
-                        } else if (radom <= gconfig.probability) {
+                        if (radom <= gconfig.probability) {
                             await this.getai(e, config.ai, gconfig.ai)
                         }
                     }
@@ -77,7 +72,9 @@ export class botai extends plugin {
             }
             await this.choieai(e.msg, gconfig)
         }
+    }
 
+    async getAiCfg() {
 
     }
 
