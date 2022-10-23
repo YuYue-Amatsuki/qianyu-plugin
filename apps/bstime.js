@@ -130,7 +130,7 @@ async function getcofig() {
 let cofig = await getcofig()
 if (cofig.grouplist != null) {
     await cacelds("bs")
-    await ds("bs", `0 * ${Cfg.htime} * * *`, async () => {
+    await ds("bs", `0 0 ${Cfg.htime} * * *`, async () => {
         cofig = await getcofig()
         for (let g of cofig.grouplist) {
             let msg = []
