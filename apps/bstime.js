@@ -145,7 +145,9 @@ if (cofig.grouplist != null) {
             if (cofig.isCored) {
                 let index = Cfg.htime.indexOf(moment().hour())
                 msg[0] = `${hour}点了，${Cfg.CoredText[index]}`
-                msg[1] = segment.image(`./plugins/qianyu-plugin/resources/img/可莉/可莉${lodash.random(1, 14)}.jpg`)
+                if (cofig.isImg) {
+                    msg[1] = segment.image(`./plugins/qianyu-plugin/resources/img/可莉/可莉${lodash.random(1, 14)}.jpg`)
+                }
                 let cord = segment.record(`./plugins/qianyu-plugin/resources/报时/${moment().hour()}.ogg`);
                 Bot.sendGroupMsg(g, cord)
             }
