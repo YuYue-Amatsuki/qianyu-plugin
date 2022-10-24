@@ -1,15 +1,18 @@
 import moment from 'moment'
 import schedule from "node-schedule";
-import { dowmimg } from '../utils/downimg.js';
+import fs from 'fs'
+import path from 'path';
+//import { dowmimg } from '../utils/downimg.js';
+import https from 'https'
 import cfg from '../../../lib/config/config.js'
 import { segment } from 'oicq';
 export class wz extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '千羽帮助',
+            name: '千羽伪装',
             /** 功能描述 */
-            dsc: '千羽帮助',
+            dsc: '千羽伪装',
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 90000,
@@ -51,7 +54,14 @@ export class wz extends plugin {
         if (!myuserinfo) {
             myuserinfo = await Bot.pickMember(e.group_id, e.self_id).getSimpleInfo()
             myuserinfo.avatar = await Bot.pickMember(e.group_id, e.self_id).getAvatarUrl()
-            await dowmimg(myuserinfo.avatar, process.cwd() + '/plugins/qianyu-plugin/resources/img/', '头像')
+            const file = path.join(process.cwd() + '/plugins/qianyu-plugin/resources/img/', `头像.jpg`);
+            https.get(myuserinfo.avatar, res => {
+                res.pipe(fs.createWriteStream(file))
+                    .on('finish', () => {
+                        callback();
+                        console.log(file);
+                    })
+            })
             await redis.set('qianyu:wz:myinfo', JSON.stringify(myuserinfo))
         }
         await redis.set('qianyu:wz:atuserinfo', JSON.stringify(atuserinfo))
@@ -76,9 +86,9 @@ export class wz extends plugin {
 
 
     async stopwz(e) {
-        if (!e.isMaster) {
-            return this.reply("暂无权限！")
-        }
+        // if (!e.isMaster) {
+        //     return this.reply("暂无权限！")
+        // }
         let iswz = await redis.get('qianyu:wz:iswz')
         let myuserinfo = JSON.parse(await redis.get('qianyu:wz:myinfo'))
         if (!iswz) {
