@@ -27,9 +27,9 @@ export class wz extends plugin {
     }
 
     async weiz(e) {
-        if (!e.isMaster) {
-            return this.reply("暂无权限！")
-        }
+        // if (!e.isMaster) {
+        //     return this.reply("暂无权限！")
+        // }
         let iswz = await redis.get('qianyu:wz:iswz')
         let myuserinfo = JSON.parse(await redis.get('qianyu:wz:myinfo'))
         if (iswz) {
@@ -40,6 +40,9 @@ export class wz extends plugin {
         }
         if (!e.at) {
             return this.reply("没有@指定目标伪装失败！")
+        }
+        if (e.at == e.self_id) {
+            return this.reply("不能模仿我自己哦！")
         }
         let atuserinfo = await Bot.pickMember(e.group_id, e.at).getSimpleInfo()
         atuserinfo.avatar = await Bot.pickMember(e.group_id, e.at).getAvatarUrl()
@@ -56,7 +59,7 @@ export class wz extends plugin {
         await Bot.setAvatar(atuserinfo.avatar)
         await Bot.setNickname(atuserinfo.nickname)
         Bot.pickGroup(e.group_id).setCard(e.self_id, atuserinfo.group_name)
-        this.reply("伪装任务开始！我已经伪装成指定目标，接下来10分钟，我会模仿伪装目标说话！ai任务将无法运行！")
+        this.reply("伪装任务开始！我已经伪装成指定目标，接下来10分钟，我会模仿伪装目标说话！！")
         this.wztask(e)
     }
 
@@ -96,7 +99,7 @@ export class wz extends plugin {
 Bot.on("message", async (e) => {
     if (e.user_id == cfg.qq) return
     // 判断是否主人消息
-    if (cfg.masterQQ.includes(e.user_id)) return
+    // if (cfg.masterQQ.includes(e.user_id)) return
     if (!e.isGroup) return
     let iswz = await redis.get('qianyu:wz:iswz')
     if (!iswz) return
@@ -105,19 +108,33 @@ Bot.on("message", async (e) => {
     if (e.user_id != atuserinfo.user_id) return
     let msg = e.message
     let sendmsg = []
+    console.log(e.source)
+    console.log(e.source == true)
     for (let m of msg) {
         switch (m.type) {
             case 'image':
                 sendmsg.push(segment.image(m.url))
                 break;
             case 'text':
-                sendmsg.push(m.text)
+                if (e.source != undefined) {
+                    Bot.sendGroupMsg(e.group_id, [segment.at(e.source.user_id), " ", m.text], e.source)
+                } else {
+                    sendmsg.push(m.text)
+                }
                 break;
+            case 'face':
+                sendmsg.push(segment.face(m.id))
+                break
             case 'bface':
                 sendmsg.push(segment.bface(m.file))
                 break
+            case 'at':
+                sendmsg.push(segment.at(m.qq))
+                break;
         }
     }
-    e.reply(sendmsg)
-    new Promise((resolve) => setTimeout(resolve, 500));
+    if (!e.source) {
+        e.reply(sendmsg)
+    }
+
 })
