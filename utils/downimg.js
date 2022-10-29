@@ -10,10 +10,12 @@ export async function dowmimg(src, dir, name) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir)
     }
-    await urlToImg(src, dir);
-    // else {
-    //     await base64ToImg(src, dir);
-    // }
+    if (/\.(jpg|png|git)$/.test(src)) {
+        await urlToImg(src, dir);
+    }
+    else {
+        await base64ToImg(src, dir);
+    }
 }
 // url -> img
 const urlToImg = promisify((url, dir, callback) => {
@@ -33,7 +35,6 @@ const urlToImg = promisify((url, dir, callback) => {
 //base64 -> img
 const base64ToImg = async function (base64Str, dir) {
     //data:image/jpeg:base64,/sssss
-    console.log("进来2")
     const matches = base64Str.match(/^data:(.+?);base64,(.+)/);
     try {
         const ext = matches[1].split('/')[1]

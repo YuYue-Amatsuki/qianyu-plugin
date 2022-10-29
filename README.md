@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # qianyu-plugin
 （此插件已摆烂，新插件重建中）
 ![image-20221005174649110](./resources/img/bj.jpg)
@@ -28,6 +29,14 @@ git clone --depth=1 https://github.com/shixiansi/qianyu-plugin.git ./plugins/qia
 - ai 设置群聊关闭后所有群的 ai 都不会触发
 - ai 设置群 ai 关闭/开启和概率每个群都是独立的
 - 后期将进行单个群聊 ai 指定，敬请期待！
+=======
+# qianyu-plugin2
+
+//推荐 gitee 安装
+git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin2.git ./plugins/qianyu-plugin/
+//github 安装
+git clone --depth=1 https://github.com/shixiansi/qianyu-plugin2.git ./plugins/qianyu-plugin/
+>>>>>>> ecf6b47 (”恭喜你获得了一个空的插件“)
 
 ####  参与贡献
 
