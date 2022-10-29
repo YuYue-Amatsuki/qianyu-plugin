@@ -1,15 +1,9 @@
 # qianyu-plugin2
 
-在云崽根目录下输入命令
-//安装
-
-```js
-//推荐gitee安装
-git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugins/qianyu-plugin/
-//github安装
-git clone --depth=1 https://github.com/shixiansi/qianyu-plugin.git ./plugins/qianyu-plugin/
-
-```
+//推荐 gitee 安装
+git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin2.git ./plugins/qianyu-plugin/
+//github 安装
+git clone --depth=1 https://github.com/shixiansi/qianyu-plugin2.git ./plugins/qianyu-plugin/
 
 #### 参与贡献
 
