@@ -1,5 +1,14 @@
 /**
  * @Author: uixmsi
+ * @Date: 2022-10-29 00:49:52
+ * @LastEditTime: 2022-10-29 00:49:53
+ * @LastEditors: uixmsi
+ * @Description: 
+ * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin2\utils\dateFormat.js
+ * @版权声明
+ **/
+/**
+ * @Author: uixmsi
  * @Date: 2022-10-20 00:29:05
  * @LastEditTime: 2022-10-20 01:04:02
  * @LastEditors: uixmsi

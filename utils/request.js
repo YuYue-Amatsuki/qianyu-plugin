@@ -1,7 +1,7 @@
 /**
  * @Author: uixmsi
  * @Date: 2022-10-04 23:54:39
- * @LastEditTime: 2022-10-19 23:09:18
+ * @LastEditTime: 2022-10-25 19:28:32
  * @LastEditors: uixmsi
  * @Description: 
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\request.js
@@ -25,8 +25,10 @@ export async function geturldata(url, data, suc, parms) {
         let respon = await fetch(url)
         let json = await respon.json()
         let dc = json
-        for (let i in data) {
-            dc = dc[data[i]]
+        if (data != undefined) {
+            for (let i in data) {
+                dc = dc[data[i]]
+            }
         }
         suc(dc)
     }

@@ -1,12 +1,3 @@
-/**
- * @Author: uixmsi
- * @Date: 2022-09-29 18:00:13
- * @LastEditTime: 2022-10-14 23:36:30
- * @LastEditors: uixmsi
- * @Description: 
- * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\filemage.js
- * @版权声明
- **/
 // 文件管理
 //文件操作：增删改查
 import fs from 'fs'
@@ -20,7 +11,8 @@ export class filemage {
      * @use: 
      */
     constructor(path) {
-        this.path = path == undefined ? `${_path}/plugins/qianyu-plugin/` : `${_path}/${path}`
+        let dirpath = path || '/plugins/qianyu-plugin/'
+        this.path = `${_path}/${dirpath}`
         if (!fs.existsSync(this.path)) {
             fs.mkdirSync(this.path)
         }
@@ -50,8 +42,6 @@ export class filemage {
         let iscreate;
         if (!fs.existsSync(this.path + name)) {
             iscreate = true
-        } else {
-            iscreate = false
         }
         fs.writeFileSync(this.path + name, JSON.stringify(data))
         return iscreate
@@ -83,8 +73,7 @@ export class filemage {
         }
 
     }
-    async getlist(path) {
-
+    async getfilelist(path) {
         return fs.readdirSync(this.path + path)
     }
     async getyaml(name) {
