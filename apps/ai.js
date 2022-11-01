@@ -9,9 +9,9 @@ let cfg = {
     ai: "思知"
 }
 let gcfg = {
-    isopen: true,
-    probability: 40,
-    ai: '思知'
+    isopen: false,
+    gprobability: 40,
+    gai: '思知'
 }
 
 let apps = {
@@ -32,9 +32,11 @@ apps.rule.push({
 
 
 async function ffai(e) {
-    let config = await redis.get('qianyu:ai:config') || cfg
-    let groupconfig = await redis.get(`qianyu:ai:config:${e.group_id}`) || gcfg
+    let config = JSON.parse(await redis.get('qianyu:ai:config')) || cfg
+    let groupconfig = JSON.parse(await redis.get(`qianyu:ai:config:${e.group_id}`)) || gcfg
     let radom = lodash.random(1, 100)
+    console.log(config)
+    console.log(groupconfig)
     if (e.isGroup) {
         let gcfg = Cfg.getGroup(e.group_id)
         let gqz = gcfg.botAlias
@@ -42,18 +44,14 @@ async function ffai(e) {
         let reg = new RegExp(`${gz}`)
         if (config.isGroup == false) return ""
         if (e.atBot || reg.test(e.raw_message)) {
-            return await getai(e, config.ai, groupconfig.ai, this)
+            return await getai(e, config.ai, groupconfig.gai, this)
         }
-        for (let i in groupconfig) {
-            if (i == e.group_id) {
-                let gconfig = groupconfig[i]
-                if (gconfig.isopen) {
-                    if (radom <= gconfig.probability) {
-                        await getai(e, config.ai, gconfig.ai, this)
-                    }
-                }
+        if (groupconfig.isopen) {
+            if (radom <= groupconfig.gprobability) {
+                await getai(e, config.ai, groupconfig.gai, this)
             }
         }
+
     }
     if (e.isPrivate) {
         if (config.isPrivate == false) return ""
@@ -81,9 +79,7 @@ async function choieai(msg, ai, that) {
     let aidata = await file.getyaml("resources/data/api/ai")
     let botname = await redis.get(`qianyu:ai:botname`)
     let ailist = aidata.ailist
-    console.log(ai)
     let aida = ailist.find(list => list.name == ai)
-    console.log(aida);
     if (!aida) return
     await geturldata(`${aida.url}${encodeURI(msg)}`, aida.data, (res) => {
         let respose;
