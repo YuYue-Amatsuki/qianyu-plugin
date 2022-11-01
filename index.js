@@ -8,4 +8,13 @@
  * @版权声明
  **/
 //引入init
-
+// import loader from './lib/Loader.js'
+// import al from './lib/getallplugin.js'
+// let apps = await loader.loadapp()
+// let a = new al()
+// await a.load()
+import apps from './apps/index.js'
+logger.info(`--------------------------`);
+logger.info(`千羽初号机已启动~`);
+logger.info(`--------------------------`);
+export { apps }
