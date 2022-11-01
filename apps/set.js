@@ -90,6 +90,9 @@ async function controlOpen(m, name, data, key) {
     } else if (!data) {
         //ai名称
         await setcofig(name, JSON.stringify(m))
+    } else if (/菲菲|青云客|夸克|小爱同学|思知/.test(m)) {
+        data[key] = m
+        await setcofig(name, JSON.stringify(data))
     }
 }
 
