@@ -115,27 +115,27 @@ let configlist = [
         configlist: [
             {
                 name: 'ai私聊',
-                reg: 'ai私聊开启/关闭',
+                reg: '#千羽设置ai私聊开启/关闭',
                 desc: '私聊ai设置'
             },
             {
                 name: 'ai群聊',
-                reg: 'ai设置群聊开启/关闭',
+                reg: '#千羽设置群聊开启/关闭',
                 desc: '群聊ai设置(全局)'
             },
             {
                 name: 'ai概率',
-                reg: 'ai设置概率100（0-100）',
+                reg: '#千羽设置ai概率100（0-100）',
                 desc: 'ai设置触发概率（私聊概率）'
             },
             {
                 name: '私聊ai',
-                reg: 'ai设置青云客',
+                reg: '#千羽设置私聊ai',
                 desc: '可以设置ai为菲菲、青云客、夸克、小爱同学、思知'
             },
             {
                 name: 'ai名称',
-                reg: 'ai名称',
+                reg: '#千羽设置ai名称',
                 desc: '可以设置bot的名字'
             }
         ]
@@ -143,7 +143,7 @@ let configlist = [
 ]
 let gcofiglist = [{
     name: '群ai',
-    reg: 'ai设置群ai开启/关闭',
+    reg: '#千羽设置群ai开启/关闭',
     desc: '群ai设置开关'
 },
 {
