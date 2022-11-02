@@ -35,8 +35,6 @@ async function ffai(e) {
     let config = JSON.parse(await redis.get('qianyu:ai:config')) || cfg
     let groupconfig = JSON.parse(await redis.get(`qianyu:ai:config:${e.group_id}`)) || gcfg
     let radom = lodash.random(1, 100)
-    console.log(config)
-    console.log(groupconfig)
     if (e.isGroup) {
         let gcfg = Cfg.getGroup(e.group_id)
         let gqz = gcfg.botAlias
