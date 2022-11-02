@@ -1,6 +1,7 @@
 import { geturldata, filemage } from '../utils/index.js'
 import Cfg from '../../../lib/config/config.js'
 import lodash from 'lodash'
+import { segment } from 'oicq'
 let file = new filemage()
 let cfg = {
     isPrivate: true,
@@ -79,6 +80,9 @@ async function choieai(msg, ai, that) {
     let ailist = aidata.ailist
     let aida = ailist.find(list => list.name == ai)
     if (!aida) return
+    if (!msg) {
+        return that.reply(segment.image(`../resources/img/noresult/${lodash.random(0, 5)}.jpg`))
+    }
     await geturldata(`${aida.url}${encodeURI(msg)}`, aida.data, (res) => {
         let respose;
         if (ai == '菲菲') {
