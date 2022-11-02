@@ -29,29 +29,61 @@ let gaicfg = {
     gai: '思知'
 }
 
+let bscfg = {
+    isChieseTime: false,
+    isImg: false,
+    isCored: false
+}
+
+
 let coflistcopy = []
 
 async function set(e) {
     if (!e.isMaster) {
         return this.reply("无权限！")
     }
-    let msg = e.msg.replace("#千羽设置", "")
+
     let img;
+    let m;
+    let cfg = Object.keys(config)
+    let msg = e.msg.replace("#千羽设置", "")
+    let value = cfg.find(item => msg.includes(item))
+    let bsglist = JSON.parse(await redis.get('qianyu:bstime:grouplist')) || []
+
     botname = await redis.get('qianyu:ai:botname') || aicfg.ai
     aicfg = JSON.parse(await redis.get('qianyu:ai:config')) || aicfg
     gaicfg = JSON.parse(await redis.get(`qianyu:ai:config:${e.group_id}`)) || gaicfg
-    let m;
+    bscfg = JSON.parse(await redis.get(`qianyu:bstime:config:${e.group_id}`)) || bscfg
     coflistcopy = JSON.parse(JSON.stringify(configlist))
-    let cfg = Object.keys(config)
-    let value = cfg.find(item => msg.includes(item))
+
     if (e.isGroup) {
         coflistcopy[0].configlist.push(...gcofiglist)
+        coflistcopy.push(bscofig)
+        coflistcopy[1].configlist[3].status = bsglist.includes(e.group_id)
     }
+
     if (value) {
         //有这个设置
         m = msg.replace(value, "")//值
         if (value.includes("报时")) {
-
+            if (e.isGroup && config[value].range == "Group") {
+                if (value == "群报时") {
+                    if (m == '开启') {
+                        if (!bsglist.includes(e.group_id)) {
+                            bsglist.push(e.group_id)
+                        }
+                        coflistcopy[1].configlist[3].status = true
+                    } else if (m == "关闭") {
+                        if (bsglist.includes(e.group_id)) {
+                            bsglist.splice(bsglist.findIndex(item => item == e.group_id), 1)
+                        }
+                        coflistcopy[1].configlist[3].status = false
+                    }
+                    await setcofig('bstime:grouplist', JSON.stringify(bsglist))
+                } else {
+                    await controlOpen(m, config[value].name + e.group_id, bscfg, config[value].key)
+                }
+            }
         } else {
             if (e.isGroup && config[value].range == "Group") {
                 await controlOpen(m, config[value].name + e.group_id, gaicfg, config[value].key)
@@ -62,7 +94,7 @@ async function set(e) {
 
     }
     //改变值
-    getvalue({ ...aicfg, ...gaicfg })
+    getvalue({ ...aicfg, ...gaicfg, ...bscfg })
     img = await returnImg('admin', {
         data: coflistcopy
     })
@@ -72,7 +104,9 @@ async function set(e) {
 function getvalue(data) {
     coflistcopy.forEach((item, idx) => {
         item.configlist.forEach((i, index) => {
-            coflistcopy[idx].configlist[index].status = i.name == 'ai名称' ? botname : data[config[i.name].key]
+            if (i.name != '群报时') {
+                coflistcopy[idx].configlist[index].status = i.name == 'ai名称' ? botname : data[config[i.name].key]
+            }
         })
     })
 }
@@ -124,7 +158,7 @@ let configlist = [
             },
             {
                 name: 'ai群聊',
-                reg: '#千羽设置群聊开启/关闭',
+                reg: '#千羽设置ai群聊开启/关闭',
                 desc: '群聊ai设置(全局)'
             },
             {
@@ -166,23 +200,23 @@ let bscofig = {
     configlist: [
         {
             name: '中文报时',
-            reg: 'ai设置私聊开启/关闭',
-            desc: '私聊ai设置'
+            reg: '#千羽设置中文报时开启/关闭',
+            desc: '小时数中文显示'
         },
         {
             name: '图片报时',
-            reg: 'ai设置群聊开启/关闭',
-            desc: '群聊ai设置(关闭群ai不生效)'
+            reg: '#千羽设置图片报时开启/关闭',
+            desc: '报时时发送一张图片'
         },
         {
             name: '语音报时',
-            reg: 'ai设置概率100（0-100）',
-            desc: 'ai设置触发概率（私聊概率）'
+            reg: '#千羽设置语音报时开启/关闭',
+            desc: '可莉语音报时'
         },
         {
             name: '群报时',
-            reg: 'ai设置概率100（0-100）',
-            desc: 'ai设置触发概率（私聊概率）'
+            reg: '#千羽设置群报时开启/关闭',
+            desc: '群报时开启设置'
         }
     ]
 }
@@ -228,6 +262,26 @@ const config = {
         name: 'ai:botname',
         key: undefined,
         range: 'All'
+    },
+    中文报时: {
+        name: 'bstime:config:',
+        key: "isChieseTime",
+        range: 'Group'
+    },
+    图片报时: {
+        name: 'bstime:config:',
+        key: "isImg",
+        range: 'Group'
+    },
+    语音报时: {
+        name: 'bstime:config:',
+        key: "isCored",
+        range: 'Group'
+    },
+    群报时: {
+        name: 'bstime:grouplist',
+        key: undefined,
+        range: 'Group'
     }
 }
 
