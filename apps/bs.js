@@ -22,7 +22,7 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-await ds("bs", `0 * ${Cfg.htime} * * *`, async () => {
+await ds("bs", `0 0 ${Cfg.htime} * * *`, async () => {
     let grouplist = JSON.parse(await redis.get('qianyu:bstime:grouplist')) || []
     for (let g of grouplist) {
         bscfg = JSON.parse(await redis.get(`qianyu:bstime:config:${g}`)) || bscfg
