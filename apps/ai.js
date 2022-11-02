@@ -81,7 +81,7 @@ async function choieai(msg, ai, that) {
     let aida = ailist.find(list => list.name == ai)
     if (!aida) return
     if (!msg) {
-        return that.reply(segment.image(`../resources/img/noresult/${lodash.random(0, 5)}.jpg`))
+        return that.reply(segment.image(`${process.cwd()}/plugins/qianyu-plugin/resources/img/noresult/${lodash.random(0, 5)}.jpg`))
     }
     await geturldata(`${aida.url}${encodeURI(msg)}`, aida.data, (res) => {
         let respose;
