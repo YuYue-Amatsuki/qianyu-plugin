@@ -51,16 +51,17 @@ async function apitext(e) {
     }
     if (msg.includes('语录') && yllist.includes(msg.replace("语录", ""))) {
         parm = encodeURI(msg.replace("语录", ""))
-        msg = "(动漫|恋爱|鼓励|孤独|搞笑|友情|歌词|经典)语录"
     }
     if (msg.includes("天气")) {
         parm = encodeURI(msg.replace("天气", "")) + "&n=1"
-        msg = "天气|天气"
     }
-    if (msg.includes('答案之书')) {
-        msg = "答案之书|^答案之书"
-    }
-    await api.getText(msg, async (res) => {
+    let { desc: str } = textlist.textapi.find(item => {
+        let reg = new RegExp(item.desc)
+        if (reg.test(msg)) {
+            return true
+        }
+    })
+    await api.getText(str, async (res) => {
         let remsg = res;
         if (msg != '舔狗日记' && msg != '每日一文' && msg != "天气|天气") {
             remsg = res.replace(/[\r\n]/g, "")

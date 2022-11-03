@@ -9,7 +9,7 @@
  **/
 //引入init
 // import loader from './lib/Loader.js'
-// import al from './lib/getallplugin.js'
+import al from './lib/getallplugin.js'
 // let apps = await loader.loadapp()
 // let a = new al()
 // await a.load()

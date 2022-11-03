@@ -6,9 +6,9 @@ import set from './set.js'
 import ai from './ai.js'
 import update from './update.js'
 import bs from './bs.js'
-//import manage from './manage.js'
+import manage from './manage.js'
 //从插件接收方法和设置
-let apps = [help, imageApi, textApi, set, ai, update, bs] //manage
+let apps = [help, imageApi, textApi, set, ai, update, bs, manage] //
 let as = []
 for (let i in apps) {
     let p = class extends Plugin {

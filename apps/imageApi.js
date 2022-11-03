@@ -2,6 +2,7 @@ import { Api } from '../lib/api.js'
 import { segment } from 'oicq'
 let api = new Api()
 let textlist = await api.getApiList('image')
+
 let apps = {
     id: 'imageApi',
     name: '千羽图片',
@@ -9,6 +10,7 @@ let apps = {
     event: 'message',
     rule: []
 }
+
 apps.rule.push({
     reg: getreg(),
     desc: '图片api合集',
@@ -32,20 +34,20 @@ async function apiimg(e) {
     if (tx.includes(msg)) {
         let cs = ['a1', 'b1', 'c1', 'c2', 'c3']
         parm = cs[tx.indexOf(msg)] + "&format=images"
-        msg = "(男头|女头|动漫头像|动漫男头|动漫女头)"
     }
     if (msg.includes("米游社表情包")) {
         parm = msg.replace("米游社表情包", "") == null ? undefined : msg.replace("米游社表情包", "")
-        msg = "米游社表情包$|^米游社表情包(0|1|2|3|4)"
-    }
-    if (msg == '甘城猫猫表情包' || msg == '猫羽雫表情包') {
-        msg = "(甘城猫猫|^猫羽雫)表情包"
     }
     if (cate.test(msg)) {
-        msg = "(女仆|jk制服|兔女郎|夏日泳装|动漫类|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)美图"
         parm = e.msg.replace("美图", "") == null ? undefined : encodeURI(e.msg.replace("美图", "") + "&format=json")
     }
-    await api.getImage(msg, async (res) => {
+    let { desc: str } = textlist.textapi.find(item => {
+        let reg = new RegExp(item.desc)
+        if (reg.test(msg)) {
+            return true
+        }
+    })
+    await api.getImage(str, async (res) => {
         if (res.isurl) {
             await this.reply(segment.image(res.res))
         } else {

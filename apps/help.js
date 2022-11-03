@@ -17,13 +17,18 @@ apps.rule.push({
     fnc: 'help',
     fuc: help
 })
+
 let isopenhelp = false
+
 async function help(e) {
     if (!isopenhelp && e.msg == '帮助') return false
     let helplist = JSON.parse(await redis.get('qianyu:helplist')) || []
     let helpImgPath = '../resources/html/help/help.jpg'
     let data = await file.getyaml("config/help")
     let img;
+    if (!e.isMaster) {
+        data.helplist.splice(data.helplist.length - 1, 1)
+    }
     if (!lodash.isEqual(data.helplist, helplist)) {
         await redis.set("qianyu:helplist", JSON.stringify(data.helplist))
         data.path = './plugins/qianyu-plugin/resources/html/help/help.jpg'

@@ -25,6 +25,10 @@ git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugin
 1. 功能仅限内部交流与小范围使用，请勿将 Yunzai-Bot 及 qianyu-plugin 用于任何以盈利为目的的场景.
 2. 图片与其他素材均来自于网络，仅供交流学习使用，如有侵权请联系，会立即删除.
 
+#### 支持作者
+
+
+
 #### 联系方式
 
-没有，不联系
+QQ:1765629830(一切无关本插件的问题概不回答！)

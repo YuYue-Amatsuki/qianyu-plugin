@@ -61,6 +61,7 @@
   padding-left: 20px;
   font-weight: bold;
   border-radius: 16px;
+  font-size: 20px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   background: url("imgs/cfg-right.jpg") right top #cbc4be no-repeat;
   background-size: auto 36px;
