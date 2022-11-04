@@ -99,3 +99,12 @@ helplist:
       - title: 千羽(强制)更新
         desc: 更新千羽插件
         icon: "86"
+      - title: 关机/开机
+        desc: 关机忽略除开机外的所有指令
+        icon: "95"
+      - title: 只听主人的话|开私家车
+        desc: 忽略除主人外的所有指令
+        icon: "119"
+      - title: 共享宠物|开公交车
+        desc: 正常接受指令
+        icon: "118"
