@@ -28,7 +28,7 @@ apps.rule.push({
 
 async function setuset(e) {
     let set = e.msg.replace("涩图设置", "")
-    let isch = await redis.get(`qianyu:setu:chehui:${e.group_id}`) || false
+    let isch = await redis.get(`qianyu:setu:chehui:${e.group_id}`) || true
     let chcd = await redis.get(`qianyu:setu:chehuicd:${e.group_id}`) || 15
     if (!e.isMaster) {
         return this.reply(`暂无权限设置！`)
