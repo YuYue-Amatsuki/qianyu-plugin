@@ -91,6 +91,12 @@ helplist:
       - title: "男头"
         desc: "发送一张男头|女头|动漫头像|动漫男头|动漫女头图片"
         icon: "193"
+      - title: 随机涩图
+        desc: 返回一张一般涩的二次元图片
+        icon: "60"
+      - title: 水群统计
+        desc: 返回一张水群统计图
+        icon: "141"
   - title: 管理员功能
     list:
       - title: 千羽设置
@@ -108,3 +114,12 @@ helplist:
       - title: 共享宠物|开公交车
         desc: 正常接受指令
         icon: "118"
+      - title: 涩图设置
+        desc: 返回当前群的随机涩图设置
+        icon: "29"
+      - title: 涩图设置(r18)+30
+        desc: 涩图设置随机涩图/r18搜索cd
+        icon: "58"
+      - title: 涩图设置(r18)撤回开启/关闭
+        desc: 涩图设置随机涩图/r18搜索撤回开关
+        icon: "59"

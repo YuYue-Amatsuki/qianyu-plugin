@@ -41,8 +41,8 @@ async function apiimg(e) {
     if (cate.test(msg)) {
         parm = e.msg.replace("美图", "") == null ? undefined : encodeURI(e.msg.replace("美图", "") + "&format=json")
     }
-    let { desc: str } = textlist.textapi.find(item => {
-        let reg = new RegExp(item.desc)
+    let { name: str } = textlist.imagelist.find(item => {
+        let reg = new RegExp(item.name)
         if (reg.test(msg)) {
             return true
         }

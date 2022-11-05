@@ -9,21 +9,21 @@ let apps = {
 
 
 apps.rule.push({
-    reg: '^#关机',
+    reg: '^#关机$',
     desc: '管理',
     fnc: 'shutdown',
     fuc: shutdown
 })
 
 apps.rule.push({
-    reg: '^#开机',
+    reg: '^#开机$',
     desc: '管理',
     fnc: 'shutdown',
     fuc: shutdown
 })
 
 apps.rule.push({
-    reg: '^只听主人的话|^开私家车|^开公交车|^共享宠物',
+    reg: '^只听主人的话$|^开私家车$|^开公交车$|^共享宠物$',
     desc: '管理',
     fnc: 'masterpet',
     fuc: masterpet
