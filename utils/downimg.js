@@ -5,12 +5,12 @@ import https from 'https'
 import path from 'path';
 const writeFile = promisify(fs.writeFile);
 let cwname;
-export async function dowmimg(src, dir, name) {
+export async function dowmimg(src, dir, name, type) {
     cwname = name
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir)
     }
-    if (/\.(jpg|png|git)$/.test(src)) {
+    if (/\.(jpg|png|git|)$/.test(src) || type == 'qq') {
         await urlToImg(src, dir);
     }
     else {
@@ -47,4 +47,17 @@ const base64ToImg = async function (base64Str, dir) {
         console.log(error);
         console.log('非法 base64字符串')
     }
+}
+
+export async function dowmvideo(dir, name, data, suc) {
+    let path = `${process.cwd()}/plugins/qianyu-plugin/resources/video/${dir}`
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(path)
+    }
+    fs.writeFile(path + "/" + name, Buffer.from(data), "binary", function (err) {
+        if (!err) {
+            suc()
+        }
+    });
+
 }

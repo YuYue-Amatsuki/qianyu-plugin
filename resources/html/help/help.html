@@ -23,7 +23,7 @@
                     {{each h.list hl}}
                     <div class="children-box">
                         <div class="left"
-                            style="background-position-x: {{(hl.icon[hl.icon.length-1]-1)*-50}}px;background-position-y: {{(hl.icon.length>2?hl.icon[0]+hl.icon[1]:hl.icon[0])*-50}}px;">
+                            style="background-position-x: {{((hl.icon[hl.icon.length - 1] == 0 ? 10 : hl.icon[hl.icon.length - 1]) - 1) * -50}}px;background-position-y: {{((hl.icon.length>2?hl.icon[0]+hl.icon[1]:hl.icon[0])-(hl.icon[hl.icon.length-1]==0?1:0))*-50}}px;">
                         </div>
                         <div class="right"><span>{{hl.title}}</span><span>{{hl.desc}}</span></div>
                     </div>

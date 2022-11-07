@@ -28,8 +28,8 @@ apps.rule.push({
 
 async function setuset(e) {
     let set = e.msg.replace("涩图设置", "")
-    let isch = await redis.get(`qianyu:setu:chehui:${e.group_id}`) || true
-    let chcd = await redis.get(`qianyu:setu:chehuicd:${e.group_id}`) || 15
+    let isch = await redis.get(`qianyu:setu:chehui:${e.group_id}`)
+    let chcd = await redis.get(`qianyu:setu:chehuicd:${e.group_id}`)
     if (!e.isMaster) {
         return this.reply(`暂无权限设置！`)
     }
@@ -70,7 +70,7 @@ async function setuset(e) {
             if (msg == "开启") {
                 await setcofig(`r18chehui`, "true")
             } else if (msg == "关闭") {
-                await deletesetcofigcofig(`r18chehui`, 'false')
+                await deletecofig(`r18chehui`, 'false')
             } else {
                 return this.reply("无效的设置！")
             }
@@ -117,17 +117,13 @@ async function sjsetu(e) {
 }
 
 async function soutur18(e) {
-    if (e.isGroup) {
-        this.reply("群里不可以瑟瑟")
-        return this.reply(segment.image(process.cwd() + "/plugins/qianyu-plugin/resources/img/不可以瑟瑟.jpg"))
-    }
-    let r18cd = await redis.get(`qianyu:setu:r18cd`) || 15//r18cd
-    let r18ch = await redis.get(`qianyu:setu:r18chehui`) || true//r18撤回
     let keyword = e.msg.replace("搜索", "")
     let url = `https://api.lolicon.app/setu/v2?tag=${encodeURI(keyword)}&proxy=i.pixiv.re&r18=1`
+    let that = this
     await api.getapi(url, ['data', '0'], async (res) => {
         let resurl = res.urls.original//.replace("i.pixiv.re", "i.acgmx.com")
         let tags = '';
+        console.log(res);
         res.tags.forEach((item, index) => {
             tags += item + (index == res.tags.length - 1 ? '' : '、')
         });
@@ -140,15 +136,19 @@ async function soutur18(e) {
             `上传日期:  ${dataFormat.getDate(res.uploadDate, '-')}\n`,
             segment.image(resurl)
         ]
-        await this.reply(msg, false, e.isMaster ? undefined : r18ch ? { recallMsg: r18cd } : undefined)
+        console.log(msg);
+        await Bot.pickGroup(e.group_id).sendMsg(msg).catch(async function (err) {
+            console.log("今年零零")
+            that.reply(await that.makeGroupMsg(undefined, msg))
+        })
     }).catch((err) => {
         this.reply("没有搜到这个结果呢~")
     })
 }
 
 async function sendmsg(e, res) {
-    let isch = await redis.get(`qianyu:setu:chehui:${e.group_id}`) || true
-    let chcd = await redis.get(`qianyu:setu:chehuicd:${e.group_id}`) || 15
+    let isch = await redis.get(`qianyu:setu:chehui:${e.group_id}`)
+    let chcd = await redis.get(`qianyu:setu:chehuicd:${e.group_id}`)
     let msg;
     if (e.isGroup) {
         msg = await Bot.pickGroup(e.group_id).sendMsg(segment.image(res)).catch(async function (err) {
