@@ -82,7 +82,7 @@ async function stopwz(e) {
 
 
 async function wztask(e) {
-    await ds('wz', moment().add(1, 'm').format(), async () => {
+    await ds('wz', moment().add(10, 'm').format(), async () => {
         let myuserinfo = JSON.parse(await redis.get('qianyu:wz:myinfo'))
         await Bot.setAvatar(process.cwd() + '/plugins/qianyu-plugin/resources/img/头像.jpg')
         await Bot.setNickname(myuserinfo.nickname)
