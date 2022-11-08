@@ -35,4 +35,4 @@ git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugin
 
 QQ:1765629830(一切无关本插件的问题概不回答！)
 #### 访问数量：
-[![访问量](https://profile-counter.glitch.me/liulian-plugin/count.svg)](https://gitee.com/huifeidemangguomaocoder/liulian-plugin)
+[![访问量](https://profile-counter.glitch.me/liulian-plugin/count.svg)](https://gitee.com/think-first-sxs/qianyu-plugin/)
