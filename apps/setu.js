@@ -117,6 +117,7 @@ async function sjsetu(e) {
 }
 
 async function soutur18(e) {
+    if (e.isGroup) return
     let keyword = e.msg.replace("搜索", "")
     let url = `https://api.lolicon.app/setu/v2?tag=${encodeURI(keyword)}&proxy=i.pixiv.re&r18=1`
     let that = this
