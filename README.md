@@ -34,3 +34,5 @@ git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugin
 #### 联系方式
 
 QQ:1765629830(一切无关本插件的问题概不回答！)
+#### 访问数量：
+[![访问量](https://profile-counter.glitch.me/qianyu-plugin/count.svg)](https://gitee.com/think-first-sxs/qianyu-plugin/)
