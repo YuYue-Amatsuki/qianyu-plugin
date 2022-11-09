@@ -1,4 +1,5 @@
 import { returnImg } from '../utils/index.js'
+import { config, configlist, gcofiglist, bscofig, cofigall } from './setcofig.js'
 let apps = {
     id: 'set',
     name: '千羽设置',
@@ -15,6 +16,8 @@ apps.rule.push({
 })
 
 let botname = ''
+
+let isbjx;
 
 let aicfg = {
     isPrivate: true,
@@ -49,7 +52,7 @@ async function set(e) {
     let msg = e.msg.replace("#千羽设置", "")
     let value = cfg.find(item => msg.includes(item))
     let bsglist = JSON.parse(await redis.get('qianyu:bstime:grouplist')) || []
-
+    isbjx = await redis.get('qianyu:isbjx') ? await redis.get('qianyu:isbjx') : false
     botname = await redis.get('qianyu:ai:botname') || aicfg.ai
     aicfg = JSON.parse(await redis.get('qianyu:ai:config')) || aicfg
     gaicfg = JSON.parse(await redis.get(`qianyu:ai:config:${e.group_id}`)) || gaicfg
@@ -61,7 +64,8 @@ async function set(e) {
         coflistcopy.push(bscofig)
         coflistcopy[1].configlist[3].status = bsglist.includes(e.group_id)
     }
-
+    coflistcopy.push(cofigall)
+    coflistcopy[coflistcopy.length - 1].configlist[0].status = isbjx == null ? false : true
     if (value) {
         //有这个设置
         m = msg.replace(value, "")//值
@@ -94,7 +98,7 @@ async function set(e) {
 
     }
     //改变值
-    getvalue({ ...aicfg, ...gaicfg, ...bscfg })
+    getvalue({ ...aicfg, ...gaicfg, ...bscfg, })
     img = await returnImg('admin', {
         data: coflistcopy
     })
@@ -104,8 +108,10 @@ async function set(e) {
 function getvalue(data) {
     coflistcopy.forEach((item, idx) => {
         item.configlist.forEach((i, index) => {
-            if (i.name != '群报时') {
+            if (i.name != '群报时' && i.name != 'b站解析') {
                 coflistcopy[idx].configlist[index].status = i.name == 'ai名称' ? botname : data[config[i.name].key]
+            } else if (i.name == 'b站解析') {
+                coflistcopy[idx].configlist[index].status = isbjx
             }
         })
     })
@@ -113,11 +119,21 @@ function getvalue(data) {
 
 async function controlOpen(m, name, data, key) {
     if (m == '开启') {
-        data[key] = true
-        await setcofig(name, JSON.stringify(data))
+        if (data) {
+            data[key] = true
+            await setcofig(name, JSON.stringify(data))
+        } else {
+            isbjx = true
+            await setcofig(name, 1)
+        }
     } else if (m == "关闭") {
-        data[key] = false
-        await setcofig(name, JSON.stringify(data))
+        if (data) {
+            data[key] = false
+            await setcofig(name, JSON.stringify(data))
+        } else {
+            isbjx = false
+            await deletecofig(name)
+        }
     } else if (m >= 0 && m <= 100) {
         data[key] = m
         await setcofig(name, JSON.stringify(data))
@@ -146,144 +162,5 @@ async function deletecofig(name) {
         logger.error(`[千羽]设置${name}关闭失败`, err)
     })
 }
-
-let configlist = [
-    {
-        title: 'AI相关',
-        configlist: [
-            {
-                name: 'ai私聊',
-                reg: '#千羽设置ai私聊开启/关闭',
-                desc: '私聊ai设置'
-            },
-            {
-                name: 'ai群聊',
-                reg: '#千羽设置ai群聊开启/关闭',
-                desc: '群聊ai设置(全局)'
-            },
-            {
-                name: 'ai概率',
-                reg: '#千羽设置ai概率100（0-100）',
-                desc: 'ai设置触发概率（私聊概率）'
-            },
-            {
-                name: '私聊ai',
-                reg: '#千羽设置私聊ai',
-                desc: '可以设置ai为菲菲、青云客、夸克、小爱同学、思知'
-            },
-            {
-                name: 'ai名称',
-                reg: '#千羽设置ai名称',
-                desc: '可以设置bot的名字'
-            }
-        ]
-    }
-]
-let gcofiglist = [{
-    name: '群ai',
-    reg: '#千羽设置群ai开启/关闭',
-    desc: '群ai设置开关'
-},
-{
-    name: 'ai群概率',
-    reg: '#千羽设置ai群概率100（0-100）',
-    desc: 'ai设置触发概率设置（每个群独立配置）'
-},
-{
-    name: '群聊ai',
-    reg: '#千羽设置群聊ai青云客',
-    desc: '可以设置ai为菲菲、青云客、夸克、小爱同学、思知'
-}]
-
-let bscofig = {
-    title: '报时相关',
-    configlist: [
-        {
-            name: '中文报时',
-            reg: '#千羽设置中文报时开启/关闭',
-            desc: '小时数中文显示'
-        },
-        {
-            name: '图片报时',
-            reg: '#千羽设置图片报时开启/关闭',
-            desc: '报时时发送一张图片'
-        },
-        {
-            name: '语音报时',
-            reg: '#千羽设置语音报时开启/关闭',
-            desc: '可莉语音报时'
-        },
-        {
-            name: '群报时',
-            reg: '#千羽设置群报时开启/关闭',
-            desc: '群报时开启设置'
-        }
-    ]
-}
-
-const config = {
-    ai私聊: {
-        name: 'ai:config',
-        key: 'isPrivate',
-        range: 'All'
-    },
-    ai群聊: {
-        name: 'ai:config',
-        key: "isGroup",
-        range: 'All'
-    },
-
-    ai概率: {
-        name: 'ai:config',
-        key: 'probability',
-        range: 'All'
-    },
-    ai群概率: {
-        name: 'ai:config:',
-        key: 'gprobability',
-        range: 'Group'
-    },
-    私聊ai: {
-        name: 'ai:config',
-        key: 'ai',
-        range: 'All'
-    },
-    群ai: {
-        name: 'ai:config:',
-        key: 'isopen',
-        range: 'Group'
-    },
-    群聊ai: {
-        name: 'ai:config:',
-        key: 'gai',
-        range: 'Group'
-    },
-    ai名称: {
-        name: 'ai:botname',
-        key: undefined,
-        range: 'All'
-    },
-    中文报时: {
-        name: 'bstime:config:',
-        key: "isChieseTime",
-        range: 'Group'
-    },
-    图片报时: {
-        name: 'bstime:config:',
-        key: "isImg",
-        range: 'Group'
-    },
-    语音报时: {
-        name: 'bstime:config:',
-        key: "isCored",
-        range: 'Group'
-    },
-    群报时: {
-        name: 'bstime:grouplist',
-        key: undefined,
-        range: 'Group'
-    }
-}
-
 
 export default apps

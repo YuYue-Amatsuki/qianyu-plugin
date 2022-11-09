@@ -40,7 +40,7 @@ async function ffai(e) {
         let gcfg = Cfg.getGroup(e.group_id)
         let gqz = gcfg.botAlias
         let gz = gqz.join("|")
-        let reg = new RegExp(`${gz}`)
+        let reg = new RegExp(`^${gz}`)
         if (config.isGroup == false) return ""
         if (e.atBot || reg.test(e.raw_message)) {
             return await getai(e, config.ai, groupconfig.gai, this)

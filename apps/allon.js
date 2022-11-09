@@ -133,35 +133,38 @@ Bot.on("message", async (e) => {
             e.reply(sendmsg)
         }
     }
-
-    let msg;
-    e.message.forEach(element => {
-        if (element.type == 'text') {
-            msg = element.text
-        }
-    });
-    let urllist = ['b23.tv', 'm.bilibili.com', 'www.bilibili.com']
-    let reg = new RegExp(`${urllist[0]}|${urllist[1]}|${urllist[2]}`)
-    if (reg.test(msg)) {
-        const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-        let url = msg.match(reg2)
-        let bv;
-        if (url[0].includes('https://b23.tv/')) {
-            await api.getapi(`https://xiaobai.klizi.cn/API/other/url_restore.php?url=${url}`, ['redirect_url', '0'], async (res) => {
-                url[0] = res
+    let isbjx = await redis.get('qianyu:isbjx')
+    if (isbjx) {
+        let msg;
+        e.message.forEach(element => {
+            if (element.type == 'text') {
+                msg = element.text
+            }
+        });
+        let urllist = ['b23.tv', 'm.bilibili.com', 'www.bilibili.com']
+        let reg = new RegExp(`${urllist[0]}|${urllist[1]}|${urllist[2]}`)
+        if (reg.test(msg)) {
+            const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+            let url = msg.match(reg2)
+            let bv;
+            if (url[0].includes('https://b23.tv/')) {
+                await api.getapi(`https://xiaobai.klizi.cn/API/other/url_restore.php?url=${url}`, ['redirect_url', '0'], async (res) => {
+                    url[0] = res
+                })
+            }
+            let reg3 = new RegExp(/(BV.*?).{10}/)
+            bv = url[0].match(reg3)[0]
+            let videourl = 'https://www.bilibili.com/video/' + bv
+            await api.getapi(`http://tfkapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
+                let response = await fetch(res.video_url);
+                let buff = await response.arrayBuffer();
+                await dowmvideo('b站', "video.mp4", buff, () => {
+                    e.reply(segment.video(`file:///${process.cwd()}/plugins/qianyu-plugin/resources/video/b站/video.mp4`))
+                })
             })
         }
-        let reg3 = new RegExp(/(BV.*?).{10}/)
-        bv = url[0].match(reg3)[0]
-        let videourl = 'https://www.bilibili.com/video/' + bv
-        await api.getapi(`http://tfkapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
-            let response = await fetch(res.video_url);
-            let buff = await response.arrayBuffer();
-            await dowmvideo('b站', "video.mp4", buff, () => {
-                e.reply(segment.video(`file:///${process.cwd()}/plugins/qianyu-plugin/resources/video/b站/video.mp4`))
-            })
-        })
     }
+
 })
 
 
