@@ -55,6 +55,10 @@ async function weiz(e) {
         await dowmimg(myuserinfo.avatar, file, '头像.jpg', 'qq')
     }
     await redis.set('qianyu:wz:atuserinfo', JSON.stringify(atuserinfo))
+    await redis.set('qianyu:wz:InitiatorInfo', JSON.stringify({
+        user_id: e.user_id,
+        group_id: e.group_id
+    }))
     await redis.set('qianyu:wz:iswz', '1')
     await Bot.setAvatar(atuserinfo.avatar)
     await Bot.setNickname(atuserinfo.nickname)
@@ -72,10 +76,18 @@ async function stopwz(e) {
     if (!e.isGroup) {
         return this.reply("非法的指令！")
     }
+    let InitiatorInfo = JSON.parse(await redis.get('qianyu:wz:InitiatorInfo'))
+    if (e.user_id != InitiatorInfo.user_id && e.user_id != cfg.masterQQ) {
+        return this.reply("只有发起人才能结束伪装！")
+    }
+    if (InitiatorInfo.group_id != e.group_id) {
+        return this.reply("只有发起的群才能结束伪装！")
+    }
     await Bot.setAvatar(process.cwd() + '/plugins/qianyu-plugin/resources/img/头像.jpg')
     await Bot.setNickname(myuserinfo.nickname)
     Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
     await redis.del('qianyu:wz:iswz')
+    await redis.del('qianyu:wz:InitiatorInfo')
     await cacelds('wz');
     this.reply("伪装任务已结束！")
 }
@@ -88,6 +100,7 @@ async function wztask(e) {
         await Bot.setNickname(myuserinfo.nickname)
         Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
         await redis.del('qianyu:wz:iswz')
+        await redis.del('qianyu:wz:InitiatorInfo')
         e.reply("伪装任务已结束！")
     })
 }
@@ -167,7 +180,5 @@ Bot.on("message", async (e) => {
 
 })
 
-
-
-
+await redis.del('qianyu:wz:iswz')
 export default apps
