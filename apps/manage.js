@@ -9,14 +9,14 @@ let apps = {
 
 
 apps.rule.push({
-    reg: '^#关机$',
+    reg: '^#千羽关机$',
     desc: '管理',
     fnc: 'shutdown',
     fuc: shutdown
 })
 
 apps.rule.push({
-    reg: '^#开机$',
+    reg: '^千羽开机$',
     desc: '管理',
     fnc: 'shutdown',
     fuc: shutdown
@@ -71,7 +71,7 @@ async function shutdown(e) {
     if (!e.isMaster) {
         return this.reply("暂无权限！")
     }
-    if (e.msg == "#关机") {
+    if (e.msg == "#千羽关机") {
         await redis.set('qianyu:manage:isshutdown', 1)
         return this.reply("我关机了，接下来不接收指令了哦！")
     } else {
@@ -80,5 +80,6 @@ async function shutdown(e) {
     }
 }
 
+await redis.del('qianyu:manage:isshutdown')
 
 export default apps
