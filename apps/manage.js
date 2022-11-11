@@ -16,7 +16,7 @@ apps.rule.push({
 })
 
 apps.rule.push({
-    reg: '^千羽开机$',
+    reg: '^#千羽开机$',
     desc: '管理',
     fnc: 'shutdown',
     fuc: shutdown
