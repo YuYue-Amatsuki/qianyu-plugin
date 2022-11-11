@@ -52,7 +52,7 @@ async function weiz(e) {
         myuserinfo.avatar = await Bot.pickMember(e.group_id, e.self_id).getAvatarUrl()
         const file = process.cwd() + '/plugins/qianyu-plugin/resources/img/'
         await redis.set('qianyu:wz:myinfo', JSON.stringify(myuserinfo))
-        await dowmimg(myuserinfo.avatar, file, `${e.self_id}头像.jpg`, 'qq')
+        await dowmimg(myuserinfo.avatar, file, `${e.self_id}头像`, 'qq')
     }
     await redis.set('qianyu:wz:atuserinfo', JSON.stringify(atuserinfo))
     await redis.set('qianyu:wz:InitiatorInfo', JSON.stringify({
