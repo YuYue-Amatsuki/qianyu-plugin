@@ -6,7 +6,7 @@ helplist:
         desc: "随机一句话"
         icon: "71"
       - title: "古诗名句"
-        desc: "发送一句古诗.ffd"
+        desc: "发送一句古诗"
         icon: "147"
       - title: "名人一言"
         desc: "发送随机名人的一句话"

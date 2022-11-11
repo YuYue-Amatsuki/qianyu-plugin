@@ -52,7 +52,7 @@ async function weiz(e) {
         myuserinfo.avatar = await Bot.pickMember(e.group_id, e.self_id).getAvatarUrl()
         const file = process.cwd() + '/plugins/qianyu-plugin/resources/img/'
         await redis.set('qianyu:wz:myinfo', JSON.stringify(myuserinfo))
-        await dowmimg(myuserinfo.avatar, file, '头像.jpg', 'qq')
+        await dowmimg(myuserinfo.avatar, file, `${e.self_id}头像.jpg`, 'qq')
     }
     await redis.set('qianyu:wz:atuserinfo', JSON.stringify(atuserinfo))
     await redis.set('qianyu:wz:InitiatorInfo', JSON.stringify({
@@ -83,7 +83,7 @@ async function stopwz(e) {
     if (InitiatorInfo.group_id != e.group_id) {
         return this.reply("只有发起的群才能结束伪装！")
     }
-    await Bot.setAvatar(process.cwd() + '/plugins/qianyu-plugin/resources/img/头像.jpg')
+    await Bot.setAvatar(process.cwd() + `/plugins/qianyu-plugin/resources/img/${e.self_id}头像.jpg`)
     await Bot.setNickname(myuserinfo.nickname)
     Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
     await redis.del('qianyu:wz:iswz')
@@ -96,7 +96,7 @@ async function stopwz(e) {
 async function wztask(e) {
     await ds('wz', moment().add(10, 'm').format(), async () => {
         let myuserinfo = JSON.parse(await redis.get('qianyu:wz:myinfo'))
-        await Bot.setAvatar(process.cwd() + '/plugins/qianyu-plugin/resources/img/头像.jpg')
+        await Bot.setAvatar(process.cwd() + `/plugins/qianyu-plugin/resources/img/${e.self_id}头像.jpg`)
         await Bot.setNickname(myuserinfo.nickname)
         Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
         await redis.del('qianyu:wz:iswz')
@@ -181,4 +181,8 @@ Bot.on("message", async (e) => {
 })
 
 await redis.del('qianyu:wz:iswz')
+await redis.del('qianyu:wz:atuserinfo')
+await redis.del('qianyu:wz:InitiatorInfo')
+await redis.del('qianyu:wz:myinfo')
+
 export default apps
