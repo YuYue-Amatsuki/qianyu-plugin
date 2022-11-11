@@ -79,7 +79,7 @@ async function stopwz(e) {
     let InitiatorInfo = JSON.parse(await redis.get('qianyu:wz:InitiatorInfo'))
     console.log(InitiatorInfo.user_id)
     console.log(cfg.masterQQ)
-    if (e.user_id != InitiatorInfo.user_id && e.user_id != cfg.masterQQ) {
+    if (e.user_id != InitiatorInfo.user_id && !cfg.masterQQ.includes(e.user_id)) {
         return this.reply("只有发起人才能结束伪装！")
     }
     if (InitiatorInfo.group_id != e.group_id) {
