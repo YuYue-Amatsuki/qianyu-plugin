@@ -77,6 +77,8 @@ async function stopwz(e) {
         return this.reply("非法的指令！")
     }
     let InitiatorInfo = JSON.parse(await redis.get('qianyu:wz:InitiatorInfo'))
+    console.log(InitiatorInfo.user_id)
+    console.log(cfg.masterQQ)
     if (e.user_id != InitiatorInfo.user_id && e.user_id != cfg.masterQQ) {
         return this.reply("只有发起人才能结束伪装！")
     }
