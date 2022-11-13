@@ -6,11 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        #container {
+            width: 1000px;
+            padding: 50px;
+            background-color: white;
+        }
+
+        .img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="container">
-
+    <div id="container" style="padding: {{wk*50}}px;">
+        <img src="{{url}}" alt="" class="img">
     </div>
 </body>
 

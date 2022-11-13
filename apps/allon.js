@@ -28,6 +28,8 @@ apps.rule.push({
     fuc: stopwz
 })
 
+let CD = {}
+
 async function weiz(e) {
     let iswz = await redis.get('qianyu:wz:iswz')
     let myuserinfo = JSON.parse(await redis.get('qianyu:wz:myinfo'))
@@ -42,6 +44,22 @@ async function weiz(e) {
     }
     if (e.at == e.self_id) {
         return this.reply("不能模仿我自己哦！")
+    }
+    if (!cfg.masterQQ.includes(e.user_id)) {
+        if (CD[e.user_id]) {
+            if (CD[e.user_id].cd) {
+                return this.reply("伪装还在cd中！")
+            }
+            if (CD[e.user_id].times > 10) {
+                return this.reply("今日伪装次数不足，每人每天限定10次！")
+            } else {
+                CD[e.user_id].times += 1
+            }
+        } else {
+            CD[e.user_id] = {
+                times: 1
+            }
+        }
     }
     let atuserinfo = await Bot.pickMember(e.group_id, e.at).getSimpleInfo()
     atuserinfo.avatar = await Bot.pickMember(e.group_id, e.at).getAvatarUrl()
@@ -77,8 +95,6 @@ async function stopwz(e) {
         return this.reply("非法的指令！")
     }
     let InitiatorInfo = JSON.parse(await redis.get('qianyu:wz:InitiatorInfo'))
-    console.log(InitiatorInfo.user_id)
-    console.log(cfg.masterQQ)
     if (e.user_id != InitiatorInfo.user_id && !cfg.masterQQ.includes(e.user_id)) {
         return this.reply("只有发起人才能结束伪装！")
     }
@@ -91,9 +107,19 @@ async function stopwz(e) {
     await redis.del('qianyu:wz:iswz')
     await redis.del('qianyu:wz:InitiatorInfo')
     await cacelds('wz');
-    this.reply("伪装任务已结束！")
+    if (!cfg.masterQQ.includes(e.user_id)) {
+        CD[e.user_id].cd = true
+        await ds('wzcd', moment().add(10, 'm').format(), async () => {
+            CD[e.user_id].cd = false
+        })
+    }
+    this.reply("伪装任务已结束！发起人进入10分钟冷却！（主人除外！）")
 }
 
+//12点重置
+await ds('wz', `0 0 0 * * *`, async () => {
+    CD = {}
+})
 
 async function wztask(e) {
     await ds('wz', moment().add(10, 'm').format(), async () => {
@@ -101,9 +127,17 @@ async function wztask(e) {
         await Bot.setAvatar(process.cwd() + `/plugins/qianyu-plugin/resources/img/${e.self_id}头像.jpg`)
         await Bot.setNickname(myuserinfo.nickname)
         Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
-        await redis.del('qianyu:wz:iswz')
-        await redis.del('qianyu:wz:InitiatorInfo')
-        e.reply("伪装任务已结束！")
+        redis.del('qianyu:wz:iswz')
+        redis.del('qianyu:wz:InitiatorInfo')
+        e.reply("伪装任务已结束！发起人进入10分钟冷却！（主人除外！）")
+        //进入cd
+        if (!cfg.masterQQ.includes(e.user_id)) {
+            CD[e.user_id].cd = true
+            await ds('wzcd', moment().add(10, 'm').format(), async () => {
+                CD[e.user_id].cd = false
+            })
+        }
+
     })
 }
 

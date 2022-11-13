@@ -41,6 +41,7 @@ async function ffai(e) {
         let gqz = gcfg.botAlias
         let gz = gqz.join("|")
         let reg = new RegExp(`^${gz}`)
+        if (e.user_id == e.self_id) return
         if (config.isGroup == false) return ""
         if (e.atBot || reg.test(e.raw_message)) {
             return await getai(e, config.ai, groupconfig.gai, this)

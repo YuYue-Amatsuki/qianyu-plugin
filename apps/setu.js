@@ -137,7 +137,6 @@ async function soutur18(e) {
             `上传日期:  ${dataFormat.getDate(res.uploadDate, '-')}\n`,
             segment.image(resurl)
         ]
-        console.log(msg);
         await Bot.pickGroup(e.group_id).sendMsg(msg).catch(async function (err) {
             console.log("今年零零")
             that.reply(await that.makeGroupMsg(undefined, msg))

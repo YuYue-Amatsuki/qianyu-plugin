@@ -7,16 +7,18 @@
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\puppeteer.js
  * @版权声明
  **/
-import puppeteer from "../../../lib/puppeteer/puppeteer.js";
+import puppeteer from "../lib/puppeteer.js";
 
 export async function returnImg(name, data) {
     let layoutPath = process.cwd() + `/plugins/qianyu-plugin/resources/common/layout/`
+    console.log(data)
     let img = await puppeteer.screenshot(name, {
         tplFile: `./plugins/qianyu-plugin/resources/html/${name}/${name}.html`,
         _res_path: process.cwd() + '/plugins/qianyu-plugin/resources/',
         /** 绝对路径 */
         defaultLayout: layoutPath + 'default.html',
-        ...data
+        ...data,
+        pageGotoParams: { waitUntil: 'load', timeout: 0 }
     });
     return img
 }
