@@ -68,7 +68,7 @@ helplist:
         desc: "随机一张原神壁纸"
         icon: "71"
       - title: "随机cos"
-        desc: "随机一张cos图片"
+        desc: "随机一张cos图片."
         icon: "74"
       - title: "随机acg"
         desc: "随机一张acg图片"
