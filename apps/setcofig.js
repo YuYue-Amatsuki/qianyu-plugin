@@ -149,7 +149,7 @@ const config = {
     b站解析: {
         name: 'isbjx',
         key: undefined,
-        range: 'All'
+        range: 'Group'
     }
 }
 

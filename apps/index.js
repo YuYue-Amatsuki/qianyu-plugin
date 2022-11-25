@@ -12,7 +12,7 @@ import sqtj from './sqtj.js'
 import allon from './allon.js'
 import pivix from './pivix.js'
 //从插件接收方法和设置
-let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, allon] //
+let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, allon, pivix] //
 let as = []
 for (let i in apps) {
     let p = class extends Plugin {

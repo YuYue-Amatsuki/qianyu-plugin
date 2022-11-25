@@ -182,7 +182,7 @@ Bot.on("message", async (e) => {
             e.reply(sendmsg)
         }
     }
-    let isbjx = await redis.get('qianyu:isbjx')
+    let isbjx = await redis.get(`qianyu:isbjx:${e.group_id}`)
     if (isbjx) {
         let msg;
         e.message.forEach(element => {

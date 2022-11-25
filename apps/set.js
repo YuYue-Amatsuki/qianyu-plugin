@@ -52,7 +52,7 @@ async function set(e) {
     let msg = e.msg.replace("#千羽设置", "")
     let value = cfg.find(item => msg.includes(item))
     let bsglist = JSON.parse(await redis.get('qianyu:bstime:grouplist')) || []
-    isbjx = await redis.get('qianyu:isbjx') ? await redis.get('qianyu:isbjx') : false
+    isbjx = await redis.get(`qianyu:isbjx:${e.group_id}`) ? await redis.get(`qianyu:isbjx:${e.group_id}`) : false
     botname = await redis.get('qianyu:ai:botname') || aicfg.ai
     aicfg = JSON.parse(await redis.get('qianyu:ai:config')) || aicfg
     gaicfg = JSON.parse(await redis.get(`qianyu:ai:config:${e.group_id}`)) || gaicfg
@@ -88,7 +88,12 @@ async function set(e) {
                     await controlOpen(m, config[value].name + e.group_id, bscfg, config[value].key)
                 }
             }
-        } else {
+        } else if (value.includes("解析")) {
+            if (e.isGroup && config[value].range == "Group") {
+                await controlOpen(m, config[value].name + ":" + e.group_id, undefined, config[value].key)
+            }
+        }
+        else {
             if (e.isGroup && config[value].range == "Group") {
                 await controlOpen(m, config[value].name + e.group_id, gaicfg, config[value].key)
             } else if (config[value].range == "All") {
