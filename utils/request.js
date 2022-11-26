@@ -1,35 +1,29 @@
-/**
- * @Author: uixmsi
- * @Date: 2022-10-04 23:54:39
- * @LastEditTime: 2022-10-25 19:28:32
- * @LastEditors: uixmsi
- * @Description: 
- * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\request.js
- * @版权声明
- **/
 import fetch from "node-fetch";
 export async function geturldata(url, data, suc, parms) {
-    if (parms != undefined) {
+    if (parms) {
         url += parms
     }
-    console.log(url)
-    if (data == 0) {
-        try {
+    console.log(url);
+    try {
+        if (data === 0) {
             let response = await fetch(url);
             let data = await response.text();
-            suc(data)
-        } catch (error) {
-            console.log('Request Failed', error);
-        }
-    } else {
-        let respon = await fetch(url)
-        let json = await respon.json()
-        let dc = json
-        if (data != undefined) {
-            for (let i in data) {
-                dc = dc[data[i]]
+            suc({ data: data, responseStatus: response.status })
+        } else if (data === 1) {
+            let response = await fetch(url);
+            suc({ responseStatus: response.status })
+        } else {
+            let respon = await fetch(url)
+            let json = await respon.json()
+            let dc = json
+            if (data) {
+                for (let i in data) {
+                    dc = dc[data[i]]
+                }
             }
+            suc({ data: dc, responseStatus: respon.status })
         }
-        suc(dc)
+    } catch (error) {
+        return { iserror: true }
     }
 }

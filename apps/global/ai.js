@@ -1,5 +1,5 @@
-import { geturldata, filemage } from '../utils/index.js'
-import Cfg from '../../../lib/config/config.js'
+import { geturldata, filemage } from '../../utils/index.js'
+import Cfg from '../../../../lib/config/config.js'
 import lodash from 'lodash'
 import { segment } from 'oicq'
 let file = new filemage()
@@ -76,7 +76,7 @@ async function getai(e, ai, gconfig, that) {
 
 
 async function choieai(msg, ai, that) {
-    let aidata = await file.getyaml("resources/data/api/ai")
+    let aidata = await file.getyamlJson("resources/data/api/ai")
     let botname = await redis.get(`qianyu:ai:botname`)
     let ailist = aidata.ailist
     let aida = ailist.find(list => list.name == ai)

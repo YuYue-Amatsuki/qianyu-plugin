@@ -1,13 +1,13 @@
 import { segment } from 'oicq'
-import { filemage, ds } from '../utils/index.js'
+import { filemage, ds } from '../../utils/index.js'
 import moment from 'moment'
 import lodash from 'lodash'
 let file = new filemage()
-let Cfg = await file.getyaml("config/baoshi")
+let Cfg = await file.getyamlJson("config/baoshi")
 let apps = {
-    id: 'recordApi',
-    name: '语音',
-    desc: '语音',
+    id: 'bs',
+    name: '千羽报时',
+    desc: '报时',
     event: 'message',
     rule: []
 }

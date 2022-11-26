@@ -1,8 +1,7 @@
-import { Api } from '../lib/api.js'
+import { Api } from '../../lib/api.js'
 import { segment } from 'oicq'
 let api = new Api()
 let textlist = await api.getApiList('image')
-
 let apps = {
     id: 'imageApi',
     name: '千羽图片',

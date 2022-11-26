@@ -14,7 +14,7 @@ textapi:
   - url: https://xian.txma.cn/API/yulu.php?type=
     data: 0
     desc: (动漫|恋爱|鼓励|孤独|搞笑|友情|歌词|经典)语录
-  - url: https://xian.txma.cn/API/wyrp.php?id=
+  - url: https://xian.txma.cn/API/wyrp.php?id=1887917182
     data: 0
     desc: 网易云热评
   - url: https://api.caonm.net/api/yulu/rensheng.php?

@@ -1,18 +1,20 @@
 import { Plugin } from '../lib/Plugin.js'
 import help from './help.js'
-import imageApi from './imageApi.js'
-import textApi from './textApi.js'
-import set from './set.js'
-import ai from './ai.js'
+import imageApi from './api/imageApi.js'
+import textApi from './api/textApi.js'
+import Api from './api/api.js'
+import set from './cofig/qianyu/set.js'
+import ai from './global/ai.js'
 import update from './update.js'
-import bs from './bs.js'
-import manage from './manage.js'
-import setu from './setu.js'
-import sqtj from './sqtj.js'
-import allon from './allon.js'
-import pivix from './pivix.js'
+import bs from './timer/bs.js'
+import manage from './global/manage.js'
+import setu from './se/setu.js'
+import sqtj from './component/sqtj.js'
+import allon from './game/allon.js'
+import pivix from './se/pivix.js'
+import prefix from './cofig/yunzai/prefix.js'
 //从插件接收方法和设置
-let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, allon, pivix] //
+let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, allon, pivix, prefix, Api] //
 let as = []
 for (let i in apps) {
     let p = class extends Plugin {

@@ -1,4 +1,4 @@
-import { Api } from '../lib/api.js'
+import { Api } from '../../lib/api.js'
 import { segment } from 'oicq'
 
 let api = new Api()
@@ -46,9 +46,6 @@ async function apitext(e) {
     let parm;
     let msg = e.msg
     let yllist = ["动漫", "恋爱", "鼓励", "孤独", "搞笑", "友情", "歌词", "经典"]
-    if (msg == '网易云热评') {
-        parm = 1887917182
-    }
     if (msg.includes('语录') && yllist.includes(msg.replace("语录", ""))) {
         parm = encodeURI(msg.replace("语录", ""))
     }

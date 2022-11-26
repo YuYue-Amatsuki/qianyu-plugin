@@ -1,12 +1,3 @@
-/**
- * @Author: uixmsi
- * @Date: 2022-09-29 00:41:07
- * @LastEditTime: 2022-09-29 00:46:47
- * @LastEditors: uixmsi
- * @Description: 
- * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\schedule.js
- * @版权声明
- **/
 import schedule from "node-schedule";
 
 /******* 

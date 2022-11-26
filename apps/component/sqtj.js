@@ -1,5 +1,5 @@
 import moment from "moment";
-import { returnImg, ds } from '../utils/index.js'
+import { returnImg, ds } from '../../utils/index.js'
 import lodash from "lodash"
 let apps = {
     id: 'sqtj',

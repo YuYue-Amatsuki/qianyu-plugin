@@ -1,9 +1,9 @@
 import fetch from 'node-fetch'
-import { Api } from '../lib/api.js'
-import { dowmvideo, dowmimg, ds, cacelds } from '../utils/index.js'
+import { Api } from '../../lib/api.js'
+import { dowmvideo, dowmimg, ds, cacelds } from '../../utils/index.js'
 import { segment } from 'oicq'
 import moment from 'moment'
-import cfg from '../../../lib/config/config.js'
+import cfg from '../../../../lib/config/config.js'
 let api = new Api()
 
 let apps = {
@@ -141,6 +141,8 @@ async function wztask(e) {
     })
 }
 
+let videobv;
+
 Bot.on("message", async (e) => {
     let iswz = await redis.get('qianyu:wz:iswz')
     if (iswz) {
@@ -203,12 +205,17 @@ Bot.on("message", async (e) => {
             }
             let reg3 = new RegExp(/(BV.*?).{10}/)
             bv = url[0].match(reg3)[0]
+            if (bv == videobv) {
+                return
+            }
             let videourl = 'https://www.bilibili.com/video/' + bv
             await api.getapi(`http://tfkapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
+                videobv = bv
                 let response = await fetch(res.video_url);
                 let buff = await response.arrayBuffer();
                 await dowmvideo('b站', "video.mp4", buff, () => {
                     e.reply(segment.video(`file:///${process.cwd()}/plugins/qianyu-plugin/resources/video/b站/video.mp4`))
+                    videobv = ''
                 })
             })
         }

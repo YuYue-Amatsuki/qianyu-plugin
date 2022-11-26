@@ -1,6 +1,6 @@
-import { dataFormat } from '../utils/index.js'
+import { dataFormat } from '../../utils/index.js'
 import { segment } from 'oicq'
-import { Api } from '../lib/api.js'
+import { Api } from '../../lib/api.js'
 let api = new Api()
 let apps = {
     id: 'setu',

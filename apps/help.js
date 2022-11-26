@@ -24,21 +24,20 @@ async function help(e) {
     if (!isopenhelp && e.msg == '帮助') return false
     let helplist = JSON.parse(await redis.get('qianyu:helplist')) || []
     let helpImgPath = '../resources/html/help/help.jpg'
-    let data = await file.getyaml("config/help")
-    let img;
+    let data = await file.getyamlJson("config/help")
     if (!e.isMaster) {
         data.helplist.splice(data.helplist.length - 1, 1)
     }
     if (!lodash.isEqual(data.helplist, helplist)) {
         await redis.set("qianyu:helplist", JSON.stringify(data.helplist))
         data.path = './plugins/qianyu-plugin/resources/html/help/help.jpg'
-        img = await returnImg('help', data)
+        this.reply(await returnImg('help', data))
     } else {
         if (file.is_exists(helpImgPath)) {
             return this.reply(segment.image("./plugins/qianyu-plugin/resources/html/help/help.jpg"))
         }
     }
-    this.reply(img)
+
     return true
 }
 

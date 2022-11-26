@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import { segment } from 'oicq'
-import { returnImg } from '../utils/index.js'
+import { returnImg } from '../../utils/index.js'
 let apps = {
     id: 'pivix',
     name: 'pivix',

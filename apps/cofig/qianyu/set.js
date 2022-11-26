@@ -1,4 +1,4 @@
-import { returnImg } from '../utils/index.js'
+import { returnImg } from '../../../utils/index.js'
 import { config, configlist, gcofiglist, bscofig, cofigall } from './setcofig.js'
 let apps = {
     id: 'set',
@@ -45,9 +45,7 @@ async function set(e) {
     if (!e.isMaster) {
         return this.reply("无权限！")
     }
-
-    let img;
-    let m;
+    let img, m;
     let cfg = Object.keys(config)
     let msg = e.msg.replace("#千羽设置", "")
     let value = cfg.find(item => msg.includes(item))

@@ -76,11 +76,13 @@ export class filemage {
     async getfilelist(path) {
         return fs.readdirSync(this.path + path)
     }
-    async getyaml(name) {
-        let data = YAML.parse(fs.readFileSync(`${this.path}${name}.yaml`, "utf-8"))
-        return data
+    async getyamlJson(name) {
+        return YAML.parse(fs.readFileSync(`${this.path}${name}.yaml`, "utf-8"))
+    }
+    async getyamlDocuments(name) {
+        return YAML.parseDocument(fs.readFileSync(`${this.path}${name}.yaml`, "utf-8"))
     }
     async writeyaml(name, data) {
-        fs.writeFileSync(`${this.path}${name}.yaml`, YAML.stringify(data))
+        fs.writeFileSync(`${this.path}${name}.yaml`, data, 'utf-8')
     }
 }  
