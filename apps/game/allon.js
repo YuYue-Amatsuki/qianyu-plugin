@@ -210,8 +210,8 @@ Bot.on("message", async (e) => {
                 return
             }
             let videourl = 'https://www.bilibili.com/video/' + bv
+            videobv = bv
             await api.getapi(`http://tfkapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
-                videobv = bv
                 console.log(videobv);
                 let response = await fetch(res.video_url);
                 let buff = await response.arrayBuffer();
