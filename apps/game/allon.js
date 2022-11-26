@@ -205,12 +205,14 @@ Bot.on("message", async (e) => {
             }
             let reg3 = new RegExp(/(BV.*?).{10}/)
             bv = url[0].match(reg3)[0]
+            console.log(bv);
             if (bv == videobv) {
                 return
             }
             let videourl = 'https://www.bilibili.com/video/' + bv
             await api.getapi(`http://tfkapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
                 videobv = bv
+                console.log(videobv);
                 let response = await fetch(res.video_url);
                 let buff = await response.arrayBuffer();
                 await dowmvideo('b站', "video.mp4", buff, () => {
