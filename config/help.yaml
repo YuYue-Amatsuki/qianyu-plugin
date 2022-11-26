@@ -114,6 +114,12 @@ helplist:
       - title: 共享宠物|开公交车
         desc: 正常接受指令
         icon: "118"
+      - title: "#设置前缀+名称"
+        desc: 设置机器人群前缀名称
+        icon: "100"
+      - title: "#群前缀开启/关闭"
+        desc: 是否开启群前缀
+        icon: "100"
       # - title: 涩图设置
       #   desc: 返回当前群的随机涩图设置
       #   icon: "29"

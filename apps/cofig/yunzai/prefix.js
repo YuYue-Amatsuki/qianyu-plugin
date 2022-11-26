@@ -47,7 +47,7 @@ async function setPrefix(e) {
         return this.reply("权限不足！")
     }
     let name = e.msg.replace("#设置前缀", "")
-    let group = await file.getyaml('group')
+    let group = await file.getyamlDocuments('group')
     group.setIn([Number(e.group_id), "botAlias"], [name])
     await file.writeyaml('group', group.toString())
     this.reply(`群前缀已设置为${name}!`)
