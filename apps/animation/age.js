@@ -35,7 +35,7 @@ async function dayanimat(e) {
     }
 
     await geturldata({
-        url: 'https://www.whpioneer.xyz/api/ageedtj/' + page, data: ['data'], headers: { source: qySource }
+        url: 'http://www.whpioneer.xyz/api/ageedtj/' + page, data: ['data'], headers: { source: qySource }
     }, async (res) => {
         datalist[page - 1] = []
         for (let r of res.data) {
