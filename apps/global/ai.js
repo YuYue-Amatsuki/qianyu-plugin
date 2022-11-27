@@ -84,13 +84,13 @@ async function choieai(msg, ai, that) {
     if (!msg) {
         return that.reply(segment.image(`${process.cwd()}/plugins/qianyu-plugin/resources/img/noresult/${lodash.random(0, 5)}.jpg`))
     }
-    await geturldata(`${aida.url}${encodeURI(msg)}`, aida.data, (res) => {
+    await geturldata({ url: `${aida.url}${encodeURI(msg)}`, data: aida.data }, (res) => {
         let respose;
         if (ai == '菲菲') {
-            let msglist = res.split("━━━━━━━━━")
+            let msglist = res.data.split("━━━━━━━━━")
             respose = msglist[1].replace(/\n/g, "")
         } else {
-            respose = res
+            respose = res.data
         }
         that.reply(`${respose.replace(/小思|菲菲|小爱/g, botname ? botname : ai)}`)
     })

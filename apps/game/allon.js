@@ -229,5 +229,6 @@ await redis.del('qianyu:wz:iswz')
 await redis.del('qianyu:wz:atuserinfo')
 await redis.del('qianyu:wz:InitiatorInfo')
 await redis.del('qianyu:wz:myinfo')
+global.qySource = 'qianyu-plugin'
 
 export default apps

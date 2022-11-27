@@ -33,7 +33,7 @@ async function testtext(e) {
     let sucnum = 0, defnaum = 0, timeoutnum = 0;
     this.reply("正在测试中,请稍后...")
     for (let i of textapi) {
-        let data = await geturldata(i.url, i.data, async res => {
+        let data = await geturldata({ url: i.url, data: i.data }, async res => {
             if (res.responseStatus == 200) {
                 sucnum++
             } else if (res.responseStatus == 400) {
@@ -58,7 +58,7 @@ async function testimage(e) {
     let sucnum = 0, defnaum = 0, timeoutnum = 0;
     this.reply("正在测试中,请稍后...")
     for (let i of imagelist) {
-        let data = await geturldata(i.url, i.data, async res => {
+        let data = await geturldata({ url: i.url, data: i.data }, async res => {
             if (res.responseStatus == 200) {
                 sucnum++
             } else if (res.responseStatus == 400) {

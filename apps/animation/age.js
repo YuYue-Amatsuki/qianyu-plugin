@@ -1,7 +1,5 @@
-import jsdom from 'jsdom'
 import { segment } from 'oicq'
-import { geturldata } from '../../utils/index.js'
-let JSDOM = jsdom.JSDOM
+import { geturldata, ds } from '../../utils/index.js'
 let apps = {
     id: 'age',
     name: 'age',
@@ -24,6 +22,9 @@ async function dayanimat(e) {
     if (page > 5) {
         return this.reply("没有了，呜呜呜呜~~~~~")
     }
+    if (page < 1) {
+        return this.reply("乱搞！不理你了！")
+    }
     if (datalist.length > 0) {
         if (datalist[page - 1]) {
             for (let d of datalist[page - 1]) {
@@ -33,24 +34,21 @@ async function dayanimat(e) {
         }
     }
 
-    await geturldata('https://www.agemys.net/recommend?page=' + page, 0, (res) => {
-        let document = new JSDOM(res.data).window.document
-        let alist = document.querySelectorAll(".anime_icon2")
+    await geturldata({
+        url: 'http://127.0.0.1/api/ageedtj/' + page, data: ['data'], headers: { source: qySource }
+    }, async (res) => {
         datalist[page - 1] = []
-        for (let i = 0; i < alist.length; i++) {
-            let name = alist[i].querySelector(".anime_icon2_name>a").innerHTML
-            let img = alist[i].querySelector('img').src
-            datalist[page - 1].push({ name: name, img: img })
+        for (let r of res.data) {
+            datalist[page - 1].push({ name: r.name, img: r.img })
+            msglist.push([r.name, segment.image(r.img)])
         }
+        this.reply(await this.makeGroupMsg('今日推荐动漫', msglist, `第${page}页`))
     })
-    for (let d of datalist[page - 1]) {
-        msglist.push([d.name, segment.image(d.img)])
-    }
-    this.reply(await this.makeGroupMsg('今日推荐动漫', msglist, `第${page}页`))
+
+
 }
-
-
-
-
+await ds("bs", `0 0 0 * * *`, async () => {
+    datalist = []
+})
 
 export default apps

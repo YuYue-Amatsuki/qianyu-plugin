@@ -19,7 +19,7 @@ apps.rule.push({
 
 function getreg() {
     let reg = ''
-    textlist.imagelist.forEach((item, index) => {
+    textlist.forEach((item, index) => {
         reg += `${index == 0 ? '' : '|'}^${item.name}$`
     });
     return reg
@@ -40,7 +40,7 @@ async function apiimg(e) {
     if (cate.test(msg)) {
         parm = e.msg.replace("美图", "") == null ? undefined : encodeURI(e.msg.replace("美图", "") + "&format=json")
     }
-    let { name: str } = textlist.imagelist.find(item => {
+    let { name: str } = textlist.find(item => {
         let reg = new RegExp(item.name)
         if (reg.test(msg)) {
             return true

@@ -36,7 +36,7 @@ apps.rule.push({
 
 function getreg() {
     let reg = ''
-    textlist.textapi.forEach((item, index) => {
+    textlist.forEach((item, index) => {
         reg += `${index == 0 ? '' : '|'}^${item.desc}$`
     });
     return reg
@@ -52,7 +52,7 @@ async function apitext(e) {
     if (msg.includes("天气")) {
         parm = encodeURI(msg.replace("天气", "")) + "&n=1"
     }
-    let { desc: str } = textlist.textapi.find(item => {
+    let { desc: str } = textlist.find(item => {
         let reg = new RegExp(item.desc)
         if (reg.test(msg)) {
             return true
@@ -100,8 +100,7 @@ async function yf(e) {
         name1 = namelist[0]
         name2 = namelist[1]
     }
-    await api.getapi(`https://xiaobai.klizi.cn/API/other/yf.php?name1=${encodeURI(name1)}&name2=${encodeURI(name2)}`, 0, (res) => {
-        console.log(res.length)
+    await api.getapi({ url: `https://xiaobai.klizi.cn/API/other/yf.php?name1=${encodeURI(name1)}&name2=${encodeURI(name2)}`, data: 0 }, (res) => {
         if (res.length == 2) {
             return this.reply("只支持中文名称哦,名字里有特殊字符的不行啦~")
         }
@@ -127,8 +126,7 @@ async function qz(e) {
     } else {
         qq = msg
     }
-    await api.getapi(`http://tfkapi.top/API/qqqz.php?type=json&qq=${qq}`, undefined, (res) => {
-        console.log(res)
+    await api.getapi({ url: `http://tfkapi.top/API/qqqz.php?type=json&qq=${qq}` }, (res) => {
         if (res.code == 201) {
             return this.reply("查询失败！")
         } else {

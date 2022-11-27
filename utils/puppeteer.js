@@ -11,7 +11,6 @@ import puppeteer from "../lib/puppeteer.js";
 
 export async function returnImg(name, data) {
     let layoutPath = process.cwd() + `/plugins/qianyu-plugin/resources/common/layout/`
-    console.log(data)
     let img = await puppeteer.screenshot(name, {
         tplFile: `./plugins/qianyu-plugin/resources/html/${name}/${name}.html`,
         _res_path: process.cwd() + '/plugins/qianyu-plugin/resources/',
