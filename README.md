@@ -13,13 +13,6 @@ git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugin
 
 ```
 
-#### 依赖
-
-```js
-pnpm add jsdom -w
-
-```
-
 ####功能
 ![输入图片说明](resources/html/help/help.jpg)
 
