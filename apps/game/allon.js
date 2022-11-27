@@ -211,8 +211,8 @@ Bot.on("message", async (e) => {
             }
             let videourl = 'https://www.bilibili.com/video/' + bv
             videobv = bv
-            await api.getapi(`http://tfkapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
-                console.log(videobv);
+            await api.getapi(`http://fuyhi.top/api/bilibili_jx/api.php?url=${videourl}`, ['data', '0'], async (res) => {
+                console.log(res);
                 let response = await fetch(res.video_url);
                 let buff = await response.arrayBuffer();
                 await dowmvideo('b站', "video.mp4", buff, () => {

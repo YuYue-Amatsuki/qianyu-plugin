@@ -12,6 +12,9 @@ export async function geturldata(url, data, suc, parms) {
         } else if (data === 1) {
             let response = await fetch(url);
             suc({ responseStatus: response.status })
+        } else if (data === 3) {
+            let response = await fetch(url);
+
         } else {
             let respon = await fetch(url)
             let json = await respon.json()

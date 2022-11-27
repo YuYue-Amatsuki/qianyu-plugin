@@ -13,6 +13,7 @@ import sqtj from './component/sqtj.js'
 import allon from './game/allon.js'
 import pivix from './se/pivix.js'
 import prefix from './cofig/yunzai/prefix.js'
+import age from './animation/age.js'
 //从插件接收方法和设置
 let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, allon, pivix, prefix, Api] //
 let as = []
