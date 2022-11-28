@@ -192,7 +192,7 @@ Bot.on("message", async (e) => {
                 msg = element.text
             } else if (element.type == 'json') {
                 let data = JSON.parse(element.data)
-                msg = data.meta.qqdocurl
+                msg = data.meta.detail_1.qqdocurl
             }
 
         });
