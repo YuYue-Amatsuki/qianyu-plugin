@@ -14,6 +14,7 @@
     height: 70px;
     background-color: rgba(118, 201, 215, 0.5);
     border-radius: 10px;
+    margin: 10px;
 }
 
 h1 {
@@ -34,12 +35,57 @@ h3 {
     border-radius: 999px;
     line-height: 40px;
     color: rgb(77, 21, 21);
+    z-index: 10;
+    position: relative;
 }
 
 li {
     list-style: none;
 }
 
-.apicontent ul {
+.apicotent {
+    margin-top: -5px;
     display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-gap: 20px;
+    grid-auto-rows: 40px;
+    background-color: rgb(245, 185, 185);
+    border-radius: 10px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.apibox {
+    background-color: rgb(154, 16, 57);
+    border-radius: 10px;
+    display: flex;
+    color: rgb(255, 255, 255);
+}
+
+.left {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.apibox>.left span {
+    display: block;
+    background-color: rgb(255, 0, 0);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.right span {
+    font-size: 12px;
 }

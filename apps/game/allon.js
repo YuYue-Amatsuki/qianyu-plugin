@@ -144,6 +144,7 @@ async function wztask(e) {
 let videobv;
 
 Bot.on("message", async (e) => {
+    console.log(e);
     let iswz = await redis.get('qianyu:wz:iswz')
     if (iswz) {
         if (e.user_id == cfg.qq) return
@@ -190,7 +191,11 @@ Bot.on("message", async (e) => {
         e.message.forEach(element => {
             if (element.type == 'text') {
                 msg = element.text
+            } else if (element.type == 'json') {
+                let data = JSON.parse(element.data)
+                msg = data.meta.qqdocurl
             }
+
         });
         let urllist = ['b23.tv', 'm.bilibili.com', 'www.bilibili.com']
         let reg = new RegExp(`${urllist[0]}|${urllist[1]}|${urllist[2]}`)
