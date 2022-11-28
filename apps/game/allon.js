@@ -144,7 +144,6 @@ async function wztask(e) {
 let videobv;
 
 Bot.on("message", async (e) => {
-    console.log(e);
     let iswz = await redis.get('qianyu:wz:iswz')
     if (iswz) {
         if (e.user_id == cfg.qq) return
@@ -217,6 +216,7 @@ Bot.on("message", async (e) => {
             let videourl = 'https://www.bilibili.com/video/' + bv
             videobv = bv
             await api.getapi(`http://fuyhi.top/api/bilibili_jx/api.php?url=${videourl}`, ['data', '0'], async (res) => {
+                console.log("视频解析中》》》》");
                 let response = await fetch(res.video_url);
                 let buff = await response.arrayBuffer();
                 await dowmvideo('b站', "video.mp4", buff, () => {
