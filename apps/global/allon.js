@@ -1,7 +1,6 @@
 
 import { wz } from '../game/wz.js'
 import { jx } from './shorttv.js'
-let videobv;
 
 let apps = {
     id: 'allon',

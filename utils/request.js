@@ -20,7 +20,6 @@ export async function geturldata(data, suc) {
                     dc = dc[data.data[i]]
                 }
             }
-            console.log(dc);
             suc({ data: dc, responseStatus: response.status })
         }
     } catch (error) {
