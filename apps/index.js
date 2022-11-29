@@ -10,12 +10,13 @@ import bs from './timer/bs.js'
 import manage from './global/manage.js'
 import setu from './se/setu.js'
 import sqtj from './component/sqtj.js'
-import allon from './game/allon.js'
+import wz from './game/wz.js'
 import pivix from './se/pivix.js'
 import prefix from './cofig/yunzai/prefix.js'
 import age from './animation/age.js'
+import allon from './global/allon.js'
 //从插件接收方法和设置
-let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, allon, pivix, prefix, Api, age] //
+let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, wz, pivix, prefix, Api, age, allon] //
 let as = []
 for (let i in apps) {
     let p = class extends Plugin {

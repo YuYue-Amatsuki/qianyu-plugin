@@ -72,13 +72,18 @@ let bscofig = {
     ]
 }
 
-let cofigall = {
-    title: '全局设置',
+let jxcofig = {
+    title: '解析相关',
     configlist: [
         {
             name: 'b站解析',
             reg: '#千羽设置b站解析开启/关闭',
             desc: '获取消息中的b站链接发送视频'
+        },
+        {
+            name: '短视频解析',
+            reg: '#千羽设置短视频解析开启/关闭',
+            desc: '获取消息中的短视频链接发送视频（支持b站、抖音、快手、皮皮虾）'
         }
 
     ]
@@ -150,7 +155,12 @@ const config = {
         name: 'isbjx',
         key: undefined,
         range: 'Group'
+    },
+    短视频解析: {
+        name: 'isstvjx',
+        key: undefined,
+        range: 'Group'
     }
 }
 
-export { config, configlist, gcofiglist, bscofig, cofigall }
+export { config, configlist, gcofiglist, bscofig, jxcofig }
