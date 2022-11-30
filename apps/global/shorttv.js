@@ -16,7 +16,6 @@ export async function jx(e) {
         }
 
     });
-    console.log(msg);
     let shorttv = ['b23.tv', 'v.douyin.com', 'v.kuaishou.com', 'h5.pipix.com']
     let urllist = ['m.bilibili.com', 'www.bilibili.com']
     let reg1 = new RegExp(`${shorttv[0]}|${shorttv[1]}|${shorttv[2]}|${shorttv[3]}`)
@@ -38,8 +37,11 @@ async function shorttvjx(e, msg) {
     const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     let url = msg.match(reg2)[0].split("?")[0]
     let bv;
-    let reg3 = new RegExp(/(BV.*?).{10}/)
-    bv = url.match(reg3)[0]
+    if (url.includes('https://b23.tv/')) {
+        await api.getapi(`https://xiaobai.klizi.cn/API/other/url_restore.php?url=${url}`, ['redirect_url', '0'], async (res) => {
+            bv = res
+        })
+    }
     if (bv == videobv) {
         return
     }
@@ -58,6 +60,7 @@ async function bjx(e, msg) {
     //b站解析
     const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     let url = msg.match(reg2)
+    console.log(url);
     let bv;
     let reg3 = new RegExp(/(BV.*?).{10}/)
     bv = url[0].match(reg3)[0]
