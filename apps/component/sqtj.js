@@ -105,9 +105,6 @@ async function sqts(e) {
     })
     this.reply(img)
     ing[e.group_id] = 0;
-
-
-
     return true; //返回true 阻挡消息不再往下
 }
 await ds("bs", `0 0 0 * * *`, async () => {
