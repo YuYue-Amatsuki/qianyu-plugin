@@ -1,7 +1,7 @@
 import { dowmimg, ds, cacelds } from '../../utils/index.js'
 import moment from 'moment'
 import cfg from '../../../../lib/config/config.js'
-
+import { segment } from 'oicq'
 let apps = {
     id: 'wz',
     name: '伪装目标',
