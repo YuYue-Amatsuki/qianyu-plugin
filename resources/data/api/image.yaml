@@ -64,3 +64,8 @@ imagelist:
     desc: 国庆色图盲盒，概率出ssr
     data: ["imgurl"]
     islist: true
+  - name: 云吸猫
+    url: https://api.r10086.com/img-api.php?type=%E7%8C%AB%E5%A8%981
+    desc: 吸猫
+    data: 1
+    islist: false

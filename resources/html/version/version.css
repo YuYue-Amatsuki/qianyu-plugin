@@ -16,6 +16,7 @@ h1 {
 
 .version-div {
     border: 2px dotted whitesmoke;
+    margin: 10px;
     padding: 5px;
     border-radius: 10px;
     color: white;

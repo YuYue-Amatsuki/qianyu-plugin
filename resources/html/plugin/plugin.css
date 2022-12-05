@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    width: 1000px;
+    background-image: url(../../img/可莉/可莉10.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1000px;
+}
