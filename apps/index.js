@@ -18,8 +18,9 @@ import allon from './global/allon.js'
 import chuo from './global/chuo.js'
 import chehui from './component/chehui.js'
 import version from './component/version.js'
+import plugins from './component/plugins.js'
 //从插件接收方法和设置
-let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, wz, pivix, prefix, Api, age, allon, chehui, version, chuo] //
+let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, wz, pivix, prefix, Api, age, allon, chehui, version, chuo, plugins] //
 let as = []
 for (let i in apps) {
     let p = class extends Plugin {

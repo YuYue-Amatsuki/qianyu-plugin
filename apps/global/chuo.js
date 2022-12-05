@@ -20,7 +20,6 @@ apps.rule.push({
 
 
 async function cho(e) {
-    console.log("触发戳一戳了");
     let isshutdown = await redis.get('qianyu:manage:isshutdown')
     let isMasterPet = await redis.get('qianyu:manage:isMasterPet')
     if (isshutdown == null) {
