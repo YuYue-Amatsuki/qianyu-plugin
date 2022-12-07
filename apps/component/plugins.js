@@ -16,7 +16,8 @@ apps.rule.push({
 
 async function pluginlist(e) {
     let plugins = new PluginsLoader();
-    await plugins.load()
+    plugins.getJsList()
+    plugins.getPackList()
     this.reply(await this.makeGroupMsg('plugins数量', [...plugins.plugins.pluginPackList], `总共有${plugins.plugins.pluginPackList.length}个插件。`))
     this.reply(await this.makeGroupMsg('js数量', [...plugins.plugins.plugins], `总共有${plugins.plugins.plugins.length}个js。`))
 }

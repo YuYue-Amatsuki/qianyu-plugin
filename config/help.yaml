@@ -117,6 +117,17 @@ helplist:
       - title: 每日动漫推荐1
         desc: 返回推荐动漫列表，默认第一页，最多5页.
         icon: "141"
+      - title: 插件列表
+        desc: 查看机器人安装的插件和js
+        icon: "141"
+  - title: 其他功能
+    list:
+      - title: 引用撤回
+        desc: 在机器人发送的消息回复撤回，机器人会撤回该消息
+        icon: "141"
+      - title: "#千羽版本"
+        desc: 查看当前千羽版本
+        icon: "95"
   - title: 管理员功能
     list:
       - title: "#千羽设置"
