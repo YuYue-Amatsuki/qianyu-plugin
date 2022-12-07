@@ -117,7 +117,7 @@ helplist:
       - title: 每日动漫推荐1
         desc: 返回推荐动漫列表，默认第一页，最多5页.
         icon: "141"
-      - title: 插件列表
+      - title: 查看所有插件
         desc: 查看机器人安装的插件和js
         icon: "141"
   - title: 其他功能

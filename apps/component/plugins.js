@@ -9,7 +9,7 @@ let apps = {
 }
 
 apps.rule.push({
-    reg: '^插件列表$',
+    reg: '^查看所有插件$',
     fnc: 'pluginlist',
     fuc: pluginlist
 })
