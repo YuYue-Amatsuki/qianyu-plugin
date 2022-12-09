@@ -1,3 +1,4 @@
+import { wz } from './wz.js'
 let apps = {
     id: 'manage',
     name: '千羽管理',
@@ -31,15 +32,25 @@ apps.rule.push({
 
 
 apps.rule.push({
+    reg: '#尾缀设置',
+    desc: '尾缀',
+    fnc: 'wzcofig',
+    fuc: wzcofig
+})
+
+
+apps.rule.push({
     reg: '',
     desc: '管理',
     fnc: 'control',
     fuc: control
 })
 
-
+let msg = JSON.parse(await redis.get('qianyu:wzmsg')) || ""
+wz(msg)
 
 async function control(e) {
+
     let isshutdown = await redis.get('qianyu:manage:isshutdown')
     let isMasterPet = await redis.get('qianyu:manage:isMasterPet')
     if (isshutdown == null) {
@@ -78,6 +89,17 @@ async function shutdown(e) {
         await redis.del('qianyu:manage:isshutdown')
         return this.reply("开机工作！")
     }
+}
+
+async function wzcofig(e) {
+    if (!e.isMaster) {
+        return this.reply("暂无权限！")
+    }
+    let msg = JSON.parse(await redis.get('qianyu:wzmsg')) || ""
+    let wzmsg = e.msg.replace('#尾缀设置', "").replace(new RegExp(msg, 'g'), "")
+    await redis.set('qianyu:wzmsg', JSON.stringify(wzmsg))
+    this.reply(`尾缀已设置为${wzmsg}`)
+    wz(wzmsg)
 }
 
 await redis.del('qianyu:manage:isshutdown')
