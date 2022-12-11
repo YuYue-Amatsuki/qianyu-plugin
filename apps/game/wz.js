@@ -24,7 +24,11 @@ apps.rule.push({
     fuc: stopwz
 })
 
-let CD = {}
+let cishu = {
+    sum: 0,
+    userlist: [],
+    iscd: false
+}
 
 async function weiz(e) {
     let iswz = await redis.get('qianyu:wz:iswz')
@@ -41,20 +45,21 @@ async function weiz(e) {
     if (e.at == e.self_id) {
         return this.reply("不能模仿我自己哦！")
     }
+    if (cishu.sum >= 5) {
+        this.reply("伪装次数过多可能导致伦家封号，要多注意哦！")
+    }
     if (!cfg.masterQQ.includes(e.user_id)) {
-        if (CD[e.user_id]) {
-            if (CD[e.user_id].cd) {
-                return this.reply("伪装还在cd中！")
-            }
-            if (CD[e.user_id].times > 10) {
-                return this.reply("今日伪装次数不足，每人每天限定10次！")
-            } else {
-                CD[e.user_id].times += 1
-            }
+        if (cishu.sum >= 10) {
+            return this.reply("今日伪装次数不足，每天限定伪装10次！主人不计入次数，但也不能乱玩哦！")
+        }
+        if (cishu.userlist.includes(e.user_id)) {
+            return this.reply("你今天已经玩过伪装了，明天再来吧！")
+        }
+        else if (cishu.iscd) {
+            return this.reply("伪装还在cd中！")
         } else {
-            CD[e.user_id] = {
-                times: 1
-            }
+            cishu.userlist.push(e.user_id)
+            cishu.sum++
         }
     }
     let atuserinfo = await Bot.pickMember(e.group_id, e.at).getSimpleInfo()
@@ -104,17 +109,21 @@ async function stopwz(e) {
     await redis.del('qianyu:wz:InitiatorInfo')
     await cacelds('wz');
     if (!cfg.masterQQ.includes(e.user_id)) {
-        CD[e.user_id].cd = true
+        cishu.iscd = true
         await ds('wzcd', moment().add(10, 'm').format(), async () => {
-            CD[e.user_id].cd = false
+            cishu.iscd = false
         })
     }
-    this.reply("伪装任务已结束！发起人进入10分钟冷却！（主人除外！）")
+    this.reply("伪装任务已结束！伪装进入10分钟冷却cd！（主人除外！）")
 }
 
 //12点重置
 await ds('wz', `0 0 0 * * *`, async () => {
-    CD = {}
+    cishu = {
+        sum: 0,
+        userlist: [],
+        iscd: false
+    }
 })
 
 async function wztask(e) {
@@ -125,12 +134,12 @@ async function wztask(e) {
         Bot.pickGroup(e.group_id).setCard(e.self_id, myuserinfo.nickname)
         redis.del('qianyu:wz:iswz')
         redis.del('qianyu:wz:InitiatorInfo')
-        e.reply("伪装任务已结束！发起人进入10分钟冷却！（主人除外！）")
+        e.reply("伪装任务已结束！伪装进入10分钟冷却cd！（主人除外！）")
         //进入cd
         if (!cfg.masterQQ.includes(e.user_id)) {
-            CD[e.user_id].cd = true
+            cishu.iscd = true
             await ds('wzcd', moment().add(10, 'm').format(), async () => {
-                CD[e.user_id].cd = false
+                cishu.iscd = false
             })
         }
 
