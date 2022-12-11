@@ -1,6 +1,7 @@
 //尾缀
 import loader from '../../../../lib/plugins/loader.js'
 import lodash from 'lodash'
+import { segment } from 'oicq'
 export function wz(wzmsg) {
     loader.reply = function (e) {
         if (e.reply) {
