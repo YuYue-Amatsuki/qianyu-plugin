@@ -59,7 +59,7 @@ async function apiimg(e) {
                 })
                 return this.reply(await this.makeGroupMsg(e.msg, mes))
             }
-            this.reply(res)
+            this.reply(segment.image(res))
         }
     }, parm)
 }
