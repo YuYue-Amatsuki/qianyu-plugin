@@ -42,9 +42,9 @@ export function wz(wzmsg) {
 
 
                 }
-                let wmsg = JSON.parse(await redis.get('qianyu:wzmsg')) || ""
+
                 if (Array.isArray(msg)) {
-                    msg.push(wzmsg)
+                    if (!msg.includes(wzmsg)) { msg.push(wzmsg) }
                 } else if (typeof (msg) == 'string') {
                     if (!msg.includes("尾缀已设置为")) {
                         msg += wzmsg
