@@ -19,7 +19,7 @@ let botname = ''
 let isbjx;
 let isstvjx;
 let aicfg = {
-    isPrivate: true,
+    isPrivate: false,
     isGroup: true,
     probability: 100,
     ai: "思知"

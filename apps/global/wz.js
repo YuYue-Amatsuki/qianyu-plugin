@@ -44,7 +44,6 @@ export function wz(wzmsg) {
                 }
                 let wmsg = JSON.parse(await redis.get('qianyu:wzmsg')) || ""
                 if (Array.isArray(msg)) {
-                    console.log(1);
                     msg.push(wzmsg)
                 } else if (typeof (msg) == 'string') {
                     if (!msg.includes("尾缀已设置为")) {
@@ -80,7 +79,7 @@ export function wz(wzmsg) {
                 if (!msg) return false
                 loader.count(e, msg)
                 if (e.group_id) {
-                    return await e.group.sendMsg(msg).catch((err) => {
+                    return await Bot.pickGroup(e.group_id).sendMsg(msg).catch((err) => {
                         logger.warn(err)
                     })
                 } else {

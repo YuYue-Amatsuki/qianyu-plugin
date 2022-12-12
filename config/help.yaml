@@ -128,6 +128,9 @@ helplist:
       - title: "#千羽版本"
         desc: 查看当前千羽版本
         icon: "95"
+      - title: 群申请回复同意拒绝
+        desc: 机器人是管理员，检测到群申请，主人回复通知同意拒绝
+        icon: "95"
   - title: 管理员功能
     list:
       - title: "#千羽设置"
