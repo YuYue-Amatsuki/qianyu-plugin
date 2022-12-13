@@ -3,7 +3,6 @@ export async function geturldata(data, suc) {
     if (data.parms) {
         data.url += data.parms
     }
-    console.log(data.url);
     try {
         let response = await fetch(data.url, {
             headers: data.headers

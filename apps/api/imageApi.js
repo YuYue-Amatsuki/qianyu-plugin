@@ -48,18 +48,18 @@ async function apiimg(e) {
     })
     await api.getImage(str, async (res) => {
         if (res.isurl) {
-            await this.reply(segment.image(res.res))
+            await this.reply(segment.image(res.data))
         } else {
             if (res.islist) {
                 let mes = []
-                res.res.forEach((item, index) => {
-                    if (res.res.length > 5 ? index < 5 : index < res.res.length) {
+                res.data.forEach((item, index) => {
+                    if (res.data.length > 5 ? index < 5 : index < res.data.length) {
                         mes.push(segment.image(item))
                     }
                 })
                 return this.reply(await this.makeGroupMsg(e.msg, mes))
             }
-            this.reply(segment.image(res))
+            this.reply(segment.image(res.data))
         }
     }, parm)
 }

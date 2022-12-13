@@ -39,7 +39,7 @@ imagelist:
     desc: 国庆色图盲盒，概率出ssr
     data: 1
     islist: false
-  - name: 二次元
+  - name: 次元美图
     url: https://api.iyk0.cn/api/acg
     desc: 国庆色图盲盒，概率出ssr
     data: 1

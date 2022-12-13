@@ -100,10 +100,12 @@ async function yf(e) {
         name1 = namelist[0]
         name2 = namelist[1]
     }
-    await api.getapi({ url: `https://xiaobai.klizi.cn/API/other/yf.php?name1=${encodeURI(name1)}&name2=${encodeURI(name2)}`, data: 0 }, (res) => {
+    await api.getapi(`https://xiaobai.klizi.cn/API/other/yf.php?name1=${encodeURI(name1)}&name2=${encodeURI(name2)}`, 0, (res) => {
+        console.log(res);
         if (res.length == 2) {
             return this.reply("只支持中文名称哦,名字里有特殊字符的不行啦~")
         }
+
         this.reply(res)
     })
 
