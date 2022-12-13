@@ -20,12 +20,12 @@ textapi:
   - url: https://api.caonm.net/api/yulu/rensheng.php?
     data: 0
     desc: 人生哲理
-  - url: https://api.caonm.net/api/yulu/tgrj.php?
+  - url: https://ovooa.com/API/tgrj/api.php
     data: 0
     desc: 舔狗日记
-  - url: https://api.caonm.net/api/yulu/tuwei.php?
+  - url: https://ovooa.com/API/qing/api.php
     data: 0
-    desc: 土味情话
+    desc: 情话
   - url: https://api.caonm.net/api/yulu/saohua.php?
     data: 0
     desc: 骚话

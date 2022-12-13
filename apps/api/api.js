@@ -5,7 +5,6 @@ import lodash from 'lodash'
 let file = new filemage()
 let { imagelist } = await file.getyamlJson('resources/data/api/image')
 let { textapi } = await file.getyamlJson('resources/data/api/text')
-let { ailist } = await file.getyamlJson('resources/data/api/ai')
 let apps = {
     id: 'api',
     name: 'api管理',
@@ -31,10 +30,13 @@ apps.rule.push({
 
 async function testtext(e) {
     let sucnum = 0, defnaum = 0, timeoutnum = 0;
-    this.reply("正在测试中,请稍后...")
+    //this.reply("正在测试中,请稍后...")
     for (let i of textapi) {
+        console.log(i.desc);
         let data = await geturldata({ url: i.url, data: i.data }, async res => {
             if (res.responseStatus == 200) {
+                console.log(res);
+                console.log("成功");
                 sucnum++
             } else if (res.responseStatus == 400) {
                 defnaum++
@@ -51,7 +53,7 @@ async function testtext(e) {
             defnaum++
         }
     }
-    this.reply(`总收录${textapi.length}个接口，其中成功接口${sucnum}个,失效接口${defnaum}个,超时接口${timeoutnum}个。`)
+    //this.reply(`总收录${textapi.length}个接口，其中成功接口${sucnum}个,失效接口${defnaum}个,超时接口${timeoutnum}个。`)
 }
 
 async function testimage(e) {

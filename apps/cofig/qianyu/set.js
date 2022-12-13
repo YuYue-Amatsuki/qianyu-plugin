@@ -1,5 +1,5 @@
 import { returnImg } from '../../../utils/index.js'
-import { config, configlist, gcofiglist, bscofig, jxcofig } from './setcofig.js'
+import { config, configlist, gcofiglist, bscofig, jxcofig, ysjs } from './setcofig.js'
 let apps = {
     id: 'set',
     name: '千羽设置',
@@ -34,9 +34,9 @@ let gaicfg = {
 let bscfg = {
     isChieseTime: false,
     isImg: false,
-    isCored: false
+    isCored: false,
+    character: '可莉'
 }
-
 
 let coflistcopy = []
 
@@ -58,17 +58,18 @@ async function set(e) {
     botname = await redis.get('qianyu:ai:botname') || aicfg.ai
     aicfg = JSON.parse(await redis.get('qianyu:ai:config')) || aicfg
     gaicfg = JSON.parse(await redis.get(`qianyu:ai:config:${e.group_id}`)) || gaicfg
-    bscfg = JSON.parse(await redis.get(`qianyu:bstime:config:${e.group_id}`)) || bscfg
+    bscfg = { ...bscfg, ...JSON.parse(await redis.get(`qianyu:bstime:config:${e.group_id}`)) }
     coflistcopy = JSON.parse(JSON.stringify(configlist))
 
     //群内显示群配置
     if (e.isGroup) {
         coflistcopy[0].configlist.push(...gcofiglist)
         coflistcopy.push(bscofig)
-        coflistcopy[1].configlist[3].status = bsglist.includes(e.group_id)
+        coflistcopy[1].configlist[4].status = bsglist.includes(e.group_id)
         coflistcopy.push(jxcofig)
         coflistcopy[coflistcopy.length - 1].configlist[0].status = isbjx
         coflistcopy[coflistcopy.length - 1].configlist[1].status = isstvjx
+
     }
 
     if (value) {
@@ -82,12 +83,12 @@ async function set(e) {
                         if (!bsglist.includes(e.group_id)) {
                             bsglist.push(e.group_id)
                         }
-                        coflistcopy[1].configlist[3].status = true
+                        coflistcopy[1].configlist[4].status = true
                     } else if (m == "关闭") {
                         if (bsglist.includes(e.group_id)) {
                             bsglist.splice(bsglist.findIndex(item => item == e.group_id), 1)
                         }
-                        coflistcopy[1].configlist[3].status = false
+                        coflistcopy[1].configlist[4].status = false
                     }
                     await setcofig('bstime:grouplist', JSON.stringify(bsglist))
                 } else {
@@ -119,12 +120,14 @@ async function set(e) {
 function getvalue(data) {
     coflistcopy.forEach((item, idx) => {
         item.configlist.forEach((i, index) => {
-            if (i.name != '群报时' && i.name != 'b站解析' && i.name != "短视频解析") {
+            if (i.name != '群报时' && i.name != 'b站解析' && i.name != "短视频解析" && i.name != '报时角色') {
                 coflistcopy[idx].configlist[index].status = i.name == 'ai名称' ? botname : data[config[i.name].key]
             } else if (i.name == 'b站解析') {
                 coflistcopy[idx].configlist[index].status = isbjx
             } else if (i.name == '短视频解析') {
                 coflistcopy[idx].configlist[index].status = isstvjx
+            } else if (i.name == '报时角色') {
+                coflistcopy[idx].configlist[index].status = bscfg.character
             }
         })
     })
@@ -163,6 +166,9 @@ async function controlOpen(m, name, data, key) {
         botname = m
         await setcofig(name, m)
     } else if (/菲菲|青云客|夸克|小爱同学|思知/.test(m)) {
+        data[key] = m
+        await setcofig(name, JSON.stringify(data))
+    } else if (ysjs.includes(m)) {
         data[key] = m
         await setcofig(name, JSON.stringify(data))
     }
