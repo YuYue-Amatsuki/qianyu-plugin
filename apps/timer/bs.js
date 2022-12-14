@@ -80,7 +80,7 @@ let bscfg = {
     isChieseTime: false,
     isImg: false,
     isCored: false,
-    character: '可莉'
+    character: '全角色随机'
 }
 
 function sleep(ms) {
@@ -91,7 +91,7 @@ await ds("bs", `0 0 ${Cfg.htime} * * *`, async () => {
     let grouplist = JSON.parse(await redis.get('qianyu:bstime:grouplist')) || []
     for (let g of grouplist) {
         let bscf = { ...bscfg, ...JSON.parse(await redis.get(`qianyu:bstime:config:${g}`)) }
-        let character = bscf.character ? bscf.character : '可莉'
+        let character = bscf.character ? bscf.character : '全角色随机'
         let msg = []
         let hour = moment().hour()
         if (bscf.isChieseTime) {
@@ -102,7 +102,9 @@ await ds("bs", `0 0 ${Cfg.htime} * * *`, async () => {
             msg.push(segment.image("https://img.xjh.me/random_img.php?return=302"))
         }
         if (bscf.isCored) {
-            console.log("进来了");
+            if (character === '全角色随机') {
+                character = ysjs[lodash.random(0, ysjs.length - 1)]
+            }
             await geturldata({ url: `http://www.whpioneer.xyz/api/getcharactercord/${ysjs.findIndex(item => item == character) + 1}`, data: ['data'], headers: { source: qySource } }, async res => {
                 let random = lodash.random(0, res.data.length - 1)
                 msg[0] = `${hour}点了，${res.data[random].text}`

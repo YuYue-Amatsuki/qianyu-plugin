@@ -35,7 +35,7 @@ let bscfg = {
     isChieseTime: false,
     isImg: false,
     isCored: false,
-    character: '可莉'
+    character: '全角色随机'
 }
 
 let coflistcopy = []
