@@ -96,6 +96,7 @@ async function wzcofig(e) {
         return this.reply("暂无权限！")
     }
     let msg = JSON.parse(await redis.get('qianyu:wzmsg')) || ""
+    msg = msg.replace(/\+/, "")
     let wzmsg = e.msg.replace('#尾缀设置', "").replace(new RegExp(msg, 'g'), "")
     await redis.set('qianyu:wzmsg', JSON.stringify(wzmsg))
     this.reply(`尾缀已设置为${wzmsg}`)

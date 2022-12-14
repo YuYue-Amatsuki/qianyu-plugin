@@ -22,6 +22,10 @@ QQ 群:644134535
 
 ![输入图片说明](resources/html/help/help.jpg)
 
+#### 插件所需配置
+
+语音报时需要 ffmpeg
+
 #### 参与贡献
 
 1. Fork 本仓库
