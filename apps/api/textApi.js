@@ -115,7 +115,6 @@ async function qz(e) {
     let msg = e.msg.replace("查权重", "")
     let qq;
     let at;
-    console.log(e)
     if (msg == "" && !e.at) {
         qq = e.user_id
     } else if (e.at) {

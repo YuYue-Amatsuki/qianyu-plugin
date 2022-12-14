@@ -13,7 +13,13 @@ git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugin
 
 ```
 
-####功能
+#### bug 反馈与交流
+
+QQ 群:644134535
+这几天收集 bug 准备重构项目
+
+#### 功能
+
 ![输入图片说明](resources/html/help/help.jpg)
 
 #### 参与贡献
