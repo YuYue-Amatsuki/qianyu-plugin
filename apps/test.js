@@ -1,16 +1,3 @@
-
-let bscfg = {
-    isChieseTime: false,
-    isImg: false,
-    isCored: false,
-    character: '可莉'
-}
-
-let bs = {
-    isChieseTime: false,
-    isImg: true,
-    isCored: false
-}
-
-bscfg = { ...bscfg, ...null }
-console.log(bscfg);
+let m = '{"code":1,"text":"你应该很喜欢健身吧，看你挺会抬杠的。"}'
+let re = m.split('"')
+console.log(re[re.length - 2]);

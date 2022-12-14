@@ -75,6 +75,10 @@ async function apitext(e) {
             let text = res.split("\n")
             remsg = text[text.length - 1]
         }
+        if (msg == '口吐芬芳') {
+            res = res.split('"')
+            remsg = res[res.length - 2]
+        }
         this.reply(remsg)
     }, parm)
 }

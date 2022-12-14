@@ -29,7 +29,7 @@ textapi:
   - url: https://api.caonm.net/api/yulu/saohua.php?
     data: 0
     desc: 骚话
-  - url: https://api.caonm.net/api/yulu/fenfang.php?
+  - url: https://v.api.aa1.cn/api/api-wenan-ktff/index.php?type=5
     data: 0
     desc: 口吐芬芳
   - url: http://apii.gq/api/shangganyl.php
