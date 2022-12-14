@@ -12,7 +12,7 @@ let apps = {
 }
 
 apps.rule.push({
-    reg: '^千羽帮助|^帮助',
+    reg: '^(#|)千羽帮助',
     desc: '帮助',
     fnc: 'help',
     fuc: help
