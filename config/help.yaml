@@ -125,7 +125,7 @@ helplist:
       - title: 引用撤回
         desc: 在机器人发送的消息回复撤回，机器人会撤回该消息
         icon: "141"
-      - title: 猜角色
+      - title: 猜语音
         desc: 机器人发送一段原神角色语音，40s后发送答案
         icon: "141"
       - title: "#千羽版本"

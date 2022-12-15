@@ -3,16 +3,16 @@ import { segment } from 'oicq'
 import lodash from 'lodash'
 let apps = {
     id: 'cjs',
-    name: '猜角色',
-    desc: '猜角色',
+    name: '猜语音',
+    desc: '猜语音',
     event: 'message',
     rule: [],
     fuc: []
 }
 
 apps.rule.push({
-    reg: '^#猜角色',
-    desc: '猜角色',
+    reg: '^#猜语音',
+    desc: '猜语音',
     fnc: 'guesscharacter',
     fuc: guesscharacter
 })
