@@ -21,8 +21,9 @@ import version from './component/version.js'
 import plugins from './component/plugins.js'
 import request from './global/request.js'
 import agree from './global/agree.js'
+import guess from './game/guessCharacter.js'
 //从插件接收方法和设置
-let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, wz, pivix, prefix, Api, age, allon, chehui, version, chuo, plugins, request, agree] //
+let apps = [help, imageApi, textApi, set, ai, update, bs, manage, sqtj, wz, pivix, prefix, Api, age, allon, chehui, version, chuo, plugins, request, agree, guess] //
 let as = []
 for (let i in apps) {
     let p = class extends Plugin {
@@ -40,6 +41,9 @@ for (let i in apps) {
     }
     for (let r in apps[i].rule) {
         p.prototype[apps[i].rule[r].fnc] = apps[i].rule[r].fuc
+    }
+    for (let r in apps[i].fuc) {
+        p.prototype[apps[i].fuc[r].fnc] = apps[i].fuc[r].fuc
     }
     as[apps[i].id] = p
 }
