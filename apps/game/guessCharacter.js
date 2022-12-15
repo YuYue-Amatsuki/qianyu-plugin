@@ -108,6 +108,7 @@ async function guesscharacter(e) {
         timer[e.group_id] = setTimeout(() => {
             if (chartlist[e.group_id]) {
                 this.reply(`没有人回答对呢，正确答案是${chartlist[e.group_id]}`)
+                delete chartlist[this.e.group_id]
                 this.finish('guess', true)
             }
         }, 40 * 1000)
