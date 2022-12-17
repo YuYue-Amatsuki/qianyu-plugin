@@ -68,6 +68,3 @@ textapi:
   - url: https://xiaobai.klizi.cn/API/other/chp.php
     data: 0
     desc: 彩虹屁
-  - url: http://tfkapi.top/API/tq.php?msg=
-    data: 0
-    desc: 天气|天气
