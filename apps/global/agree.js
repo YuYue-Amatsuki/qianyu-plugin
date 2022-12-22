@@ -22,7 +22,7 @@ async function agreerequest(e) {
     let yes = /拒绝/.test(e.msg) ? false : true
     if (requestlist.length > 0) {
         if (e.source) {
-            if (!e.isMaster) {
+            if (!e.isMaster && !e.member.is_admin && !e.member.is_owner) {
                 return this.reply("暂无权限！")
             }
             requestlist.forEach((element, index) => {
