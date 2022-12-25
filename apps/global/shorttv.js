@@ -4,6 +4,7 @@ import { dowmvideo } from '../../utils/index.js'
 import { Api } from '../../lib/api.js'
 let api = new Api()
 let videobv = ''
+let path = `${process.cwd()}/plugins/qianyu-plugin/`
 export async function jx(e) {
     //获取链接
     let msg;
@@ -16,10 +17,10 @@ export async function jx(e) {
         }
 
     });
-    let shorttv = ['b23.tv', 'v.douyin.com', 'v.kuaishou.com', 'h5.pipix.com']
-    let urllist = ['m.bilibili.com', 'www.bilibili.com']
-    let reg1 = new RegExp(`${shorttv[0]}|${shorttv[1]}|${shorttv[2]}|${shorttv[3]}`)
-    let reg2 = new RegExp(`${urllist[0]}|${urllist[1]}`)
+    let shorttv = ['v.douyin.com', 'v.kuaishou.com', 'h5.pipix.com']
+    let urllist = ['b23.tv', 'm.bilibili.com', 'www.bilibili.com']
+    let reg1 = new RegExp(`${shorttv[0]}|${shorttv[1]}|${shorttv[2]}`)
+    let reg2 = new RegExp(`${urllist[0]}|${urllist[1]}|${urllist[2]}`)
     let isbjx = await redis.get(`qianyu:isbjx:${e.group_id}`)
     let isstvjx = await redis.get(`qianyu:isstvjx:${e.group_id}`)
     if (reg1.test(msg) && isstvjx) {
@@ -36,21 +37,12 @@ async function shorttvjx(e, msg) {
     //短链接解析
     const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     let url = msg.match(reg2)[0].split("?")[0]
-    let bv;
-    if (url.includes('https://b23.tv/')) {
-        await api.getapi(`https://xiaobai.klizi.cn/API/other/url_restore.php?url=${url}`, ['redirect_url', '0'], async (res) => {
-            bv = res
-        })
-    }
-    if (bv == videobv) {
-        return
-    }
-    await api.getapi(`https://xiaobapi.top/api/xb/api/tiktok_ks.php?url=${url}`, ['message', 'url'], async (res) => {
+    await api.getapi(`https://api.wya6.cn/api/Short_video_analysis?return=json&url=${url}`, ['data', 'url'], async (res) => {
         console.log("短视频解析中》》》》");
         let response = await fetch(res);
         let buff = await response.arrayBuffer();
         await dowmvideo('短视频', "video.mp4", buff, () => {
-            e.reply(segment.video(`file:///${process.cwd()}/plugins/qianyu-plugin/resources/video/短视频/video.mp4`))
+            e.reply(segment.video(`file:///${path}/resources/video/短视频/video.mp4`))
             videobv = ''
         })
     })
@@ -60,9 +52,21 @@ async function bjx(e, msg) {
     //b站解析
     const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     let url = msg.match(reg2)
-    console.log(url);
-    let bv;
+    if (url[0].includes('https://b23.tv/')) {
+        await api.getapi(`https://xiaobai.klizi.cn/API/other/url_restore.php?url=${url}`, ['redirect_url', '0'], async (res) => {
+            url = res
+            await bili(e, [url])
+        })
+    } else {
+        await bili(e, url)
+    }
+
+}
+
+async function bili(e, url) {
     let reg3 = new RegExp(/(BV.*?).{10}/)
+    let bv;
+    console.log(url);
     bv = url[0].match(reg3)[0]
     if (bv == videobv) {
         return
@@ -74,7 +78,7 @@ async function bjx(e, msg) {
         let response = await fetch(res.video_url);
         let buff = await response.arrayBuffer();
         await dowmvideo('b站', "video.mp4", buff, () => {
-            e.reply(segment.video(`file:///${process.cwd()}/plugins/qianyu-plugin/resources/video/b站/video.mp4`))
+            e.reply(segment.video(`file:///${path}/resources/video/b站/video.mp4`))
             videobv = ''
         })
     })
