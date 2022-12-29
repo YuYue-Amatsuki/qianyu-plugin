@@ -131,7 +131,7 @@ async function qz(e) {
     } else {
         qq = msg
     }
-    await api.getapi({ url: `http://tfkapi.top/API/qqqz.php?type=json&qq=${qq}` }, (res) => {
+    await api.getapi(`http://tfapi.top/API/qqqz.php?type=json&qq=${qq}`, 0, (res) => {
         if (res.code == 201) {
             return this.reply("查询失败！")
         } else {
@@ -140,7 +140,7 @@ async function qz(e) {
                 rendmsg.push(segment.at(qq))
             }
             if (res.qz != null) {
-                rendmsg.push(`查询成功！${e.at ? at : qq == e.user_id ? '您' : qq}的权重为${res.qz}`)
+                rendmsg.push(`\nQQ: ${qq}\n查询状态：查询成功！\n权重: ${res.qz}\n权重越低，封号概率越大哦，要注意哟~`)
             } else {
                 rendmsg.push("没查询到数据呢~再试一次吧！")
             }
