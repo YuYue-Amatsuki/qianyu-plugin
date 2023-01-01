@@ -73,10 +73,10 @@ export class filemage {
         }
 
     }
-    async getfilelist(path) {
+    getfilelist(path) {
         return fs.readdirSync(this.path + path)
     }
-    async getyamlJson(name) {
+    getyamlJson(name) {
         return YAML.parse(fs.readFileSync(`${this.path}${name}.yaml`, "utf-8"))
     }
     async getyamlDocuments(name) {

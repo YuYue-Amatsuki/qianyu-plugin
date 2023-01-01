@@ -9,11 +9,13 @@
  **/
 import puppeteer from "../lib/puppeteer.js";
 
+const path = `/plugins/qianyu-plugin/resources/`
+
 export async function returnImg(name, data) {
-    let layoutPath = process.cwd() + `/plugins/qianyu-plugin/resources/common/layout/`
+    let layoutPath = process.cwd() + path + `common/layout/`
     let img = await puppeteer.screenshot(name, {
-        tplFile: `./plugins/qianyu-plugin/resources/html/${name}/${name}.html`,
-        _res_path: process.cwd() + '/plugins/qianyu-plugin/resources/',
+        tplFile: `.${path}html/${name}/${name}.html`,
+        _res_path: process.cwd() + path,
         /** 绝对路径 */
         defaultLayout: layoutPath + 'default.html',
         ...data,

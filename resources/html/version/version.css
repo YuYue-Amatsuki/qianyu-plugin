@@ -10,7 +10,9 @@ h1 {
 
 #container {
     width: 1000px;
-    background-color: rgb(49, 48, 48);
+    background-image: url('./../../../resources/img/滑稽.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     padding: 10px;
 }
 
