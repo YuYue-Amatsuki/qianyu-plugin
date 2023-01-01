@@ -19,6 +19,8 @@ let ing = {};
 
 let ranklistData = {}
 
+let botlist = []//需要排除的qq号
+
 async function sqts(e) {
     if (ing[e.group_id]) {
         e.reply("还在生成中，请稍后！");
@@ -45,6 +47,9 @@ async function sqts(e) {
                 continue;
             }
             if (CharTemp[key].user_id == e.self_id) {
+                continue;
+            }
+            if (botlist.includes(CharTemp[key].user_id)) {
                 continue;
             }
             if (ranklistData[e.group_id].lastseq != 0 && CharTemp[key].seq === ranklistData[e.group_id].lastseq) {
