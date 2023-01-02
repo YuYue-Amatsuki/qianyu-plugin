@@ -42,17 +42,31 @@ let set_type = ''
 
 let grouplist = []
 
+let Groupset = {
+    ischehui: false,
+    isaddgroup: true,
+    isdegroup: true,
+    isban: false
+}
+
 let msglist = ['我看到你说要女装了，撤回没用！', '你为什么要撤回你的女装照！', '你说要给我主人包一个大红，我看到了！', '撤回干嘛，让我康康！', '?']
 
 async function accept(e) {
     let msg;
+    let groupset = JSON.parse(await redis.get('qianyu:groupset')) || Groupset
     switch (e.sub_type) {
         case 'recall':
-            if (grouplist.includes(this.e.group_id) && !this.e.isMaster) {
+            if (!groupset.ischehui) {
+                return false
+            }
+            if (!this.e.isMaster && !this.e.user_id !== e.self_id) {
                 this.reply([segment.at(this.e.user_id), " ", msglist[lodash.random(0, msglist.length - 1)]])
             }
             break;
         case 'ban':
+            if (!groupset.isban) {
+                return false
+            }
             let userinfo = await Bot.pickMember(e.group_id, e.user_id).getSimpleInfo()
             if (e.duration != 0) {
                 this.reply(`${userinfo.nickname}被管理员口球了${e.duration / 60}分钟！`)
@@ -62,6 +76,9 @@ async function accept(e) {
             }
             break;
         case 'increase':
+            if (!groupset.isaddgroup) {
+                return false
+            }
             msg = [segment.at(e.user_id), `欢迎${e.nickname}小可爱进群啦啦啦~`]
             let { addmsg: addmsg } = JSON.parse(await redis.get(`qianyu:groupset:${e.group_id}`)) || JSON.parse(await redis.get(`qianyu:addmsg`)) || ''
             if (addmsg) {
@@ -71,10 +88,17 @@ async function accept(e) {
             this.reply(msg)
             break;
         case 'decrease':
-            msg = `用户${e.member.card || e.member.nickname}(${e.user_id})被本堂主送走了~`
+            if (!groupset.isdegroup) {
+                return false
+            }
+            let name;
+            if (e.member) {
+                name = e.member.card || e.member.nickname
+            }
+            msg = `用户${name ? name + '(' + e.user_id + ')' : '(' + e.user_id + ')'}被本堂主送走了~`
             let { leave: leave } = JSON.parse(await redis.get(`qianyu:groupset:${e.group_id}`)) || JSON.parse(await redis.get(`qianyu:leave`)) || ''
             if (leave) {
-                leave.unshift(`${e.member.card || e.member.nickname}(${e.user_id})`)
+                leave.unshift(`${e.member.nickname || e.member.card}(${e.user_id})`)
                 msg = leave
             }
             this.reply(msg)
@@ -92,13 +116,44 @@ async function groupset(e) {
         return this.reply('无权限！')
     }
     let set = e.msg.replace("#千羽群设置", "")
-    let msg;
+    let msg, isopen;
+    set = set.replace(/开启|关闭/g, '')
     switch (set) {
         case '进群回复':
-            msg = '请发送要回复的进群欢迎词！'
+            isopen = e.msg.replace(`#千羽群设置${set}`, '')
+            if (isopen == '开启') {
+                await setgroup({ name: '进群回复', key: 'isaddgroup', value: true }, e)
+            } else if (isopen == '关闭') {
+                await setgroup({ name: '进群回复', key: 'isaddgroup', value: false }, e)
+            } else {
+                msg = '请发送要回复的进群欢迎词！'
+            }
             break;
         case '退群回复':
-            msg = '请发送要回复的送走词！'
+            isopen = e.msg.replace(`#千羽群设置${set}`, '')
+            if (isopen == '开启') {
+                await setgroup({ name: '退群回复', key: 'isdegroup', value: true }, e)
+            } else if (isopen == '关闭') {
+                await setgroup({ name: '退群回复', key: 'isdegroup', value: false }, e)
+            } else {
+                msg = '请发送要回复的送走词！'
+            }
+            break;
+        case '禁言提示':
+            isopen = e.msg.replace(`#千羽群设置${set}`, '')
+            if (isopen == '开启') {
+                await setgroup({ name: '禁言提示', key: 'isban', value: true }, e)
+            } else if (isopen == '关闭') {
+                await setgroup({ name: '禁言提示', key: 'isban', value: false }, e)
+            }
+            break;
+        case '撤回提示':
+            isopen = e.msg.replace(`#千羽群设置${set}`, '')
+            if (isopen == '开启') {
+                await setgroup({ name: '撤回提示', key: 'ischehui', value: true }, e)
+            } else if (isopen == '关闭') {
+                await setgroup({ name: '撤回提示', key: 'ischehui', value: false }, e)
+            }
             break;
         default:
             return this.reply('无效的设置')
@@ -145,5 +200,18 @@ async function getset() {
     this.reply(`${set_type}设置完毕！`)
     this.finish('getset', this.e.isGroup)
 }
+
+
+
+async function setgroup(data, e) {
+    console.log("进来");
+    let groupset = JSON.parse(await redis.get('qianyu:groupset')) || Groupset
+    e.reply(`${data.name}已${data.value ? '开启' : '关闭'}!`)
+    groupset[data.key] = value
+    redis.set('qianyu:groupset', JSON.stringify(getset))
+}
+
+
+
 
 export default [apps, apps2]

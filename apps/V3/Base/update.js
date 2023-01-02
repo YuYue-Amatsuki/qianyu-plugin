@@ -64,15 +64,15 @@ function restart() {
  * @returns
  */
 async function runUpdate(isForce) {
-    let command = "git -C ./plugins/qianyu-plugin2/ pull --no-rebase";
+    let command = "git -C ./plugins/qianyu-plugin/ pull --no-rebase";
     if (isForce) {
-        command = `git -C ./plugins/qianyu-plugin2/ checkout . && ${command}`;
+        command = `git -C ./plugins/qianyu-plugin/ checkout . && ${command}`;
         that.e.reply("正在执行强制更新操作，请稍等");
     } else {
         that.e.reply("正在执行更新操作，请稍等");
     }
     /** 获取上次提交的commitId，用于获取日志时判断新增的更新日志 */
-    that.oldCommitId = await getcommitId("qianyu-plugin2");
+    that.oldCommitId = await getcommitId("qianyu-plugin");
     uping = true;
     let ret = await exectSync(command);
     uping = false;
@@ -84,7 +84,7 @@ async function runUpdate(isForce) {
     }
 
     /** 获取插件提交的最新时间 */
-    let time = await getTime("qianyu-plugin2");
+    let time = await getTime("qianyu-plugin");
 
     if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
         await that.reply(`千羽插件已经是最新版本\n最后更新时间：${time}`);
@@ -92,7 +92,7 @@ async function runUpdate(isForce) {
         await that.reply(`千羽插件\n最后更新时间：${time}`);
         that.isUp = true;
         /** 获取千羽组件的更新日志 */
-        let log = await getLog("qianyu-plugin2");
+        let log = await getLog("qianyu-plugin");
         await that.reply(log);
     }
 
@@ -135,7 +135,7 @@ async function getLog(plugin = "") {
 
     let end = "";
     end =
-        "更多详细信息，请前往gitee查看\nhttps://gitee.com/think-first-sxs/qianyu-plugin2";
+        "更多详细信息，请前往gitee查看\nhttps://gitee.com/think-first-sxs/qianyu-plugin";
 
     log = await makeForwardMsg(`千羽插件更新日志，共${line}条`, log, end);
 
