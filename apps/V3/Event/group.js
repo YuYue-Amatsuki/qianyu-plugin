@@ -204,7 +204,6 @@ async function getset() {
 
 
 async function setgroup(data, e) {
-    console.log("进来");
     let groupset = JSON.parse(await redis.get('qianyu:groupset')) || Groupset
     e.reply(`${data.name}已${data.value ? '开启' : '关闭'}!`)
     groupset[data.key] = value
