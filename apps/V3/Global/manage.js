@@ -32,7 +32,7 @@ apps.rule.push({
 
 
 apps.rule.push({
-    reg: '#尾缀设置',
+    reg: '^#尾缀设置',
     desc: '尾缀',
     fnc: 'wzcofig',
     fuc: wzcofig
