@@ -5,6 +5,10 @@ import { segment } from 'oicq'
 
 const path = process.cwd() + '/plugins/qianyu-plugin/'
 
+let wzcd = 10//伪装cd 分钟
+
+let wztime = 10 //伪装时长 分钟
+
 let apps = {
     id: 'wz',
     name: '伪装目标',
@@ -85,7 +89,7 @@ async function weiz(e) {
     await Bot.setAvatar(atuserinfo.avatar)
     await Bot.setNickname(atuserinfo.nickname)
     Bot.pickGroup(e.group_id).setCard(e.self_id, atuserinfo.group_name)
-    this.reply("伪装任务开始！我已经伪装成指定目标，接下来10分钟，我会模仿伪装目标说话！！")
+    this.reply(`伪装任务开始！我已经伪装成指定目标，接下来${wztime}分钟，我会模仿伪装目标说话！！`)
     await wztask(e)
 }
 
@@ -113,7 +117,7 @@ async function stopwz(e) {
     await cacelds('wz');
     if (!cfg.masterQQ.includes(e.user_id)) {
         cishu.iscd = true
-        await ds('wzcd', moment().add(10, 'm').format(), async () => {
+        await ds('wzcd', moment().add(wzcd, 'm').format(), async () => {
             cishu.iscd = false
         })
     }
@@ -130,7 +134,7 @@ await ds('wz', `0 0 0 * * *`, async () => {
 })
 
 async function wztask(e) {
-    await ds('wz', moment().add(10, 'm').format(), async () => {
+    await ds('wz', moment().add(wztime, 'm').format(), async () => {
         let myuserinfo = JSON.parse(await redis.get('qianyu:wz:myinfo'))
         await Bot.setAvatar(path + `resources/img/${e.self_id}头像.jpg`)
         await Bot.setNickname(myuserinfo.nickname)
@@ -141,7 +145,7 @@ async function wztask(e) {
         //进入cd
         if (!cfg.masterQQ.includes(e.user_id)) {
             cishu.iscd = true
-            await ds('wzcd', moment().add(10, 'm').format(), async () => {
+            await ds('wzcd', moment().add(wzcd, 'm').format(), async () => {
                 cishu.iscd = false
             })
         }

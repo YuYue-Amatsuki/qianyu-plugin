@@ -83,6 +83,9 @@ export class filemage {
         return YAML.parseDocument(fs.readFileSync(`${this.path}${name}.yaml`, "utf-8"))
     }
     async writeyaml(name, data) {
+        fs.writeFileSync(`${this.path}${name}.yaml`, YAML.stringify(data), 'utf-8')
+    }
+    async writeyamlDocuments(name, data) {
         fs.writeFileSync(`${this.path}${name}.yaml`, data, 'utf-8')
     }
 }  

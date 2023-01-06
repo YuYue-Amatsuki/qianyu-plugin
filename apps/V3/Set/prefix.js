@@ -38,7 +38,7 @@ async function openPrefix(e) {
     } else {
         console.log("无效的设置!")
     }
-    await file.writeyaml('group', group.toString())
+    await file.writeyamlDocuments('group', group.toString())
     this.reply(`群前缀已${text}!`)
 }
 
@@ -49,7 +49,7 @@ async function setPrefix(e) {
     let name = e.msg.replace("#设置前缀", "")
     let group = await file.getyamlDocuments('group')
     group.setIn([Number(e.group_id), "botAlias"], [name])
-    await file.writeyaml('group', group.toString())
+    await file.writeyamlDocuments('group', group.toString())
     this.reply(`群前缀已设置为${name}!`)
 }
 

@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { segment } from 'oicq'
-import { returnImg } from '../../utils/index.js'
+import { filemage } from '../../../utils/index.js'
+let file = new filemage()
 let apps = {
     id: 'pivix',
     name: 'pivix',
@@ -24,9 +25,12 @@ apps.rule.push({
     fuc: r18
 })
 
-
-
-let writegroup = [816366626]
+apps.rule.push({
+    reg: '^#历史',
+    desc: '历史涩图',
+    fnc: 'history',
+    fuc: history
+})
 
 let cd = {}
 
@@ -35,77 +39,68 @@ function sleep(ms) {
 }
 
 async function pivix(e) {
+    let selist = await file.getyamlJson('/resources/data/se/se') || []
     let rep = await fetch(`https://xiaobapi.top/api/xb/api/pixiv.php`)
-    let res = await rep.json()
-    for (let i of res.data) {
-        if (e.isGroup) {
-            let fkmsg = [`标题:  ${i.title}\n作者:  ${i.uname}\n作品ID:  ${i.pid}\n作者ID:  ${i.uid}\n标签:  ${i.tags}\n涩图类型：${i.r18 ? 'r18' : '涩图'}`]
-            await Bot.pickGroup(e.group_id).sendMsg(fkmsg)
-        }
+    let data = await rep.json()
+    let i = data.data[0]
+    let url = i.urls.original.replace("https://pic.8il.cc", "https://i.pixiv.re")
+    if (e.isGroup) {
+        let fkmsg = [`标题:  ${i.title}\n作者:  ${i.author}\n作品ID:  ${i.pid}\n作者ID:  ${i.uid}\n标签:  ${i.tags}\n涩图类型：${i.r18 ? 'r18' : '涩图'}`, segment.image(url)]
+        await Bot.pickGroup(e.group_id).sendMsg(fkmsg)
+        selist.push(url)
+        await file.writeyaml('/resources/data/se/se', selist)
     }
 }
 
 async function r18(e) {
-    if (!writegroup.includes(e.group_id)) {
-        return this.reply("暂无权限！")
+    let rep = await fetch(`https://xiaobapi.top/api/xb/api/pixiv_r18.php`)
+    let r18list = await file.getyamlJson('/resources/data/se/r18') || []
+    let data = await rep.json()
+    let i = data.data[0]
+    let msg;
+    let url = i.urls.original.replace("https://pic.8il.cc", "https://i.pixiv.re")
+    if (e.isGroup) {
+        let fkmsg = [`标题:  ${i.title}\n作者:  ${i.author}\n作品ID:  ${i.pid}\n作者ID:  ${i.uid}\n标签:  ${i.tags}\n涩图类型：${i.r18 ? 'r18' : '涩图'}`, segment.image(url)]
+        msg = await Bot.pickGroup(e.group_id).sendMsg(await this.makeGroupMsg('\/\/\/\/色批\/\/\/\/', fkmsg)).catch(async err => {
+            msg = await Bot.pickGroup(e.group_id).sendMsg(await this.makeGroupMsg('\/\/\/\/色批\/\/\/\/', fkmsg))
+        })
+        r18list.push(url)
+        await file.writeyaml('/resources/data/se/r18', r18list)
+        setTimeout(() => {
+            e.group.recallMsg(msg.message_id);
+        }, 15 * 1000);
     }
-    let page = e.msg.replace("来点r18涩图", "") || 1
-    let rep = await fetch(`http://127.0.0.1/api/pivixr18/${page}`)
-    let res = await rep.json()
-    let that = this
-    for (let i of res.data) {
-        if (this.e.isGroup) {
-            let url = i.url.replace("https://www.pixiv.net/artworks/", "https://pixiv.re/") + ".jpg"
-            await returnImg('setu', { url: url, path: './plugins/qianyu-plugin/resources/html/setu/setu.jpg', wk: 0 })
-            let fkmsg = [`标题:  ${i.title}\n作者:  ${i.uname}\n作品ID:  ${i.pid}\n作者ID:  ${i.uid}\n标签:  ${i.tags}\n涩图类型：${i.nsfw_tag == 0 ? '全年龄' : i.nsfw_tag == 1 ? '涩图' : 'r18'}`, segment.image(`./plugins/qianyu-plugin/resources/html/setu/setu.jpg`), `原图链接:${url}`]
-            await Bot.pickGroup(e.group_id).sendMsg(fkmsg).catch(async err => {
-                await sendMsg(that, e, i, 0)
+}
+
+async function history(e) {
+    let msg = e.msg.replace("#历史", "")
+    let name;
+    let msglist = []
+    if (msg === '涩图') {
+        name = 'se'
+    } else if (msg === 'r18涩图') {
+        name = 'r18'
+    }
+    let list = await file.getyamlJson(`/resources/data/se/${name}`) || []
+    if (!list) {
+        this.reply("暂无历史记录！")
+    } else {
+        for (let l of list) {
+            msglist.push(segment.image(l))
+        }
+        try {
+            msg = await Bot.pickGroup(e.group_id).sendMsg(await this.makeGroupMsg('\/\/\/\/色批\/\/\/\/', msglist)).catch(async err => {
+                msg = await Bot.pickGroup(e.group_id).sendMsg(await this.makeGroupMsg('\/\/\/\/色批\/\/\/\/', msglist)).catch(async err => {
+                    msg = await Bot.pickGroup(e.group_id).sendMsg(await this.makeGroupMsg('\/\/\/\/色批\/\/\/\/', msglist))
+                })
             })
-            await sleep(30000)
+        } catch (error) {
+            console.log(error);
         }
     }
-    this.reply('涩图已发放完毕！')
+
 }
 
-async function searchpivix(e) {
-    if (!writegroup.includes(e.group_id)) {
-        return this.reply("暂无权限！")
-    }
-    let page = e.msg.replace(/[^\d.]/g, "") || 1
-    let title = e.msg.replace("搜索", "").replace(page, "")
-
-    let rep = await fetch(`http://127.0.0.1/api/pivixsearch/${title}/${page}`)
-    let res = await rep.json()
-    let that = this
-    for (let i of res.data) {
-        // msglist.push(msg)https://pixiv.re、https://pixiv.nl
-        if (this.e.isGroup) {
-            let url = i.url.replace("https://www.pixiv.net/artworks/", "https://pixiv.re/") + ".jpg"
-            await returnImg('setu', { url: url, path: './plugins/qianyu-plugin/resources/html/setu/setu.jpg', wk: 0 })
-            let fkmsg = [`标题:  ${i.title}\n作者:  ${i.uname}\n作品ID:  ${i.pid}\n作者ID:  ${i.uid}\n标签:  ${i.tags}\n涩图类型：${i.nsfw_tag == 0 ? '全年龄' : i.nsfw_tag == 1 ? '涩图' : 'r18'}`, segment.image(`./plugins/qianyu-plugin/resources/html/setu/setu.jpg`), `原图链接:${url}`]
-            await Bot.pickGroup(e.group_id).sendMsg(fkmsg).catch(async err => {
-                await sendMsg(that, e, i, 0)
-            })
-            await sleep(30000)
-            // })
-        }
-    }
-    this.reply(`搜索${title}已发送完毕！`)
-}
-
-
-async function sendMsg(that, e, i, index) {
-    let url = i.url.replace("https://www.pixiv.net/artworks/", "https://pixiv.re/") + ".jpg"
-    await returnImg('setu', { url: url, path: './plugins/qianyu-plugin/resources/html/setu/setu.jpg', wk: index })
-    let fkmsg = [`标题:  ${i.title}\n作者:  ${i.uname}\n作品ID:  ${i.pid}\n作者ID:  ${i.uid}\n标签:  ${i.tags}\n涩图类型：${i.nsfw_tag == 0 ? '全年龄' : i.nsfw_tag == 1 ? '涩图' : 'r18'}`, segment.image(`./plugins/qianyu-plugin/resources/html/setu/setu.jpg`), `原图链接:${url}`]
-    await Bot.pickGroup(e.group_id).sendMsg(await that.makeGroupMsg('pivix', fkmsg)).catch(async err => {
-        if (err) {
-            await sendMsg(that, e, i, index + 1)
-        } else {
-            return
-        }
-    })
-}
 
 export default apps
 
