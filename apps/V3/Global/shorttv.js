@@ -37,7 +37,7 @@ async function shorttvjx(e, msg) {
     //短链接解析
     const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     let url = msg.match(reg2)[0].split("?")[0]
-    await api.getapi(`https://api.wya6.cn/api/Short_video_analysis?return=json&url=${url}`, ['data', 'url'], async (res) => {
+    await api.getapi(`https://api.xcboke.cn/api/juhe?url=${url}`, ['data', 'url'], async (res) => {
         console.log("短视频解析中》》》》");
         let response = await fetch(res);
         let buff = await response.arrayBuffer();
@@ -73,7 +73,7 @@ async function bili(e, url) {
     }
     let videourl = 'https://www.bilibili.com/video/' + bv
     videobv = bv
-    await api.getapi(`http://fuyhi.top/api/bilibili_jx/api.php?url=${videourl}`, ['data', '0'], async (res) => {
+    await api.getapi(`http://tfapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
         console.log("b站视频解析中》》》》");
         let response = await fetch(res.video_url);
         let buff = await response.arrayBuffer();
