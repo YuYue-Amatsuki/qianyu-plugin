@@ -117,9 +117,6 @@ helplist:
       - title: 每日动漫推荐1
         desc: 返回推荐动漫列表，默认第一页，最多5页.
         icon: "141"
-      - title: 查看所有插件
-        desc: 查看机器人安装的插件和js
-        icon: "141"
   - title: 其他功能
     list:
       - title: 引用撤回
@@ -128,9 +125,6 @@ helplist:
       - title: 猜语音
         desc: 机器人发送一段原神角色语音，40s后发送答案
         icon: "141"
-      - title: "#千羽版本"
-        desc: 查看当前千羽版本
-        icon: "95"
       - title: 群申请回复同意拒绝
         desc: 机器人是管理员，检测到群申请，主人回复通知同意拒绝
         icon: "95"
