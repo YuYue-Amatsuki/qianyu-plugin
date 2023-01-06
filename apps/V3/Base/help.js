@@ -37,7 +37,6 @@ async function help(e) {
             return this.reply(segment.image(path))
         }
     }
-
     return true
 }
 
