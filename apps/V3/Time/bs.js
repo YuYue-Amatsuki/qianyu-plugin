@@ -48,8 +48,6 @@ await ds("bs", `0 0 ${htime} * * *`, async () => {
                 character = ysjs[lodash.random(0, ysjs.length - 1)]
             }
             await geturldata({ url: `http://www.whpioneer.xyz/api/getcharactercord/${ysjs.findIndex(item => item == character) + 1}`, data: ['data'], headers: { source: qySource } }, async res => {
-                let random = lodash.random(0, res.data.length - 1)
-                console.log(res);
                 msg[0] = `${hour}点了，${res.data[random].text}`
                 if (bscf.isImg) {
                     msg[1] = segment.image(`./plugins/qianyu-plugin/resources/img/可莉/可莉${lodash.random(1, 14)}.jpg`)
