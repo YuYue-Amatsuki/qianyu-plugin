@@ -86,7 +86,7 @@ async function cleardata() {
     let newbslist = bslist.filter(item => grouplist.includes(item))
     for (let b of bslist) {
         if (!newbslist.includes(b)) {
-            await redis.del(`qianyu:bstime:config:${g}`)
+            await redis.del(`qianyu:bstime:config:${b}`)
         }
     }
     await redis.set('qianyu:bstime:grouplist', JSON.stringify(newbslist))
