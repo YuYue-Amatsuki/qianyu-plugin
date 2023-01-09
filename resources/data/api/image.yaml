@@ -1,70 +1,84 @@
 imagelist:
-  - name: 米游社表情包$|^米游社表情包(0|1|2|3|4)
+  - reg: 米游社表情包$|^米游社表情包(0|1|2|3|4)
+    name: 米游社表情包
     url: https://wenxin110.top/api/mys/memes?type=
     desc: 表情包类型：0.原神，1.崩坏3，2.其他崩坏系列，3.其他，4.随机一种。为空则默认4
     data: ["img"]
     islist: false
-  - name: 随机图片
+  - reg: 随机图片
+    name: 随机图片
     url: https://iw233.cn/API/Random.php
     data: 1
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 随机二次元图片
     islist: false
-  - name: 原神壁纸
+  - reg: 原神壁纸
+    name: 原神壁纸
     url: https://ovooa.com/API/yuan/api?type=text
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 发送一张原神壁纸
     data: 0
     islist: false
-  - name: 随机cos
+  - reg: 随机cos
+    name: 随机cos
     url: http://ovooa.com/API/cosplay/api.php
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 返回一组随机cos图片
     data: ["data", "data"]
     islist: true
-  - name: 随机acg
+  - reg: 随机acg
+    name: 随机acg
     url: https://api.guyunge.top/API/ACG.php?type=json
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 发送一张随机acg图片
     data: ["data", "url"]
     islist: false
-  - name: (甘城猫猫|^猫羽雫)表情包
+  - reg: (甘城猫猫|^猫羽雫)表情包
+    name: 甘城猫猫表情包
     url: https://xiaobapi.top/api/xb/api/gcmm.php
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 可爱的甘城猫猫表情包
     data: 1
     islist: false
-  - name: 原神黄历
+  - reg: 原神黄历
+    name: 原神黄历
     url: https://api.xingzhige.com/API/yshl/
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 看看今天的原神黄历
     data: 1
     islist: false
-  - name: 随机丝袜
-    url: https://api.caonm.net/api/siwa/api.php?
-    desc: 国庆色图盲盒，概率出ssr
-    data: 1
+  - reg: 美腿
+    name: 美腿
+    url: http://ovooa.com/API/meizi/api.php
+    desc: 返回随机一张腿子图片，接受好社死了吗？骚年
+    data: ["text"]
     islist: false
-  - name: 次元美图
+  - reg: 次元美图
+    name: 次元美图
     url: https://api.iyk0.cn/api/acg
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 二次元美图呢
     data: 1
     islist: false
-  - name: 摸鱼日历
+  - reg: 摸鱼日历
+    name: 摸鱼日历
     url: https://api.vvhan.com/api/moyu?type=json
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 每天都要摸鱼
     data: ["url"]
     islist: false
-  - name: 抱枕
+  - reg: 抱枕
+    name: 抱枕
     url: https://api.isoyu.com/bao_images.php
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 返回一张二次元抱枕
     data: 1
     islist: false
-  - name: (男头|女头|动漫头像|动漫男头|动漫女头)
+  - reg: (男头|女头|动漫头像|动漫男头|动漫女头)
+    name: 动漫头像
     url: https://api.btstu.cn/sjtx/api.php?lx=
     desc: 输出头像类型[a1（男头）|b1（女头）|c1（动漫头像）|c2（动漫女头）|c3（动漫男头）]默认为c1
     data: 1
     islist: false
-  - name: (女仆|jk制服|兔女郎|夏日泳装|动漫类|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)美图
+  - reg: (女仆|jk制服|兔女郎|夏日泳装|动漫类|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)美图
+    name: 各种美图
     url: https://api.uomg.com/api/rand.img4?sort=
-    desc: 国庆色图盲盒，概率出ssr
+    desc: 自己看
     data: ["imgurl"]
     islist: true
-  - name: 云吸猫
+  - reg: 云吸猫
+    name: 云吸猫
     url: https://api.r10086.com/img-api.php?type=%E7%8C%AB%E5%A8%981
     desc: 吸猫
     data: 1

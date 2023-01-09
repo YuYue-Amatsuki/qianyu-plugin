@@ -33,6 +33,7 @@ apps2.rule.push({
 let requestlist = [];
 
 async function accept(e) {
+    console.log(e);
     let request = {
         user_id: e.user_id,
         group_id: e.group_id,
@@ -41,11 +42,11 @@ async function accept(e) {
         seq: e.seq,
     }
     if (e.sub_type === 'add') {
-        let msg = await this.reply(`有新的入群申请啦！\n昵称:${e.nickname}\nQQ:${e.user_id}\n${e.comment}\n回复同意或者拒绝。`)
+        let msg = await this.reply(`——————————————\n有新的入群申请啦！\n昵称:${e.nickname}\nQQ:${e.user_id}\n${e.comment}\n——————————————\n同意   |   拒绝`)
         request.infoseq = msg.seq
     }
     if (e.sub_type === 'invite') {
-        let msg = await this.reply(`有新的入群邀请啦！\n昵称:${e.nickname}\nQQ:${e.user_id}\n回复同意或者拒绝。`)
+        let msg = await this.reply(`——————————————\n有新的入群邀请啦！\n昵称:${e.nickname}\nQQ:${e.user_id}\n——————————————\n同意   |   拒绝`)
         request.infoseq = msg.seq
     }
     requestlist.push(request)

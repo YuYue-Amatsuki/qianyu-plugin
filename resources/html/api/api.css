@@ -7,6 +7,9 @@
     width: 1000px;
     box-sizing: border-box;
     padding: 10px;
+    border-radius: 10px;
+    background-image: url(./api1.jpg);
+    height: 1000px;
 }
 
 .header {
@@ -14,7 +17,6 @@
     height: 70px;
     background-color: rgba(118, 201, 215, 0.5);
     border-radius: 10px;
-    margin: 10px;
 }
 
 h1 {
@@ -25,7 +27,6 @@ h1 {
 
 .content {
     width: 100%;
-    padding: 10px;
 }
 
 h3 {
@@ -37,6 +38,7 @@ h3 {
     color: rgb(77, 21, 21);
     z-index: 10;
     position: relative;
+    top: 10px;
 }
 
 li {
@@ -44,15 +46,18 @@ li {
 }
 
 .apicotent {
-    margin-top: -5px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 200px);
+    grid-template-columns: repeat(auto-fill, 220px);
     grid-gap: 20px;
     grid-auto-rows: 40px;
-    background-color: rgb(245, 185, 185);
+    background-color: rgba(245, 185, 185, 0.5);
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px 10px 10px 10px;
     justify-content: center;
+}
+
+.apilist {
+    margin-top: 20px;
 }
 
 .apibox {
@@ -70,13 +75,24 @@ li {
     justify-content: center;
 }
 
-.apibox>.left span {
+.apibox>.left span,
+.bottom span {
     display: block;
-    background-color: rgb(255, 0, 0);
     width: 15px;
     height: 15px;
     border-radius: 50%;
+}
 
+.green {
+    background-color: rgb(109, 225, 117);
+}
+
+.red {
+    background-color: rgb(255, 0, 0);
+}
+
+.yello {
+    background-color: rgb(231, 247, 11);
 }
 
 .right {
@@ -88,4 +104,20 @@ li {
 
 .right span {
     font-size: 12px;
+}
+
+.bottom {
+    margin-top: 50px;
+    padding: 50px;
+    background-color: rgba(245, 185, 185, 0.5);
+}
+
+.bottom h4 {
+    margin: 0 30%;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+
 }

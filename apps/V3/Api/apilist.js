@@ -1,5 +1,5 @@
 import { Api } from '../../../lib/api.js'
-import { segment } from 'oicq'
+import { returnImg, geturldata } from '../../../utils/index.js'
 let api = new Api()
 let apps = {
     id: 'apilist',
@@ -10,45 +10,46 @@ let apps = {
 }
 
 
+apps.rule.push({
+    reg: 'api检测',
+    desc: 'api检测',
+    fnc: 'apitest',
+    fuc: apitest
+})
 
 
-async function apiimg(e) {
-    let parm;
-    let msg = e.msg
-    let cate = /(女仆|jk制服|兔女郎|夏日泳装|动漫类|幼齿|萝莉|少女|御姐|巨乳|丰满微胖|黑丝|白丝|肉丝|网丝|吊带袜|腿控|脚控|旗袍)/
-    let tx = ['男头', '女头', '动漫头像', "动漫女头", "动漫男头"]
-    if (tx.includes(msg)) {
-        let cs = ['a1', 'b1', 'c1', 'c2', 'c3']
-        parm = cs[tx.indexOf(msg)] + "&format=images"
+async function apitest(e) {
+    if (!e.isMaster) {
+        return this.reply('暂无权限！')
     }
-    if (msg.includes("米游社表情包")) {
-        parm = msg.replace("米游社表情包", "") == null ? undefined : msg.replace("米游社表情包", "")
-    }
-    if (cate.test(msg)) {
-        parm = e.msg.replace("美图", "") == null ? undefined : encodeURI(e.msg.replace("美图", "") + "&format=json")
-    }
-    let { name: str } = textlist.find(item => {
-        let reg = new RegExp(item.name)
-        if (reg.test(msg)) {
-            return true
+    let textlist = []
+    let imglist = []
+    let textapilist = await api.getApiList('text')
+    let imageapilist = await api.getApiList('image')
+    this.reply('正在检测中—————请稍后！')
+    textlist = await test(textapilist)
+    imglist = await test(imageapilist)
+    let apilist = [
+        {
+            name: '文本API',
+            list: textlist
+        }, {
+            name: '图片API',
+            list: imglist
         }
-    })
-    await api.getImage(str, async (res) => {
-        if (res.isurl) {
-            await this.reply(segment.image(res.data))
-        } else {
-            if (res.islist) {
-                let mes = []
-                res.data.forEach((item, index) => {
-                    if (res.data.length > 5 ? index < 5 : index < res.data.length) {
-                        mes.push(segment.image(item))
-                    }
-                })
-                return this.reply(await this.makeGroupMsg(e.msg, mes))
-            }
-            this.reply(segment.image(res.data))
-        }
-    }, parm)
+    ]
+    this.reply(await returnImg('api', { apilist: apilist }))
 }
+
+async function test(data) {
+    let list = []
+    for (let i of data) {
+        await geturldata(i, (res) => {
+            list.push({ name: i.name, code: res.responseStatus })
+        })
+    }
+    return list
+}
+
 
 export default apps

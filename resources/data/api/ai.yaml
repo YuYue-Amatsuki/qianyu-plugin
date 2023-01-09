@@ -6,7 +6,7 @@ ailist:
     url: http://fuyhi.top/api/quark_ai/api.php?msg= #夸克ai
     data: ["text"]
   - name: 小爱同学
-    url: http://fuyhi.top/api/xiaoai_ts/api.php?msg= #小爱
+    url: https://xiaobai.klizi.cn/API/other/xiaoai.php?data=&msg= #小爱
     data: ["text"]
   - name: 思知
     url: https://api.ownthink.com/bot?appid=xiaosi&userid=user&spoken= #思知

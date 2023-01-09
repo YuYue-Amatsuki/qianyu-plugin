@@ -79,9 +79,9 @@ helplist:
       # - title: "原神黄历"
       #   desc: "今日份原神黄历"
       #   icon: "162"
-      # - title: "随机丝袜"
-      #   desc: "随机一张丝袜图片"
-      #   icon: "182"
+      - title: "美腿"
+        desc: "随机一张腿子图片"
+        icon: "182"
       - title: "次元美图"
         desc: "随机一张二次元美图"
         icon: "176"
@@ -117,6 +117,9 @@ helplist:
       - title: 每日动漫推荐1
         desc: 返回推荐动漫列表，默认第一页，最多5页.
         icon: "141"
+      - title: api检测
+        desc: 检查api是否可以正常使用.
+        icon: "141"
   - title: 其他功能
     list:
       - title: 引用撤回
@@ -127,6 +130,9 @@ helplist:
         icon: "141"
       - title: 群申请回复同意拒绝
         desc: 机器人是管理员，检测到群申请，主人回复通知同意拒绝
+        icon: "95"
+      - title: 查权重
+        desc: 查询qq号权重
         icon: "95"
   - title: 管理员功能
     list:

@@ -37,7 +37,7 @@ apps.rule.push({
 function getreg() {
     let reg = ''
     textlist.forEach((item, index) => {
-        reg += `${index == 0 ? '' : '|'}^${item.desc}$`
+        reg += `${index == 0 ? '' : '|'}^${item.reg}$`
     });
     return reg
 }
@@ -52,13 +52,14 @@ async function apitext(e) {
     if (msg.includes("天气")) {
         parm = encodeURI(msg.replace("天气", "")) + "&n=1"
     }
-    let { desc: str } = textlist.find(item => {
-        let reg = new RegExp(item.desc)
+    let { reg: str } = textlist.find(item => {
+        let reg = new RegExp(item.reg)
         if (reg.test(msg)) {
             return true
         }
     })
     await api.getText(str, async (res) => {
+        console.log(res);
         let remsg = res;
         if (msg != '舔狗日记' && msg != '每日一文' && msg != "天气|天气") {
             remsg = res.replace(/[\r\n]/g, "")

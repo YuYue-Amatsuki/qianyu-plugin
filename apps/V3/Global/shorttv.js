@@ -73,9 +73,9 @@ async function bili(e, url) {
     }
     let videourl = 'https://www.bilibili.com/video/' + bv
     videobv = bv
-    await api.getapi(`http://tfapi.top/API/bzjx.php?url=${videourl}`, ['data', '0'], async (res) => {
+    await api.getapi(`https://xiaobapi.top/api/xb/api/tiktok_ks.php?url=${videourl}`, ['message', 'url'], async (res) => {
         console.log("b站视频解析中》》》》");
-        let response = await fetch(res.video_url);
+        let response = await fetch(res);
         let buff = await response.arrayBuffer();
         await dowmvideo('b站', "video.mp4", buff, () => {
             e.reply(segment.video(`file:///${path}/resources/video/b站/video.mp4`))
