@@ -66,16 +66,21 @@ async function bjx(e, msg) {
 async function bili(e, url) {
     let reg3 = new RegExp(/(BV.*?).{10}/)
     let bv;
-    console.log(url);
     bv = url[0].match(reg3)[0]
     if (bv == videobv) {
         return
     }
     let videourl = 'https://www.bilibili.com/video/' + bv
     videobv = bv
-    await api.getapi(`https://xiaobapi.top/api/xb/api/tiktok_ks.php?url=${videourl}`, ['message', 'url'], async (res) => {
-        console.log("b站视频解析中》》》》");
-        let response = await fetch(res);
+    await api.getapi(`https://xiaobapi.top/api/xb/api/tiktok_ks.php?url=${videourl}`, ['message'], async (res) => {
+        if (res == 'bili_p参数请传入数字！') {
+            let response = await fetch(`https://xiaobapi.top/api/xb/api/tiktok_ks.php?url=${videourl}&bili_p=1`);
+            let json = await response.json()
+            res = {
+                url: json.message.url[0]
+            }
+        }
+        let response = await fetch(res.url);
         let buff = await response.arrayBuffer();
         await dowmvideo('b站', "video.mp4", buff, () => {
             e.reply(segment.video(`file:///${path}/resources/video/b站/video.mp4`))
