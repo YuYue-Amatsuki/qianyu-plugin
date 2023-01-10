@@ -12,7 +12,8 @@ export async function geturldata(data, suc) {
             suc({ data: rep, responseStatus: response.status })
         } else if (data.data === 1) {
             suc({ responseStatus: response.status })
-        } else {
+        }
+        else {
             let json = await response.json()
             let dc = json
             if (data.data) {

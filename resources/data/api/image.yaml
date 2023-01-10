@@ -83,3 +83,9 @@ imagelist:
     desc: 吸猫
     data: 1
     islist: false
+  - reg: 小黑子$|^坤坤$|^鸡哥
+    name: 小黑子
+    url: http://api.yunxiyuan.xyz/kun.php
+    desc: 小黑子
+    data: 1
+    islist: false

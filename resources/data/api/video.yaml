@@ -1,0 +1,17 @@
+videoapi:
+  - url: http://api.caonm.net/api/mjsp/m.php?
+    data: 2
+    reg: mj
+    name: 漫剪
+  - url: http://api.caonm.net/api/zny/m.php?
+    data: 2
+    reg: sjsp
+    name: 随机视频
+  - url: http://api.xn--7gqa009h.top/api/xjjtw
+    data: ["video", "url"]
+    reg: 跳舞
+    name: 小姐姐跳舞
+  - url: http://api.xn--7gqa009h.top/api/dyss?msg=
+    data: ["video"]
+    reg: 抖音搜索|^抖音搜索
+    name: 抖音搜索
