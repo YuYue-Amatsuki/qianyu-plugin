@@ -7,19 +7,23 @@
  * @FilePath: \Yunzai-Bot\plugins\qianyu-plugin\utils\puppeteer.js
  * @版权声明
  **/
-import puppeteer from "../lib/puppeteer.js";
-
+import Runtime from '../../../lib/plugins/runtime.js'
 const path = `/plugins/qianyu-plugin/resources/`
+const rtime = new Runtime()
 
 export async function returnImg(name, data) {
-    let layoutPath = process.cwd() + path + `common/layout/`
-    let img = await puppeteer.screenshot(name, {
-        tplFile: `.${path}html/${name}/${name}.html`,
-        _res_path: process.cwd() + path,
-        /** 绝对路径 */
-        defaultLayout: layoutPath + 'default.html',
+    return await rtime.render('qianyu-plugin', `/html/${name}/${name}.html`, {
         ...data,
-        pageGotoParams: { waitUntil: 'load', timeout: 0 }
-    });
-    return img
+    },
+        {
+            retType: 'base64',
+            beforeRender({ data }) {
+                let resPath = data.pluResPath
+                return {
+                    ...data,
+                    _res_path: resPath
+                }
+            }
+        }
+    )
 }

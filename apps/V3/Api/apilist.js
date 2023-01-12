@@ -1,5 +1,6 @@
 import { Api } from '../../../lib/api.js'
 import { returnImg, geturldata } from '../../../utils/index.js'
+import lodash from 'lodash'
 let api = new Api()
 let apps = {
     id: 'apilist',
@@ -11,12 +12,11 @@ let apps = {
 
 
 apps.rule.push({
-    reg: 'api检测',
+    reg: '^api检测$',
     desc: 'api检测',
     fnc: 'apitest',
     fuc: apitest
 })
-
 
 async function apitest(e) {
     if (!e.isMaster) {
@@ -24,11 +24,14 @@ async function apitest(e) {
     }
     let textlist = []
     let imglist = []
+    let videolist = []
     let textapilist = await api.getApiList('text')
     let imageapilist = await api.getApiList('image')
+    let videoapilist = await api.getApiList('video')
     this.reply('正在检测中—————请稍后！')
     textlist = await test(textapilist)
     imglist = await test(imageapilist)
+    videolist = await test(videoapilist)
     let apilist = [
         {
             name: '文本API',
@@ -36,9 +39,13 @@ async function apitest(e) {
         }, {
             name: '图片API',
             list: imglist
+        },
+        {
+            name: '视频API',
+            list: videolist
         }
     ]
-    this.reply(await returnImg('api', { apilist: apilist }))
+    this.reply(await returnImg('api', { apilist: apilist, radom: lodash.random(1, 4) }))
 }
 
 async function test(data) {

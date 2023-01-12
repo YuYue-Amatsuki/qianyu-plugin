@@ -94,6 +94,26 @@ helplist:
       # - title: 随机涩图
       #   desc: 返回一张一般涩的二次元图片
       #   icon: "60"
+  - title: 视频功能
+    list:
+      - title: "mj"
+        desc: "发送漫剪短视频"
+        icon: "96"
+      - title: "sjsp"
+        desc: "随机视频"
+        icon: "88"
+      - title: "跳舞"
+        desc: "小姐姐跳舞视频"
+        icon: "71"
+      - title: "抖音搜索甘雨"
+        desc: "可以搜索抖音的视频."
+        icon: "74"
+      - title: "xjj"
+        desc: "小姐姐视频"
+        icon: "174"
+      - title: "xjj2"
+        desc: "小姐姐视频2"
+        icon: "181"
   - title: 千羽特色功能
     list:
       - title: "#伪装@用户"

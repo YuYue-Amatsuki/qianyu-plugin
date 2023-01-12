@@ -64,8 +64,13 @@ async function apivideo(e) {
             cd[e.group_id] = true
         }
         let response = await fetch(res);
+        if (response.headers.get('content-type') == 'text/html;charset=utf-8') {
+            let html = await response.text()
+            const reg2 = /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+            let url = html.match(reg2)[0]
+            response = await fetch(url);
+        }
         let buff = await response.arrayBuffer();
-
         await dowmvideo('短视频', `${msg}.mp4`, buff, async () => {
             e.reply(segment.video(`file:///${path}/resources/video/短视频/${msg}.mp4`))
             await ds('video', moment().add(30, 's').format(), async () => {

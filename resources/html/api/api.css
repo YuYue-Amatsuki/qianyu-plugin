@@ -8,8 +8,8 @@
     box-sizing: border-box;
     padding: 10px;
     border-radius: 10px;
-    background-image: url(./api1.jpg);
-    height: 1000px;
+    background-size: cover;
+    height: 1300px;
 }
 
 .header {

@@ -15,3 +15,15 @@ videoapi:
     data: ["video"]
     reg: 抖音搜索|^抖音搜索
     name: 抖音搜索
+  - url: https://api.xcboke.cn/api/xjj
+    data: 2
+    reg: xjj
+    name: 小姐姐
+  - url: http://ks.ghser.com/video.php
+    data: 2
+    reg: xjj2
+    name: 小姐姐2
+  - url: http://api.caonm.net/api/mn/index.php
+    data: 2
+    reg: xjj3
+    name: 小姐姐3
