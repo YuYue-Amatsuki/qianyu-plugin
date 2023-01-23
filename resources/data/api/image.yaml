@@ -85,7 +85,7 @@ imagelist:
     islist: false
   - reg: 小黑子$|^坤坤$|^鸡哥
     name: 小黑子
-    url: http://api.yunxiyuan.xyz/kun.php
+    url: https://api.peterliangaaa.repl.co/ikun
     desc: 小黑子
     data: 1
     islist: false
