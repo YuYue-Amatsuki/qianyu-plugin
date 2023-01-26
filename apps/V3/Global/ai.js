@@ -85,7 +85,8 @@ async function choieai(msg, ai, that) {
     let aida = ailist.find(list => list.name == ai)
     if (!aida) return
     if (!msg) {
-        return that.reply(segment.image(`${path}resources/img/noresult/${lodash.random(0, 5)}.jpg`))
+        let imglist = file.getfilelist('resources/img/noresult/')
+        return that.reply(segment.image(`${path}resources/img/noresult/${imglist[lodash.random(0, imglist.length - 1)]}.jpg`))
     }
     await geturldata({ url: `${aida.url}${encodeURI(msg)}`, data: aida.data }, (res) => {
         let respose;
@@ -99,5 +100,6 @@ async function choieai(msg, ai, that) {
     })
 
 }
+
 
 export default apps
