@@ -87,7 +87,7 @@ async function choieai(msg, ai, that) {
     if (!msg) {
         let imglist = file.getfilelist('resources/img/noresult/')
         console.log(imglist);
-        return that.reply(segment.image(`${path}resources/img/noresult/${imglist[lodash.random(0, imglist.length - 1)]}.jpg`))
+        return that.reply(segment.image(`${path}resources/img/noresult/${imglist[lodash.random(0, imglist.length - 1)]}`))
     }
     await geturldata({ url: `${aida.url}${encodeURI(msg)}`, data: aida.data }, (res) => {
         let respose;
