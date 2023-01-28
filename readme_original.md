@@ -6,8 +6,14 @@ QQ 群：256469453 快进来看我画饼 :smirk:
 
 云崽根目录下执行安装命令
 
+使用Gitee
 ```javascript
-git clone --depth=1 https://gitee.com/think-first-sxs/qianyu-plugin.git ./plugins/qianyu-plugin/
+git clone --depth=1 https://gitee.com/yuyue_amatsuki_error_404/qianyu-plugin.git ./plugins/qianyu-plugin/
+```
+
+使用Github
+```
+git clone --depth=1 https://github.com/YuYue-Amatsuki/qianyu-plugin.git ./plugins/qianyu-plugin/
 ```
 
 ### 2.功能
