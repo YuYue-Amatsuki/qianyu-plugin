@@ -12,7 +12,7 @@ git clone --depth=1 https://gitee.com/yuyue_amatsuki_error_404/qianyu-plugin.git
 ```
 
 使用Github
-```
+```javascript
 git clone --depth=1 https://github.com/YuYue-Amatsuki/qianyu-plugin.git ./plugins/qianyu-plugin/
 ```
 
