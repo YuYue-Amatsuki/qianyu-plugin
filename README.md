@@ -1,5 +1,6 @@
 [![访问量](https://count.getloli.com/get/@qianyu-plugin?theme=moebooru)](https://github.com/YuYue-Amatsuki/qianyu-plugin/)
 ### 本人不是原作者！！！本仓库只是Fork！！！
+### Forked From [时先思 / qianyu-plugin](https://gitee.com/think-first-sxs/qianyu-plugin)
 #### [原Readme戳我](readme_original.md)
 ### ----------以下为作者原话----------
 
